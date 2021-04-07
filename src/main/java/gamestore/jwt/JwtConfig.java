@@ -12,7 +12,7 @@ import com.google.common.net.HttpHeaders;
 @Setter
 @NoArgsConstructor
 @Configuration
-@ConfigurationProperties(prefix = "application.yml")
+@ConfigurationProperties(prefix = "application.jwt")
 public class JwtConfig {
 
     private String secretKey;

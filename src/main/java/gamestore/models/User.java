@@ -7,6 +7,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -14,10 +15,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @EqualsAndHashCode
-@NoArgsConstructor
 @Entity(name = "User")
 @Table(
         name = "users",
@@ -32,10 +33,6 @@ import java.util.*;
                 )
         }
 )
-@org.hibernate.annotations.Cache(
-        usage = CacheConcurrencyStrategy.READ_WRITE
-)
-@NaturalIdCache
 public class User implements UserDetails, Serializable {
 
     @Id
@@ -66,7 +63,6 @@ public class User implements UserDetails, Serializable {
     @Transient
     private Integer age;
 
-    @NaturalId
     private String username;
     private String email;
     private String password;
@@ -106,7 +102,7 @@ public class User implements UserDetails, Serializable {
     )
     private Set<UserWishlistGame> wishlistGames;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(
@@ -119,6 +115,13 @@ public class User implements UserDetails, Serializable {
             )
     )
     private Set<Role> roles;
+
+    public User() {
+        this.friends = new HashSet<>();
+        this.boughtGames = new HashSet<>();
+        this.wishlistGames = new HashSet<>();
+        this.roles = new HashSet<>();
+    }
 
     public User(String firstName,
                 String lastName,
@@ -148,10 +151,21 @@ public class User implements UserDetails, Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Authority> authorities = new HashSet<>();
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+
         for (Role role : roles) {
             authorities.addAll(role.getAuthorities());
+            grantedAuthorities.add(new SimpleGrantedAuthority(
+                    "ROLE_" + role.getName()
+            ));
         }
-        return authorities;
+
+        grantedAuthorities.addAll(authorities
+                .stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.getAuthority()))
+                .collect(Collectors.toSet()));
+
+        return grantedAuthorities;
     }
 
     @Override
@@ -181,7 +195,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public boolean isEnabled() {
-        return !isEnabled;
+        return isEnabled;
     }
 
     @Override

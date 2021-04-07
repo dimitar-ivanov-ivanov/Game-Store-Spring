@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -23,7 +24,7 @@ public class Authority implements GrantedAuthority {
 
     private String name;
 
-    @ManyToMany(mappedBy = "authorities")
+    @ManyToMany(mappedBy = "authorities", fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     public Authority(String name) {

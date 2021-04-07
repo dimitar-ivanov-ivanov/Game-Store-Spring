@@ -74,9 +74,9 @@ public class SetupDataLoader implements
         );
 
 
-        createRoleIfNotFound("ROLE_ADMIN", adminAuthorities);
-        createRoleIfNotFound("ROLE_ADMIN_TRAINEE", adminTraineeAuthorities);
-        createRoleIfNotFound("ROLE_USER", userAuthorities);
+        createRoleIfNotFound("ADMIN", adminAuthorities);
+        createRoleIfNotFound("ADMIN_TRAINEE", adminTraineeAuthorities);
+        createRoleIfNotFound("USER", userAuthorities);
 
 
         Role adminRole = roleRepository.getByName("ROLE_ADMIN");

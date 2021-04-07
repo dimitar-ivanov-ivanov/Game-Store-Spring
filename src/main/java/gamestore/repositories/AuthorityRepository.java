@@ -1,16 +1,14 @@
 package gamestore.repositories;
 
-import gamestore.models.User;
+import gamestore.models.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends
-        JpaRepository<User, Long> {
+public interface AuthorityRepository extends
+        JpaRepository<Authority, Long> {
 
-    Optional<User> findByUsername(String username);
-
-
+    Authority getByName(String name);
 }

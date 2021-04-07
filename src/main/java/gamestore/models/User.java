@@ -3,7 +3,6 @@ package gamestore.models;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
@@ -14,9 +13,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @EqualsAndHashCode
@@ -65,6 +62,8 @@ public class User implements UserDetails, Serializable {
             nullable = false
     )
     private LocalDate birthDate;
+
+    @Transient
     private Integer age;
 
     @NaturalId
@@ -75,15 +74,15 @@ public class User implements UserDetails, Serializable {
     @Column(
             name = "is_expired"
     )
-    private boolean isExpired = false;
+    private boolean isExpired;
     @Column(
             name = "is_locked"
     )
-    private boolean isLocked = false;
+    private boolean isLocked;
     @Column(
             name = "is_enabled"
     )
-    private boolean isEnabled = false;
+    private boolean isEnabled;
 
     @ManyToMany
     @JoinTable(
@@ -107,12 +106,29 @@ public class User implements UserDetails, Serializable {
     )
     private Set<UserWishlistGame> wishlistGames;
 
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id",
+                    referencedColumnName = "user_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id",
+                    referencedColumnName = "role_id"
+            )
+    )
+    private Set<Role> roles;
+
     public User(String firstName,
                 String lastName,
                 LocalDate birthDate,
                 String username,
                 String email,
-                String password) {
+                String password,
+                boolean isExpired,
+                boolean isLocked,
+                boolean isEnabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -120,14 +136,22 @@ public class User implements UserDetails, Serializable {
         this.email = email;
         this.password = password;
         this.age = Period.between(birthDate, LocalDate.now()).getYears();
+        this.isExpired = isExpired;
+        this.isLocked = isLocked;
+        this.isEnabled = isEnabled;
         this.friends = new HashSet<>();
         this.boughtGames = new HashSet<>();
         this.wishlistGames = new HashSet<>();
+        this.roles = new HashSet<>();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<Authority> authorities = new HashSet<>();
+        for (Role role : roles) {
+            authorities.addAll(role.getAuthorities());
+        }
+        return authorities;
     }
 
     @Override
@@ -158,5 +182,21 @@ public class User implements UserDetails, Serializable {
     @Override
     public boolean isEnabled() {
         return !isEnabled;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", age=" + age +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", isExpired=" + isExpired +
+                ", isLocked=" + isLocked +
+                ", isEnabled=" + isEnabled +
+                '}';
     }
 }

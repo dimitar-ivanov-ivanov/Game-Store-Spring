@@ -7,11 +7,11 @@ server:
 spring:
   datasource:
     password:
-    url: jdbc:postgresql://localhost:5432/my_game_store
-    username:
+    url: jdbc:mysql://localhost:3307/my_game_store
+    username: root
   jpa:
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect

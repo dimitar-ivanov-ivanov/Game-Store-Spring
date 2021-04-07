@@ -18,14 +18,8 @@ import java.time.LocalDate;
 public class Game implements Serializable {
 
     @Id
-    @SequenceGenerator(
-            name = "game_sequence",
-            sequenceName = "game_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "game_sequence"
+            strategy = GenerationType.IDENTITY
     )
     @Column(name = "game_id")
     private Long gameId;

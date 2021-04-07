@@ -20,10 +20,12 @@ public class UserWishlistGame implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("gameId")
+    @JoinColumn(name = "game_id")
     private Game game;
 
     @Column(name = "added_on")

@@ -15,3 +15,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+jwt:
+  secretKey: securesecuresecuresecuresecuresecuresecure
+  tokenPrefix: Bearer
+  tokenExpirationAfterDays: 14

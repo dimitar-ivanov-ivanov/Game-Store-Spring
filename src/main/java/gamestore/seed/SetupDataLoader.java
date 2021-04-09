@@ -97,18 +97,15 @@ public class SetupDataLoader implements
 
         User user = new User("Dimitar", "Ivanov",
                 LocalDate.of(1999, 2, 20),
-                "d1mn", "dimitar-ivanov@abv.bg", passwordEncoder.encode("password"),
-                false, false, true);
+                "d1mn", "dimitar-ivanov@abv.bg", passwordEncoder.encode("password"));
 
         User user2 = new User("Ivan", "Ivanov",
                 LocalDate.of(1979, 2, 20),
-                "iv1n", "ivan-ivanov@abv.bg", passwordEncoder.encode("password"),
-                false, false, true);
+                "iv1n", "ivan-ivanov@abv.bg", passwordEncoder.encode("password"));
 
         User user3 = new User("Stoqn", "Ivanov",
                 LocalDate.of(1999, 2, 20),
-                "stoqn", "stoqn-ivanov@abv.bg", passwordEncoder.encode("password"),
-                false, false, true);
+                "stoqn", "stoqn-ivanov@abv.bg", passwordEncoder.encode("password"));
 
         user.getRoles().add(adminRole);
         user2.getRoles().add(userRole);

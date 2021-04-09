@@ -1,6 +1,6 @@
 package gamestore.controllers;
 
-import gamestore.dtos.RegisterRequestBindingModel;
+import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ public class RegisterController {
     private final UserService userService;
 
     @PostMapping
-    public void registerNewStudent(@RequestBody RegisterRequestBindingModel register) {
+    public void registerNewStudent(@RequestBody UserRegisterBindingModel register) {
         userService.registerUser(register);
     }
 }

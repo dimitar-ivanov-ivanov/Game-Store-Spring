@@ -1,0 +1,35 @@
+package gamestore.mapper;
+
+import gamestore.models.User;
+import gamestore.models.bindings.UserRegisterBindingModel;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+
+@Component
+public class ModelMapperConfig {
+
+    private final ModelMapper mapper;
+
+    public ModelMapperConfig(ModelMapper mapper) {
+        this.mapper = mapper;
+        this.initialize();
+    }
+
+    private void initialize() {
+        registerRequestToUserMapping();
+    }
+
+    private void registerRequestToUserMapping() {
+        this.mapper.createTypeMap(UserRegisterBindingModel.class, User.class)
+                .addMappings(mapper -> {
+                    mapper.map(UserRegisterBindingModel::getUsername, User::setUsername);
+                    mapper.map(UserRegisterBindingModel::getEmail, User::setEmail);
+                    mapper.map(UserRegisterBindingModel::getPassword, User::setPassword);
+                    mapper.map(UserRegisterBindingModel::getFirstName, User::setFirstName);
+                    mapper.map(UserRegisterBindingModel::getLastName, User::setLastName);
+                    mapper.map(UserRegisterBindingModel::getDate, User::setBirthDate);
+                });
+    }
+}

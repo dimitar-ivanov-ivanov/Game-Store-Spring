@@ -1,6 +1,6 @@
 package gamestore.controllers;
 
-import gamestore.dtos.RegisterRequestBindingModel;
+import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.models.User;
 import gamestore.services.UserService;
 import lombok.AllArgsConstructor;

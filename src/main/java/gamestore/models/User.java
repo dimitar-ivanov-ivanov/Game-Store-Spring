@@ -3,6 +3,7 @@ package gamestore.models;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
@@ -18,6 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
+@Setter
 @EqualsAndHashCode
 @Entity(name = "User")
 @Table(
@@ -70,15 +72,15 @@ public class User implements UserDetails, Serializable {
     @Column(
             name = "is_expired"
     )
-    private boolean isExpired;
+    private boolean isExpired = false;
     @Column(
             name = "is_locked"
     )
-    private boolean isLocked;
+    private boolean isLocked = false;
     @Column(
             name = "is_enabled"
     )
-    private boolean isEnabled;
+    private boolean isEnabled = true;
 
     @ManyToMany
     @JoinTable(
@@ -128,10 +130,7 @@ public class User implements UserDetails, Serializable {
                 LocalDate birthDate,
                 String username,
                 String email,
-                String password,
-                boolean isExpired,
-                boolean isLocked,
-                boolean isEnabled) {
+                String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -139,9 +138,6 @@ public class User implements UserDetails, Serializable {
         this.email = email;
         this.password = password;
         this.age = Period.between(birthDate, LocalDate.now()).getYears();
-        this.isExpired = isExpired;
-        this.isLocked = isLocked;
-        this.isEnabled = isEnabled;
         this.friends = new HashSet<>();
         this.boughtGames = new HashSet<>();
         this.wishlistGames = new HashSet<>();

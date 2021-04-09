@@ -17,7 +17,6 @@ public class RegisterController {
 
     @PostMapping
     public void registerNewStudent(@RequestBody RegisterRequestBindingModel register) {
-        //fix sending the date
         userService.registerUser(register);
     }
 }

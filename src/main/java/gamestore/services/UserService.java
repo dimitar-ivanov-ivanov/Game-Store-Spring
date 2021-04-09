@@ -2,10 +2,12 @@ package gamestore.services;
 
 import gamestore.constants.Messages;
 import gamestore.dtos.RegisterRequestBindingModel;
+import gamestore.exceptions.UserBirthdayNotValidException;
 import gamestore.exceptions.UserNotFoundException;
 import gamestore.models.Role;
 import gamestore.models.User;
 import gamestore.repositories.UserRepository;
+import gamestore.validators.NumberValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -48,12 +50,15 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(Messages.USERNAME_ALREADY_TAKEN);
         }
 
-        //validate date
+        //validate date -> possible error: day is 31 but month only has 30 days
+        validateBirthDate(register);
 
         String encodedPassword = passwordEncoder
                 .encode(register.getPassword());
 
 
+        //make it so that we use auto mapper
+        //add email verification
         User user = new User(
                 register.getFirstName(),
                 register.getLastName(),
@@ -69,6 +74,28 @@ public class UserService implements UserDetailsService {
         Role role = roleService.getRole("USER");
         user.getRoles().add(role);
         userRepository.save(user);
+    }
+
+    private void validateBirthDate(RegisterRequestBindingModel register) {
+        boolean yearInRange = NumberValidator.numberInRange(register.getBirthYear(), 1900, LocalDate.now().getYear());
+        boolean monthInRange = NumberValidator.numberInRange(register.getBirthYear(), 1, 12);
+        boolean dayInRange = NumberValidator.numberInRange(register.getBirthYear(), 1, 31);
+
+        if (!yearInRange) {
+            throw new UserBirthdayNotValidException(String.format(
+                    Messages.NOT_VALID, "user birth year"
+            ));
+        }
+        if (!monthInRange) {
+            throw new UserBirthdayNotValidException(String.format(
+                    Messages.NOT_VALID, "user birth moth"
+            ));
+        }
+        if (!dayInRange) {
+            throw new UserBirthdayNotValidException(String.format(
+                    Messages.NOT_VALID, "user birth day"
+            ));
+        }
     }
 
     @Override

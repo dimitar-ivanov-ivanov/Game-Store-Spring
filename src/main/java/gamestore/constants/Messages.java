@@ -7,5 +7,6 @@ public class Messages {
     public static final String TOKEN_CANNOT_BE_TRUSTED = "Token %s cannot be trusted.";
     public static final String ROLE_NOT_FOUND = "Role not found.";
     public static final String USERNAME_NOT_FOUND = "Username %s not found";
+    public static final String NOT_VALID = "% is not valid";
 
 }

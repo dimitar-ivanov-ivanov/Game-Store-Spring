@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
@@ -78,15 +79,29 @@ public class SetupDataLoader implements
         createRoleIfNotFound("ADMIN_TRAINEE", adminTraineeAuthorities);
         createRoleIfNotFound("USER", userAuthorities);
 
+        Role adminRole = roleRepository.getByName("ADMIN");
+        Role userRole = roleRepository.getByName("USER");
+        Role adminTraineeRole = roleRepository.getByName("ADMIN_TRAINEE");
 
-        Role adminRole = roleRepository.getByName("ROLE_ADMIN");
         User user = new User("Dimitar", "Ivanov",
                 LocalDate.of(1999, 2, 20),
                 "d1mn", "dimitar-ivanov@abv.bg", passwordEncoder.encode("password"),
                 false, false, true);
 
+        User user2 = new User("Ivan", "Ivanov",
+                LocalDate.of(1979, 2, 20),
+                "iv1n", "ivan-ivanov@abv.bg", passwordEncoder.encode("password"),
+                false, false, true);
+
+        User user3 = new User("Stoqn", "Ivanov",
+                LocalDate.of(1999, 2, 20),
+                "stoqn", "stoqn-ivanov@abv.bg", passwordEncoder.encode("password"),
+                false, false, true);
+
         user.getRoles().add(adminRole);
-        userRepository.save(user);
+        user2.getRoles().add(userRole);
+        user3.getRoles().add(adminTraineeRole);
+        userRepository.saveAll(Arrays.asList(user, user2, user3));
 
         alreadySetup = true;
     }

@@ -2,6 +2,7 @@ package gamestore.controllers;
 
 import gamestore.models.User;
 import gamestore.security.UserRole;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,15 +15,28 @@ import java.util.List;
 public class UserManagementController {
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN_TRAINEE')")
+    @PreAuthorize("hasAnyRole('ADMIN','ADMIN_TRAINEE')")
     public String getAllUsers() {
         return "pesho";
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('user:write')")
+    //@PreAuthorize("hasAuthority('user:write')")
     public void registerNewStudent(@RequestBody User user) {
         System.out.println("register new user");
         System.out.println(user);
+    }
+
+    // TODO: 4/9/2021 Update,delete
+
+    @DeleteMapping(path = "{userId}")
+    public void deleteStudent(@PathVariable Long userId) {
+        throw new NotYetImplementedException();
+    }
+
+    @PutMapping(path = "{userId}")
+    public void updateUser(@PathVariable Long userId,
+                           @RequestBody User updatedUser) {
+        throw new NotYetImplementedException();
     }
 }

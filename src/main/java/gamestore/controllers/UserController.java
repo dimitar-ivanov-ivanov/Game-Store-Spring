@@ -16,13 +16,15 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/users")
+@RequestMapping(path = "/users")
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping(params = "{userId}")
+    @GetMapping(path = "{userId}")
     public String getUser(@PathVariable("userId") Long userId) {
         return "pesho" + userId;
     }
+
+    // TODO: 4/9/2021 Find all users by email,name,find their roles,their games
 }

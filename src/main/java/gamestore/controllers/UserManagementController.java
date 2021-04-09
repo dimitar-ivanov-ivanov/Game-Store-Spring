@@ -1,40 +1,36 @@
 package gamestore.controllers;
 
+import gamestore.dtos.RegisterRequestBindingModel;
 import gamestore.models.User;
-import gamestore.security.UserRole;
+import gamestore.services.UserService;
+import lombok.AllArgsConstructor;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("management/users")
 public class UserManagementController {
 
+    private final UserService userService;
+
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','ADMIN_TRAINEE')")
-    public String getAllUsers() {
-        return "pesho";
+    public Collection<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
-    @PostMapping
-    //@PreAuthorize("hasAuthority('user:write')")
-    public void registerNewStudent(@RequestBody User user) {
-        System.out.println("register new user");
-        System.out.println(user);
-    }
-
-    // TODO: 4/9/2021 Update,delete
-
-    @DeleteMapping(path = "{userId}")
+    @DeleteMapping(path = "/delete/{userId}")
+    @PreAuthorize("hasAuthority('user:delete')")
     public void deleteStudent(@PathVariable Long userId) {
         throw new NotYetImplementedException();
     }
 
-    @PutMapping(path = "{userId}")
+    @PutMapping(path = "/update/{userId}")
+    @PreAuthorize("hasAuthority('user:update')")
     public void updateUser(@PathVariable Long userId,
                            @RequestBody User updatedUser) {
         throw new NotYetImplementedException();

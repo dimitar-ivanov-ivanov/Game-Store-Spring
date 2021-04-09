@@ -1,4 +1,4 @@
-package gamestore.security;
+package gamestore.security.config;
 
 import gamestore.jwt.JwtConfig;
 import gamestore.jwt.JwtTokenVerifier;

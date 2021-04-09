@@ -2,9 +2,9 @@ package gamestore.exceptions;
 
 import org.springframework.security.core.AuthenticationException;
 
-public class UserNotFoundException extends AuthenticationException {
+public class UsernameNotFoundException extends AuthenticationException {
 
-    public UserNotFoundException(String message) {
+    public UsernameNotFoundException(String message) {
         super(message);
     }
 }

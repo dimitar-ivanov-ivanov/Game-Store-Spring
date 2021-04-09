@@ -7,7 +7,6 @@ import gamestore.models.User;
 import gamestore.repositories.AuthorityRepository;
 import gamestore.repositories.RoleRepository;
 import gamestore.repositories.UserRepository;
-import gamestore.security.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,8 +15,10 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -25,6 +26,25 @@ import javax.transaction.Transactional;
 public class SetupDataLoader implements
         ApplicationListener<ContextRefreshedEvent> {
 
+    private final List<String> rolesToCreate = Arrays.asList(
+            "ADMIN", "USER", "ADMIN_TRAINEE"
+    );
+
+    private final List<String> authoritiesToCreate = Arrays.asList(
+            "user:read", "user:delete", "user:update",
+            "game:read", "game:write", "game:delete", "game:update"
+    );
+
+    private final Set<String> adminAuthoritiesString = new HashSet<>(authoritiesToCreate);
+
+    private final Set<String> adminTraineeAuthoritiesString = Sets.newHashSet(
+            "user:read", "user:update",
+            "game:read", "game:write", "game:update"
+    );
+
+    private final Set<String> userAuthoritiesString = Sets.newHashSet(
+            "user:read", "game:read"
+    );
 
     private boolean alreadySetup = false;
 
@@ -51,37 +71,29 @@ public class SetupDataLoader implements
             return;
         }
 
-        Authority userReadAuthority = createAuthorityIfNotFound("user:read");
-        Authority userWriteAuthority = createAuthorityIfNotFound("user:write");
-        Authority gameReadAuthority = createAuthorityIfNotFound("game:read");
-        Authority gameWriteAuthority = createAuthorityIfNotFound("game:write");
+        for (int i = 0; i < authoritiesToCreate.size(); i++) {
+            createAuthorityIfNotFound(authoritiesToCreate.get(i));
+        }
 
-        Set<Authority> adminAuthorities = Sets.newHashSet(
-                userReadAuthority,
-                userWriteAuthority,
-                gameReadAuthority,
-                gameWriteAuthority
-        );
+        Set<Authority> adminAuthorities = adminAuthoritiesString
+                .stream().map(a -> authorityRepository.getByName(a).get())
+                .collect(Collectors.toSet());
 
-        Set<Authority> adminTraineeAuthorities = Sets.newHashSet(
-                userReadAuthority,
-                gameReadAuthority,
-                userWriteAuthority
-        );
+        Set<Authority> adminTraineeAuthorities = adminTraineeAuthoritiesString
+                .stream().map(a -> authorityRepository.getByName(a).get())
+                .collect(Collectors.toSet());
 
-        Set<Authority> userAuthorities = Sets.newHashSet(
-                userReadAuthority,
-                gameReadAuthority
-        );
-
+        Set<Authority> userAuthorities = userAuthoritiesString
+                .stream().map(a -> authorityRepository.getByName(a).get())
+                .collect(Collectors.toSet());
 
         createRoleIfNotFound("ADMIN", adminAuthorities);
         createRoleIfNotFound("ADMIN_TRAINEE", adminTraineeAuthorities);
         createRoleIfNotFound("USER", userAuthorities);
 
-        Role adminRole = roleRepository.getByName("ADMIN");
-        Role userRole = roleRepository.getByName("USER");
-        Role adminTraineeRole = roleRepository.getByName("ADMIN_TRAINEE");
+        Role adminRole = roleRepository.getByName("ADMIN").get();
+        Role userRole = roleRepository.getByName("USER").get();
+        Role adminTraineeRole = roleRepository.getByName("ADMIN_TRAINEE").get();
 
         User user = new User("Dimitar", "Ivanov",
                 LocalDate.of(1999, 2, 20),
@@ -107,27 +119,25 @@ public class SetupDataLoader implements
     }
 
     @Transactional
-    Role createRoleIfNotFound(String name,
+    void createRoleIfNotFound(String name,
                               Set<Authority> authorities) {
 
-        Role role = roleRepository.getByName(name);
-        if (role == null) {
-            role = new Role(name);
+        boolean roleExists = roleRepository.getByName(name).isPresent();
+
+        if (!roleExists) {
+            Role role = new Role(name);
             role.setAuthorities(authorities);
             roleRepository.save(role);
         }
-
-        return role;
     }
 
     @Transactional
-    Authority createAuthorityIfNotFound(String name) {
-        Authority authority = authorityRepository.getByName(name);
-        if (authority == null) {
-            authority = new Authority(name);
+    void createAuthorityIfNotFound(String name) {
+        boolean authorityExists = authorityRepository.getByName(name).isPresent();
+
+        if (!authorityExists) {
+            Authority authority = new Authority(name);
             authorityRepository.save(authority);
         }
-
-        return authority;
     }
 }

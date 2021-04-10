@@ -112,6 +112,13 @@ public class User implements UserDetails, Serializable {
     )
     private Set<UserGameBadge> gameBadges;
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.MERGE,
+            orphanRemoval = true
+    )
+    private Set<UserAchievement> achievements;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -145,6 +152,7 @@ public class User implements UserDetails, Serializable {
         this.wishlistGames = new HashSet<>();
         this.roles = new HashSet<>();
         this.gameBadges = new HashSet<>();
+        this.achievements = new HashSet<>();
     }
 
     @Override

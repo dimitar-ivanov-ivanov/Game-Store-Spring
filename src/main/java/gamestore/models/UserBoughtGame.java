@@ -1,9 +1,6 @@
 package gamestore.models;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 @Entity
 @Table(name = "users_bought_games")
@@ -37,17 +35,4 @@ public class UserBoughtGame implements Serializable {
 
     @Column(name = "hours_played_last_two_weeks")
     private int hoursPlayerLastTwoWeeks;
-
-    public UserBoughtGame(User user,
-                          Game game,
-                          LocalDate boughtOn,
-                          int hoursPlayedTotal,
-                          int hoursPlayerLastTwoWeeks) {
-        this.id = new UserGameId(user.getUserId(), game.getGameId());
-        this.user = user;
-        this.game = game;
-        this.boughtOn = boughtOn;
-        this.hoursPlayedTotal = hoursPlayedTotal;
-        this.hoursPlayerLastTwoWeeks = hoursPlayerLastTwoWeeks;
-    }
 }

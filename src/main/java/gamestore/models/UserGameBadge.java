@@ -1,6 +1,7 @@
 package gamestore.models;
 
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 @Entity
 @Table(name = "user_badges_games")
@@ -39,11 +41,4 @@ public class UserGameBadge implements Serializable {
 
     @Column(name = "earned_on")
     private LocalDate earnedOn;
-
-    public UserGameBadge(Badge badge, Game game, BigDecimal price, LocalDate earnedOn) {
-        this.badge = badge;
-        this.game = game;
-        this.price = price;
-        this.earnedOn = earnedOn;
-    }
 }

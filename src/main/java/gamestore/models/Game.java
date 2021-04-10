@@ -9,6 +9,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -37,6 +39,12 @@ public class Game implements Serializable {
     @Column(columnDefinition = "text")
     private String description;
 
+    @OneToMany(
+            mappedBy = "game",
+            orphanRemoval = true
+    )
+    private Set<Achievement> achievements;
+
     public Game(String name,
                 BigDecimal price,
                 String trailerUrl,
@@ -51,7 +59,6 @@ public class Game implements Serializable {
         this.releaseDate = releaseDate;
         this.size = size;
         this.description = description;
+        this.achievements = new HashSet<>();
     }
-
-
 }

@@ -1,12 +1,12 @@
 package gamestore.models;
 
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -14,22 +14,22 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "users_wishlist_games")
-public class UserWishlistGame implements Serializable {
+@Table(name = "user_achievements")
+public class UserAchievement {
 
     @EmbeddedId
-    private UserGameId id;
+    private UserAchievementId id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("gameId")
-    @JoinColumn(name = "game_id")
-    private Game game;
+    @MapsId("achievementId")
+    @ManyToOne
+    @JoinColumn(name = "achievement_id")
+    private Achievement achievement;
 
-    @Column(name = "added_on")
-    private LocalDate addedOn;
+    @Column(name = "earned_on")
+    private LocalDate earnedOn;
 }

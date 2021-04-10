@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Getter
 @Embeddable
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode
 public class UserGameId implements Serializable {
 
@@ -21,4 +20,9 @@ public class UserGameId implements Serializable {
 
     @Column(name = "game_id")
     private Long gameId;
+
+    public UserGameId(Long userId, Long gameId) {
+        this.userId = userId;
+        this.gameId = gameId;
+    }
 }

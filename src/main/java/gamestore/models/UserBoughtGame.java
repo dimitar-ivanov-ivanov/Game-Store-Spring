@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-@Entity(name = "UserBoughtGame")
+@Entity
 @Table(name = "users_bought_games")
 public class UserBoughtGame implements Serializable {
 

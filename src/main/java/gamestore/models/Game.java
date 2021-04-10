@@ -37,5 +37,21 @@ public class Game implements Serializable {
     @Column(columnDefinition = "text")
     private String description;
 
+    public Game(String name,
+                BigDecimal price,
+                String trailerUrl,
+                String thumbnail,
+                LocalDate releaseDate,
+                double size,
+                String description) {
+        this.name = name;
+        this.price = price;
+        this.trailerUrl = trailerUrl;
+        this.thumbnail = thumbnail;
+        this.releaseDate = releaseDate;
+        this.size = size;
+        this.description = description;
+    }
+
 
 }

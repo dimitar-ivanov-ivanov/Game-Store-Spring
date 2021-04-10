@@ -20,8 +20,9 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @EqualsAndHashCode
-@Entity(name = "User")
+@Entity(name = "user")
 @Table(
         name = "users",
         uniqueConstraints = {
@@ -104,6 +105,13 @@ public class User implements UserDetails, Serializable {
     )
     private Set<UserWishlistGame> wishlistGames;
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.MERGE,
+            orphanRemoval = true
+    )
+    private Set<UserGameBadge> gameBadges;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -118,12 +126,6 @@ public class User implements UserDetails, Serializable {
     )
     private Set<Role> roles;
 
-    public User() {
-        this.friends = new HashSet<>();
-        this.boughtGames = new HashSet<>();
-        this.wishlistGames = new HashSet<>();
-        this.roles = new HashSet<>();
-    }
 
     public User(String firstName,
                 String lastName,
@@ -142,6 +144,7 @@ public class User implements UserDetails, Serializable {
         this.boughtGames = new HashSet<>();
         this.wishlistGames = new HashSet<>();
         this.roles = new HashSet<>();
+        this.gameBadges = new HashSet<>();
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-@Entity(name = "UserWishlistGame")
+@Entity
 @Table(name = "users_wishlist_games")
 public class UserWishlistGame implements Serializable {
 

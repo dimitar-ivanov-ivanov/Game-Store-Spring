@@ -3,6 +3,7 @@ package gamestore.mapper;
 import gamestore.models.User;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -22,14 +23,20 @@ public class ModelMapperConfig {
     }
 
     private void registerRequestToUserMapping() {
-        this.mapper.createTypeMap(UserRegisterBindingModel.class, User.class)
-                .addMappings(mapper -> {
-                    mapper.map(UserRegisterBindingModel::getUsername, User::setUsername);
-                    mapper.map(UserRegisterBindingModel::getEmail, User::setEmail);
-                    mapper.map(UserRegisterBindingModel::getPassword, User::setPassword);
-                    mapper.map(UserRegisterBindingModel::getFirstName, User::setFirstName);
-                    mapper.map(UserRegisterBindingModel::getLastName, User::setLastName);
-                    mapper.map(UserRegisterBindingModel::getDate, User::setBirthDate);
-                });
+
+        TypeMap<UserRegisterBindingModel, User> typeMap = this.mapper.getTypeMap(UserRegisterBindingModel.class, User.class);
+
+
+        if (typeMap != null) {
+            this.mapper.createTypeMap(UserRegisterBindingModel.class, User.class)
+                    .addMappings(mapper -> {
+                        mapper.map(UserRegisterBindingModel::getUsername, User::setUsername);
+                        mapper.map(UserRegisterBindingModel::getEmail, User::setEmail);
+                        mapper.map(UserRegisterBindingModel::getPassword, User::setPassword);
+                        mapper.map(UserRegisterBindingModel::getFirstName, User::setFirstName);
+                        mapper.map(UserRegisterBindingModel::getLastName, User::setLastName);
+                        mapper.map(UserRegisterBindingModel::getDate, User::setBirthDate);
+                    });
+        }
     }
 }

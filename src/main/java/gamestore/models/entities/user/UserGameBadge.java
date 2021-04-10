@@ -1,6 +1,8 @@
-package gamestore.models;
+package gamestore.models.entities.user;
 
 
+import gamestore.models.entities.game.Badge;
+import gamestore.models.entities.game.Game;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

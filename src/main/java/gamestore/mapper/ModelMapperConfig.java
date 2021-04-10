@@ -1,12 +1,10 @@
 package gamestore.mapper;
 
-import gamestore.models.User;
+import gamestore.models.entities.user.User;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 @Component
 public class ModelMapperConfig {

@@ -2,8 +2,8 @@ package gamestore.services;
 
 import gamestore.constants.Messages;
 import gamestore.exceptions.UserNotFoundException;
-import gamestore.models.Role;
-import gamestore.models.User;
+import gamestore.models.entities.Role;
+import gamestore.models.entities.user.User;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.repositories.UserRepository;
 import gamestore.validators.DateValidator;
@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor

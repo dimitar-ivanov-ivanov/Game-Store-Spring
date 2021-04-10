@@ -1,7 +1,6 @@
 package gamestore.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gamestore.models.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;

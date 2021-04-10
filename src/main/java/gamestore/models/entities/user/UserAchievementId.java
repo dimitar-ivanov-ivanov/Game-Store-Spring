@@ -1,4 +1,4 @@
-package gamestore.models;
+package gamestore.models.entities.user;
 
 import lombok.*;
 

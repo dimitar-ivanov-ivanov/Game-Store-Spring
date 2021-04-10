@@ -1,9 +1,8 @@
-package gamestore.models;
+package gamestore.models.entities.game;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -45,6 +44,24 @@ public class Game implements Serializable {
     )
     private Set<Achievement> achievements;
 
+    @OneToMany(
+            mappedBy = "game",
+            orphanRemoval = true
+    )
+    private Set<Review> reviews;
+
+    @OneToMany(
+            mappedBy = "game",
+            orphanRemoval = true
+    )
+    private Set<Comment> comments;
+
+    @OneToMany(
+            mappedBy = "game",
+            orphanRemoval = true
+    )
+    private Set<Tag> tags;
+
     public Game(String name,
                 BigDecimal price,
                 String trailerUrl,
@@ -60,5 +77,8 @@ public class Game implements Serializable {
         this.size = size;
         this.description = description;
         this.achievements = new HashSet<>();
+        this.reviews = new HashSet<>();
+        this.comments = new HashSet<>();
+        this.tags = new HashSet<>();
     }
 }

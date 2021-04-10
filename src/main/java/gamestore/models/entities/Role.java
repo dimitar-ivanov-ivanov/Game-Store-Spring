@@ -1,5 +1,6 @@
-package gamestore.models;
+package gamestore.models.entities;
 
+import gamestore.models.entities.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

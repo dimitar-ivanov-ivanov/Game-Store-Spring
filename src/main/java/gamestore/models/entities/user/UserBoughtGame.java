@@ -1,5 +1,6 @@
-package gamestore.models;
+package gamestore.models.entities.user;
 
+import gamestore.models.entities.game.Game;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,6 +1,6 @@
 package gamestore.controllers;
 
-import gamestore.models.User;
+import gamestore.models.entities.user.User;
 import gamestore.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

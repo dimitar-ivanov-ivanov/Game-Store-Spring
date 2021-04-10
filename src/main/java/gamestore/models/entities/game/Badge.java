@@ -1,12 +1,10 @@
-package gamestore.models;
+package gamestore.models.entities.game;
 
 
 import gamestore.models.enums.BadgeLevel;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter

@@ -1,10 +1,8 @@
-package gamestore.models;
-
+package gamestore.models.entities.game;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,21 +10,18 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-@Table(name = "achievements")
-public class Achievement {
+@Table(name = "genres")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class Genre extends GameContent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "achievement_id")
-    private Long achievementId;
+    @Column(name = "genre_id")
+    private long genreId;
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "game_id")
-    private Game game;
-
-    public Achievement(String name) {
+    public Genre(String name) {
         this.name = name;
     }
 }

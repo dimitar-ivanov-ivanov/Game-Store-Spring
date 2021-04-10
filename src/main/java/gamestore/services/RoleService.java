@@ -2,10 +2,9 @@ package gamestore.services;
 
 import gamestore.constants.Messages;
 import gamestore.exceptions.RoleNotFoundException;
-import gamestore.models.Role;
+import gamestore.models.entities.Role;
 import gamestore.repositories.RoleRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

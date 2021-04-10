@@ -1,7 +1,6 @@
 package gamestore.controllers;
 
-import gamestore.models.bindings.UserRegisterBindingModel;
-import gamestore.models.User;
+import gamestore.models.entities.user.User;
 import gamestore.services.UserService;
 import lombok.AllArgsConstructor;
 import org.hibernate.cfg.NotYetImplementedException;

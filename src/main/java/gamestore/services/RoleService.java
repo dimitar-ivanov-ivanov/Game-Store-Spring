@@ -2,7 +2,7 @@ package gamestore.services;
 
 import gamestore.constants.Messages;
 import gamestore.exceptions.RoleNotFoundException;
-import gamestore.models.entities.Role;
+import gamestore.models.entities.security.Role;
 import gamestore.repositories.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package gamestore.services;
 
 import gamestore.constants.Messages;
 import gamestore.exceptions.UserNotFoundException;
-import gamestore.models.entities.Role;
+import gamestore.models.entities.security.Role;
 import gamestore.models.entities.user.User;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.repositories.UserRepository;

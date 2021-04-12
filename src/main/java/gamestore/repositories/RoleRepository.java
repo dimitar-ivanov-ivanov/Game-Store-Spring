@@ -1,6 +1,6 @@
 package gamestore.repositories;
 
-import gamestore.models.entities.Role;
+import gamestore.models.entities.security.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

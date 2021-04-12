@@ -1,4 +1,4 @@
-package gamestore.models.entities.game;
+package gamestore.models.entities.user;
 
 
 import gamestore.models.enums.BadgeLevel;

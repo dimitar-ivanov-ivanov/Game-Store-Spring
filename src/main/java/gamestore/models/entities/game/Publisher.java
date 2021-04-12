@@ -5,33 +5,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
-@EqualsAndHashCode
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
-@Table(name = "tags")
-public class Tag implements Serializable {
+@Table(name = "publishers")
+public class Publisher {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tag_id")
-    private long tagId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "publisher_id")
+    private Long publisherId;
 
     private String name;
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
-
     @ManyToMany
     @JoinTable(
-            name = "tags_games",
+            name = "publishers_games",
             joinColumns = @JoinColumn(
-                    name = "tag_id",
-                    referencedColumnName = "tag_id"
+                    name = "publisher_id",
+                    referencedColumnName = "publisher_id"
             ),
             inverseJoinColumns = @JoinColumn(
                     name = "game_id",
@@ -40,8 +36,7 @@ public class Tag implements Serializable {
     )
     private Set<Game> games;
 
-
-    public Tag(String name) {
+    public Publisher(String name) {
         this.name = name;
         this.games = new HashSet<>();
     }

@@ -1,7 +1,6 @@
 package gamestore.models.entities.user;
 
 
-import gamestore.models.entities.game.Achievement;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

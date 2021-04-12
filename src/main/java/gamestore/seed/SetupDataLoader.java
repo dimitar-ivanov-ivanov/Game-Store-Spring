@@ -1,8 +1,8 @@
 package gamestore.seed;
 
 import com.google.common.collect.Sets;
-import gamestore.models.entities.Authority;
-import gamestore.models.entities.Role;
+import gamestore.models.entities.security.Authority;
+import gamestore.models.entities.security.Role;
 import gamestore.models.entities.user.User;
 import gamestore.repositories.AuthorityRepository;
 import gamestore.repositories.RoleRepository;

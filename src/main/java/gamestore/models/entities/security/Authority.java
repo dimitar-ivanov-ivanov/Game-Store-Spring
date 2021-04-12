@@ -1,4 +1,4 @@
-package gamestore.models.entities;
+package gamestore.models.entities.security;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

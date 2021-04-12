@@ -1,5 +1,6 @@
 package gamestore.models.entities.game;
 
+import gamestore.models.entities.user.Achievement;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,11 +57,14 @@ public class Game implements Serializable {
     )
     private Set<Comment> comments;
 
-    @OneToMany(
-            mappedBy = "game",
-            orphanRemoval = true
-    )
+    @ManyToMany(mappedBy = "games")
     private Set<Tag> tags;
+
+    @ManyToMany(mappedBy = "games")
+    private Set<Publisher> publishers;
+
+    @ManyToMany(mappedBy = "games")
+    private Set<Genre> genres;
 
     public Game(String name,
                 BigDecimal price,
@@ -80,5 +84,7 @@ public class Game implements Serializable {
         this.reviews = new HashSet<>();
         this.comments = new HashSet<>();
         this.tags = new HashSet<>();
+        this.publishers = new HashSet<>();
+        this.genres = new HashSet<>();
     }
 }

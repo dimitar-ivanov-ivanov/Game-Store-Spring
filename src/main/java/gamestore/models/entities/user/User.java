@@ -1,7 +1,7 @@
 package gamestore.models.entities.user;
 
-import gamestore.models.entities.Authority;
-import gamestore.models.entities.Role;
+import gamestore.models.entities.security.Authority;
+import gamestore.models.entities.security.Role;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

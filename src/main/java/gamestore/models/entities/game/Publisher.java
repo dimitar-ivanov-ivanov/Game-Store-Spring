@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ public class Publisher {
     @Column(name = "publisher_id")
     private Long publisherId;
 
+    @NotBlank(message = "name cannot be blank")
     private String name;
 
     @ManyToMany

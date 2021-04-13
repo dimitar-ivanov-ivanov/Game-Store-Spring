@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,7 +26,12 @@ public class Game implements Serializable {
     )
     @Column(name = "game_id")
     private Long gameId;
+
+    @NotBlank(message = "name cannot be blank")
     private String name;
+
+    @DecimalMin(value = "0", inclusive = false, message = "price cannot be smaller or equal to 0")
+    @DecimalMax(value = "1000", message = "price cannot be bigger than 1000")
     private BigDecimal price;
 
     @Column(name = "trailer_url")
@@ -34,9 +40,13 @@ public class Game implements Serializable {
 
     @Column(name = "release_date")
     private LocalDate releaseDate;
-    private double size;
 
-    @Column(columnDefinition = "text")
+    @DecimalMin(value = "0.1", message = "size cannot be smaller than 0.1")
+    @DecimalMax(value = "300", message = "size cannot be bigger than 300")
+    private BigDecimal size;
+
+    @NotBlank(message = "description cannot be blank")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(
@@ -71,7 +81,7 @@ public class Game implements Serializable {
                 String trailerUrl,
                 String thumbnail,
                 LocalDate releaseDate,
-                double size,
+                BigDecimal size,
                 String description) {
         this.name = name;
         this.price = price;

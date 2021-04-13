@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -38,6 +40,8 @@ public class UserGameBadge implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @DecimalMin(value = "0", inclusive = false, message = "price cannot be smaller or equal to 0")
+    @DecimalMax(value = "1000", message = "price cannot be bigger than 1000")
     private BigDecimal price;
 
     @Column(name = "earned_on")

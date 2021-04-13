@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @EqualsAndHashCode
@@ -20,6 +21,7 @@ public class Achievement {
     @Column(name = "achievement_id")
     private Long achievementId;
 
+    @NotBlank(message = "name cannot be blank")
     private String name;
 
     @ManyToOne

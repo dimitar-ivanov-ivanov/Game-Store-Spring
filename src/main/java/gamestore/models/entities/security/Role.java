@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ public class Role {
     @Column(name = "role_id")
     private Long roleId;
 
+    @NotBlank(message = "name cannot be blank")
     private String name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)

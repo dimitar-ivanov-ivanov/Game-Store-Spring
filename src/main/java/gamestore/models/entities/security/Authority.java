@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ public class Authority implements GrantedAuthority {
     @Column(name = "authority_id")
     private Long privilegeId;
 
+    @NotBlank(message = "name cannot be blank")
     private String name;
 
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.EAGER)

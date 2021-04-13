@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,8 +22,10 @@ public class Tag implements Serializable {
     @Column(name = "tag_id")
     private long tagId;
 
+    @NotBlank(message = "name cannot be blank")
     private String name;
 
+    @NotBlank(message = "description cannot be blank")
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -39,7 +42,6 @@ public class Tag implements Serializable {
             )
     )
     private Set<Game> games;
-
 
     public Tag(String name) {
         this.name = name;

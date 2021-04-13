@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +21,10 @@ public class Genre {
     @Column(name = "genre_id")
     private long genreId;
 
+    @NotBlank(message = "name cannot be blank")
     private String name;
 
+    @NotBlank(message = "description cannot be blank")
     @Column(name = "TEXT")
     private String description;
 
@@ -38,7 +41,6 @@ public class Genre {
             )
     )
     private Set<Game> games;
-
 
     public Genre(String name) {
         this.name = name;

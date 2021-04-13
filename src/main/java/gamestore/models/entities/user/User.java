@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -45,16 +46,12 @@ public class User implements UserDetails, Serializable {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(
-            name = "first_name",
-            nullable = false
-    )
+    @NotBlank(message = "name cannot be blank")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(
-            name = "last_name",
-            nullable = false
-    )
+    @NotBlank(message = "name cannot be blank")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(
@@ -66,8 +63,14 @@ public class User implements UserDetails, Serializable {
     @Transient
     private Integer age;
 
+    @NotBlank(message = "user name cannot be blank")
+    //make special annotation for validation
     private String username;
+
+    //make special annotation for validation
     private String email;
+
+    //make special annotation for validation
     private String password;
 
     @Column(

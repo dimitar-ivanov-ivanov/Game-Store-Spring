@@ -2,6 +2,7 @@ package gamestore.models.entities.user;
 
 import gamestore.models.entities.security.Authority;
 import gamestore.models.entities.security.Role;
+import gamestore.models.enums.Gender;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -132,6 +133,8 @@ public class User implements UserDetails, Serializable {
     )
     private Set<Role> roles;
 
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     public User(String firstName,
                 String lastName,

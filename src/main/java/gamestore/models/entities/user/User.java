@@ -1,5 +1,6 @@
 package gamestore.models.entities.user;
 
+import gamestore.constants.Messages;
 import gamestore.models.entities.security.Authority;
 import gamestore.models.entities.security.Role;
 import gamestore.models.enums.Gender;
@@ -46,11 +47,11 @@ public class User implements UserDetails, Serializable {
     @Column(name = "user_id")
     private Long userId;
 
-    @NotBlank(message = "name cannot be blank")
+    @NotBlank(message = "first " + Messages.NAME_CANNOT_BE_BLANK)
     @Column(name = "first_name")
     private String firstName;
 
-    @NotBlank(message = "name cannot be blank")
+    @NotBlank(message = "last " + Messages.NAME_CANNOT_BE_BLANK)
     @Column(name = "last_name")
     private String lastName;
 
@@ -63,7 +64,7 @@ public class User implements UserDetails, Serializable {
     @Transient
     private Integer age;
 
-    @NotBlank(message = "user name cannot be blank")
+    @NotBlank(message = "user" + Messages.NAME_CANNOT_BE_BLANK)
     //make special annotation for validation
     private String username;
 

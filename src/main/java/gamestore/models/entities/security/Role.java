@@ -1,5 +1,6 @@
 package gamestore.models.entities.security;
 
+import gamestore.constants.Messages;
 import gamestore.models.entities.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class Role {
     @Column(name = "role_id")
     private Long roleId;
 
-    @NotBlank(message = "name cannot be blank")
+    @NotBlank(message = Messages.NAME_CANNOT_BE_BLANK)
     private String name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)

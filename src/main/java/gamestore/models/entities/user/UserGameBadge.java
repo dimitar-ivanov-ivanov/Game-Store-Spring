@@ -1,6 +1,8 @@
 package gamestore.models.entities.user;
 
 
+import gamestore.constants.Messages;
+import gamestore.constants.Numbers;
 import gamestore.models.entities.game.Game;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -40,8 +42,15 @@ public class UserGameBadge implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @DecimalMin(value = "0", inclusive = false, message = "price cannot be smaller or equal to 0")
-    @DecimalMax(value = "1000", message = "price cannot be bigger than 1000")
+    @DecimalMin(
+            value = Numbers.PRICE_MIN + "",
+            inclusive = false,
+            message = Messages.PRICE_CANNOT_BE_SMALLER_OR_EQUAL_TO + Numbers.PRICE_MIN
+    )
+    @DecimalMax(
+            value = Numbers.PRICE_MAX + "",
+            message = Messages.PRICE_CANNOT_BE_BIGGER_THAN + Numbers.PRICE_MAX
+    )
     private BigDecimal price;
 
     @Column(name = "earned_on")

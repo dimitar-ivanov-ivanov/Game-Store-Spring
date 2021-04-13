@@ -1,5 +1,6 @@
 package gamestore.models.entities.security;
 
+import gamestore.constants.Messages;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +23,7 @@ public class Authority implements GrantedAuthority {
     @Column(name = "authority_id")
     private Long privilegeId;
 
-    @NotBlank(message = "name cannot be blank")
+    @NotBlank(message = Messages.NAME_CANNOT_BE_BLANK)
     private String name;
 
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.EAGER)

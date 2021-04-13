@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import gamestore.constants.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -27,11 +29,18 @@ public class Game implements Serializable {
     @Column(name = "game_id")
     private Long gameId;
 
-    @NotBlank(message = "name cannot be blank")
+    @NotBlank(message = Messages.NAME_CANNOT_BE_BLANK)
     private String name;
 
-    @DecimalMin(value = "0", inclusive = false, message = "price cannot be smaller or equal to 0")
-    @DecimalMax(value = "1000", message = "price cannot be bigger than 1000")
+    @DecimalMin(
+            value = Numbers.PRICE_MIN + "",
+            inclusive = false,
+            message = Messages.PRICE_CANNOT_BE_SMALLER_OR_EQUAL_TO + Numbers.PRICE_MIN
+    )
+    @DecimalMax(
+            value = Numbers.PRICE_MAX + "",
+            message = Messages.PRICE_CANNOT_BE_BIGGER_THAN + Numbers.PRICE_MAX
+    )
     private BigDecimal price;
 
     @Column(name = "trailer_url")
@@ -41,11 +50,17 @@ public class Game implements Serializable {
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    @DecimalMin(value = "0.1", message = "size cannot be smaller than 0.1")
-    @DecimalMax(value = "300", message = "size cannot be bigger than 300")
+    @DecimalMin(
+            value = Numbers.SIZE_MIN + "",
+            message = Messages.SIZE_CANNOT_BE_SMALLER_THAN + Numbers.SIZE_MIN
+    )
+    @DecimalMax(
+            value = Numbers.SIZE_MAX + "",
+            message = Messages.SIZE_CANNOT_BE_BIGGER_THAN + Numbers.SIZE_MAX
+    )
     private BigDecimal size;
 
-    @NotBlank(message = "description cannot be blank")
+    @NotBlank(message = Messages.DESCRIPTION_CANNOT_BE_BLANK)
     @Column(columnDefinition = "TEXT")
     private String description;
 

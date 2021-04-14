@@ -28,10 +28,14 @@ public class TextConstants {
     public static final String EMAIL_DETAIL_TOO_LONG = "Email %s cannot be longer than %d";
 
     public static final String INVALID_PASSWORD_FORMAT = "Password is invalid";
-    public static final String PASSWORD_TOO_SHORT = "Password cannot be shorter than %d";
-    public static final String PASSWORD_TOO_LONG = "Password cannot be longer than %d";
-    public static final String PASSWORD_SHOULD_CONTAIN_LOWERCASE_LETTER = "Password should contain lowercase letter.";
-    public static final String PASSWORD_SHOULD_CONTAIN_UPPERCASE_LETTER = "Password should contain uppercase letter.";
-    public static final String PASSWORD_SHOULD_CONTAIN_DIGIT = "Password should contain digit letter.";
+    public static final String DATA_TOO_SHORT = "%s cannot be shorter than %d";
+    public static final String DATA_TOO_LONG = "%s cannot be longer than %d";
+    public static final String DATA_SHOULD_CONTAIN_LOWERCASE_LETTER = "%s should contain lowercase letter.";
+    public static final String DATA_SHOULD_CONTAIN_UPPERCASE_LETTER = "%s should contain uppercase letter.";
+    public static final String DATA_SHOULD_CONTAIN_DIGIT = "%s should contain digit letter.";
+    public static final String DATA_SHOULD_SPECIAL_SYMBOL = "%s should contain special digit.";
+
+    public static final String INVALID_USERNAME_FORMAT = "Username is invalid.";
+    public static final String NAME_SHOULD_SPECIAL_SYMBOL = "Name should contain special symbol.";
 
 }

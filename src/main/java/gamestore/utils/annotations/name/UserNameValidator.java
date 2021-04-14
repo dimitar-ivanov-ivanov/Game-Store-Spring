@@ -1,4 +1,4 @@
-package gamestore.utils.annotations.password;
+package gamestore.utils.annotations.name;
 
 import gamestore.utils.annotations.AnnotationsUtil;
 import gamestore.utils.constants.TextConstants;
@@ -9,28 +9,33 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
 @Component
-public class PasswordValidator implements
-        ConstraintValidator<Password, CharSequence> {
+public class UserNameValidator implements
+        ConstraintValidator<UserName, CharSequence> {
 
-    private final String keyWord = "Password";
+    private final String keyWord = "Name";
     private int minLength;
     private int maxLength;
     private Pattern lowerLetterPattern;
     private Pattern upperLetterPattern;
     private Pattern digitPattern;
+    private Pattern specialSymbolPattern;
+    private Pattern namePattern;
 
     @Override
-    public void initialize(Password password) {
-        this.minLength = password.minLength();
-        this.maxLength = password.maxLength();
-        this.lowerLetterPattern = Pattern.compile(password.lowerLetterRegex());
-        this.upperLetterPattern = Pattern.compile(password.upperLetterRegex());
-        this.digitPattern = Pattern.compile(password.digitRegex());
+    public void initialize(UserName name) {
+        this.minLength = name.minLength();
+        this.maxLength = name.maxLength();
+        this.lowerLetterPattern = Pattern.compile(name.lowerLetterRegex());
+        this.upperLetterPattern = Pattern.compile(name.upperLetterRegex());
+        this.digitPattern = Pattern.compile(name.digitRegex());
+        this.namePattern = Pattern.compile(name.regex());
+        this.specialSymbolPattern = Pattern.compile(name.specialSymbolRegex());
     }
 
     @Override
     public boolean isValid(CharSequence value,
                            ConstraintValidatorContext context) {
+
         if (value == null) {
             AnnotationsUtil.setErrorMessage(
                     context,
@@ -66,9 +71,9 @@ public class PasswordValidator implements
             return false;
         }
 
-        String password = value.toString();
+        String name = value.toString();
 
-        if (!lowerLetterPattern.matcher(password).find()) {
+        if (!lowerLetterPattern.matcher(name).find()) {
             AnnotationsUtil.setErrorMessage(
                     context,
                     String.format(
@@ -79,7 +84,7 @@ public class PasswordValidator implements
             return false;
         }
 
-        if (!upperLetterPattern.matcher(password).find()) {
+        if (!upperLetterPattern.matcher(name).find()) {
             AnnotationsUtil.setErrorMessage(
                     context,
                     String.format(
@@ -90,7 +95,7 @@ public class PasswordValidator implements
             return false;
         }
 
-        if (!digitPattern.matcher(password).find()) {
+        if (!digitPattern.matcher(name).find()) {
             AnnotationsUtil.setErrorMessage(
                     context,
                     String.format(
@@ -101,6 +106,16 @@ public class PasswordValidator implements
             return false;
         }
 
-        return true;
+        if (!specialSymbolPattern.matcher(name).find()) {
+            AnnotationsUtil.setErrorMessage(
+                    context,
+                    TextConstants.NAME_SHOULD_SPECIAL_SYMBOL
+            );
+
+            return false;
+        }
+
+        return this.namePattern.matcher(name)
+                .matches();
     }
 }

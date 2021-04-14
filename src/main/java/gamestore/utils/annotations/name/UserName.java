@@ -1,4 +1,4 @@
-package gamestore.utils.annotations.password;
+package gamestore.utils.annotations.name;
 
 import gamestore.utils.constants.NumberConstants;
 import gamestore.utils.constants.RegexConstants;
@@ -13,19 +13,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Component
-@Constraint(validatedBy = PasswordValidator.class)
+@Constraint(validatedBy = UserNameValidator.class)
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Password {
+public @interface UserName {
 
     String message()
-            default TextConstants.INVALID_PASSWORD_FORMAT;
+            default TextConstants.INVALID_USERNAME_FORMAT;
 
     int minLength()
-            default NumberConstants.MIN_PASSWORD_LENGTH;
+            default NumberConstants.MIN_USERNAME_LENGTH;
 
     int maxLength()
-            default NumberConstants.MAX_PASSWORD_LENGTH;
+            default NumberConstants.MAX_USERNAME_LENGTH;
 
     String lowerLetterRegex()
             default RegexConstants.LOWER_LETTER_REGEX;
@@ -36,7 +36,14 @@ public @interface Password {
     String digitRegex()
             default RegexConstants.DIGIT_REGEX;
 
+    String specialSymbolRegex()
+            default RegexConstants.SPECIAL_SYMBOL_REGEX;
+
+    String regex()
+            default RegexConstants.USERNAME_REGEX;
+
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
 }

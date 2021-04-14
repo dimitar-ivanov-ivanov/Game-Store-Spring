@@ -72,7 +72,7 @@ public class EmailValidator implements
             AnnotationsUtil.setErrorMessage(
                     context,
                     String.format(
-                            TextConstants.EMAIL_DETAIL_TOO_LONG,
+                            TextConstants.SPE,
                             "hostname",
                             this.maxHostNameLength
                     ));

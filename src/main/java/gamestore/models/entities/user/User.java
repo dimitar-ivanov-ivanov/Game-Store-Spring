@@ -1,6 +1,7 @@
 package gamestore.models.entities.user;
 
 import gamestore.utils.annotations.email.Email;
+import gamestore.utils.annotations.name.UserName;
 import gamestore.utils.annotations.password.Password;
 import gamestore.utils.constants.TextConstants;
 import gamestore.models.entities.security.Authority;
@@ -66,8 +67,7 @@ public class User implements UserDetails, Serializable {
     @Transient
     private Integer age;
 
-    @NotBlank(message = "user" + TextConstants.NAME_CANNOT_BE_BLANK)
-    //make special annotation for validation
+    @UserName
     private String username;
 
     @Email

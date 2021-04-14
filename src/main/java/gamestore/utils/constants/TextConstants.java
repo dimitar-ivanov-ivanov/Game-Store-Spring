@@ -36,6 +36,6 @@ public class TextConstants {
     public static final String DATA_SHOULD_SPECIAL_SYMBOL = "%s should contain special digit.";
 
     public static final String INVALID_USERNAME_FORMAT = "Username is invalid.";
-    public static final String NAME_SHOULD_SPECIAL_SYMBOL = "Name should contain special symbol.";
+    //public static final String NAME_SHOULD_SPECIAL_SYMBOL = "Name should contain special symbol.";
 
 }

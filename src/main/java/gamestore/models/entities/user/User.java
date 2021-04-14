@@ -73,7 +73,6 @@ public class User implements UserDetails, Serializable {
     @Email
     private String email;
 
-    @Password
     private String password;
 
     @Column(
@@ -147,13 +146,40 @@ public class User implements UserDetails, Serializable {
                 LocalDate birthDate,
                 String username,
                 String email,
-                String password) {
+                String password,
+                Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.gender = gender;
+        this.age = Period.between(birthDate, LocalDate.now()).getYears();
+        this.friends = new HashSet<>();
+        this.boughtGames = new HashSet<>();
+        this.wishlistGames = new HashSet<>();
+        this.roles = new HashSet<>();
+        this.gameBadges = new HashSet<>();
+        this.achievements = new HashSet<>();
+    }
+
+    public User(Long id,
+                String firstName,
+                String lastName,
+                LocalDate birthDate,
+                String username,
+                String email,
+                String password,
+                Gender gender) {
+        this.userId = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
         this.age = Period.between(birthDate, LocalDate.now()).getYears();
         this.friends = new HashSet<>();
         this.boughtGames = new HashSet<>();

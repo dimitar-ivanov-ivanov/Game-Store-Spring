@@ -6,19 +6,20 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
 public class UserNameValidator implements
         ConstraintValidator<UserName, CharSequence> {
 
-    private final String keyWord = "Name";
+    private final String keyWord = "User name";
     private int minLength;
     private int maxLength;
     private Pattern lowerLetterPattern;
     private Pattern upperLetterPattern;
-    private Pattern digitPattern;
-    private Pattern specialSymbolPattern;
+    //private Pattern digitPattern;
+    //private Pattern specialSymbolPattern;
     private Pattern namePattern;
 
     @Override
@@ -27,9 +28,9 @@ public class UserNameValidator implements
         this.maxLength = name.maxLength();
         this.lowerLetterPattern = Pattern.compile(name.lowerLetterRegex());
         this.upperLetterPattern = Pattern.compile(name.upperLetterRegex());
-        this.digitPattern = Pattern.compile(name.digitRegex());
+        //this.digitPattern = Pattern.compile(name.digitRegex());
         this.namePattern = Pattern.compile(name.regex());
-        this.specialSymbolPattern = Pattern.compile(name.specialSymbolRegex());
+        //this.specialSymbolPattern = Pattern.compile(name.specialSymbolRegex());
     }
 
     @Override
@@ -95,6 +96,7 @@ public class UserNameValidator implements
             return false;
         }
 
+        /*
         if (!digitPattern.matcher(name).find()) {
             AnnotationsUtil.setErrorMessage(
                     context,
@@ -105,7 +107,9 @@ public class UserNameValidator implements
 
             return false;
         }
+         */
 
+        /*
         if (!specialSymbolPattern.matcher(name).find()) {
             AnnotationsUtil.setErrorMessage(
                     context,
@@ -113,7 +117,7 @@ public class UserNameValidator implements
             );
 
             return false;
-        }
+        }*/
 
         return this.namePattern.matcher(name)
                 .matches();

@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import gamestore.models.entities.security.Authority;
 import gamestore.models.entities.security.Role;
 import gamestore.models.entities.user.User;
+import gamestore.models.enums.Gender;
 import gamestore.repositories.AuthorityRepository;
 import gamestore.repositories.RoleRepository;
 import gamestore.repositories.UserRepository;
@@ -97,15 +98,18 @@ public class SetupDataLoader implements
 
         User user = new User("Dimitar", "Ivanov",
                 LocalDate.of(1999, 2, 20),
-                "d1mn", "dimitar-ivanov@abv.bg", passwordEncoder.encode("password"));
+                "d1mN", "dimitar-ivanov@abv.bg",
+                passwordEncoder.encode("A_35aa51A"), Gender.MALE);
 
         User user2 = new User("Ivan", "Ivanov",
                 LocalDate.of(1979, 2, 20),
-                "iv1n", "ivan-ivanov@abv.bg", passwordEncoder.encode("password"));
+                "iV1n", "ivan-ivanov@abv.bg",
+                passwordEncoder.encode("A_35aa51A"), Gender.MALE);
 
         User user3 = new User("Stoqn", "Ivanov",
                 LocalDate.of(1999, 2, 20),
-                "stoqn", "stoqn-ivanov@abv.bg", passwordEncoder.encode("password"));
+                "stQn", "stoqn-ivanov@abv.bg",
+                passwordEncoder.encode("A_35aa51A"), Gender.MALE);
 
         user.getRoles().add(adminRole);
         user2.getRoles().add(userRole);

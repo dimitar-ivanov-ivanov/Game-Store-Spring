@@ -54,6 +54,8 @@ public class UserService implements UserDetailsService {
                 register.getBirthDay()
         );
 
+        //validate password then encode
+
         String encodedPassword = passwordEncoder.encode(register.getPassword());
         register.setPassword(encodedPassword);
 

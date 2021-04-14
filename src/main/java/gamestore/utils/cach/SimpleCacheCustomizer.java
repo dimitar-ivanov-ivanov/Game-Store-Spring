@@ -1,4 +1,4 @@
-package gamestore.cach;
+package gamestore.utils.cach;
 
 import java.util.List;
 

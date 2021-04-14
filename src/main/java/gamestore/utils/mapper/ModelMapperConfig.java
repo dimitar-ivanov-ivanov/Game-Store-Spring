@@ -1,4 +1,4 @@
-package gamestore.mapper;
+package gamestore.utils.mapper;
 
 import gamestore.models.entities.user.User;
 import gamestore.models.bindings.UserRegisterBindingModel;

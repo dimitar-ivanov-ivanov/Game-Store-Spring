@@ -1,6 +1,6 @@
-package gamestore.jwt;
+package gamestore.utils.jwt;
 
-import gamestore.constants.Messages;
+import gamestore.utils.constants.TextConstants;
 import gamestore.exceptions.InvalidOrExpiredJwtTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -91,7 +91,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
               Thrown when invalid or expired token
              */
             throw new InvalidOrExpiredJwtTokenException(
-                    String.format(Messages.TOKEN_CANNOT_BE_TRUSTED, token)
+                    String.format(TextConstants.TOKEN_CANNOT_BE_TRUSTED, token)
             );
         }
 

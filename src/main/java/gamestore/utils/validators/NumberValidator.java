@@ -1,4 +1,4 @@
-package gamestore.validators;
+package gamestore.utils.validators;
 
 public class NumberValidator {
 

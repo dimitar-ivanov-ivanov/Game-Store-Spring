@@ -1,7 +1,7 @@
 package gamestore.models.entities.user;
 
 
-import gamestore.constants.Messages;
+import gamestore.utils.constants.TextConstants;
 import gamestore.models.entities.game.Game;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class Achievement {
     @Column(name = "achievement_id")
     private Long achievementId;
 
-    @NotBlank(message = Messages.NAME_CANNOT_BE_BLANK)
+    @NotBlank(message = TextConstants.NAME_CANNOT_BE_BLANK)
     private String name;
 
     @ManyToOne

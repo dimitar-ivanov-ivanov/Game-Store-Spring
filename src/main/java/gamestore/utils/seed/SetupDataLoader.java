@@ -1,4 +1,4 @@
-package gamestore.seed;
+package gamestore.utils.seed;
 
 import com.google.common.collect.Sets;
 import gamestore.models.entities.security.Authority;

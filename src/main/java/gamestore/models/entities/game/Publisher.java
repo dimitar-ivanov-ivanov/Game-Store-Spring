@@ -1,6 +1,6 @@
 package gamestore.models.entities.game;
 
-import gamestore.constants.Messages;
+import gamestore.utils.constants.TextConstants;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class Publisher {
     @Column(name = "publisher_id")
     private Long publisherId;
 
-    @NotBlank(message = Messages.NAME_CANNOT_BE_BLANK)
+    @NotBlank(message = TextConstants.NAME_CANNOT_BE_BLANK)
     private String name;
 
     @ManyToMany

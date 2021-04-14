@@ -1,11 +1,10 @@
 package gamestore.security.config;
 
-import gamestore.jwt.JwtConfig;
-import gamestore.jwt.JwtTokenVerifier;
-import gamestore.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import gamestore.utils.jwt.JwtConfig;
+import gamestore.utils.jwt.JwtTokenVerifier;
+import gamestore.utils.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import gamestore.services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

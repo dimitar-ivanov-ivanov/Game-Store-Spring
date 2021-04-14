@@ -1,4 +1,4 @@
-package gamestore.jwt;
+package gamestore.utils.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;

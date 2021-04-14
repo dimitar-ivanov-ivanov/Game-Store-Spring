@@ -1,6 +1,6 @@
 package gamestore.services;
 
-import gamestore.constants.Messages;
+import gamestore.utils.constants.TextConstants;
 import gamestore.exceptions.RoleNotFoundException;
 import gamestore.models.entities.security.Role;
 import gamestore.repositories.RoleRepository;
@@ -19,7 +19,7 @@ public class RoleService {
     public Role getRole(String name) {
         return roleRepository.getByName(name)
                 .orElseThrow(() -> new RoleNotFoundException(
-                        Messages.ROLE_NOT_FOUND
+                        TextConstants.ROLE_NOT_FOUND
                 ));
     }
 }

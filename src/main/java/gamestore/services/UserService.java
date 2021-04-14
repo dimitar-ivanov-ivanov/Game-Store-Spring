@@ -1,12 +1,12 @@
 package gamestore.services;
 
-import gamestore.constants.Messages;
+import gamestore.utils.constants.TextConstants;
 import gamestore.exceptions.UserNotFoundException;
 import gamestore.models.entities.security.Role;
 import gamestore.models.entities.user.User;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.repositories.UserRepository;
-import gamestore.validators.DateValidator;
+import gamestore.utils.validators.DateValidator;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService {
 
     public User getById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(Messages.USER_NOT_FOUND));
+                .orElseThrow(() -> new UserNotFoundException(TextConstants.USER_NOT_FOUND));
     }
 
     public List<User> getAllUsers() {
@@ -45,7 +45,7 @@ public class UserService implements UserDetailsService {
         if (userExists) {
             // TODO check of attributes are the same and
             // TODO if email not confirmed send confirmation email.
-            throw new UsernameNotFoundException(Messages.USERNAME_ALREADY_TAKEN);
+            throw new UsernameNotFoundException(TextConstants.USERNAME_ALREADY_TAKEN);
         }
 
         DateValidator.validateSeparateDate(
@@ -72,7 +72,7 @@ public class UserService implements UserDetailsService {
         return userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
-                        String.format(Messages.USERNAME_NOT_FOUND, username)
+                        String.format(TextConstants.USERNAME_NOT_FOUND, username)
                 ));
     }
 }

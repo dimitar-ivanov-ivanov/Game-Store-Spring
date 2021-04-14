@@ -1,8 +1,8 @@
 package gamestore.models.entities.user;
 
 
-import gamestore.constants.Messages;
-import gamestore.constants.Numbers;
+import gamestore.utils.constants.TextConstants;
+import gamestore.utils.constants.NumberConstants;
 import gamestore.models.entities.game.Game;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -43,13 +43,13 @@ public class UserGameBadge implements Serializable {
     private User user;
 
     @DecimalMin(
-            value = Numbers.PRICE_MIN + "",
+            value = NumberConstants.PRICE_MIN + "",
             inclusive = false,
-            message = Messages.PRICE_CANNOT_BE_SMALLER_OR_EQUAL_TO + Numbers.PRICE_MIN
+            message = TextConstants.PRICE_CANNOT_BE_SMALLER_OR_EQUAL_TO + NumberConstants.PRICE_MIN
     )
     @DecimalMax(
-            value = Numbers.PRICE_MAX + "",
-            message = Messages.PRICE_CANNOT_BE_BIGGER_THAN + Numbers.PRICE_MAX
+            value = NumberConstants.PRICE_MAX + "",
+            message = TextConstants.PRICE_CANNOT_BE_BIGGER_THAN + NumberConstants.PRICE_MAX
     )
     private BigDecimal price;
 

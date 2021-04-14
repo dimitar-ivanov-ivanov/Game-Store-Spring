@@ -1,6 +1,6 @@
-package gamestore.validators;
+package gamestore.utils.validators;
 
-import gamestore.constants.Messages;
+import gamestore.utils.constants.TextConstants;
 import gamestore.exceptions.DataOutOfRangeException;
 
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ public class DateValidator {
     private static void isDataInRange(boolean dataValidity, int min, int max, String dataName) {
         if (!dataValidity) {
             throw new DataOutOfRangeException(String.format(
-                    Messages.NOT_IN_RANGE, dataName, min, max
+                    TextConstants.NOT_IN_RANGE, dataName, min, max
             ));
         }
     }

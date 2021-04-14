@@ -1,6 +1,6 @@
 package gamestore.models.entities.game;
 
-import gamestore.constants.Messages;
+import gamestore.utils.constants.TextConstants;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +22,10 @@ public class Genre {
     @Column(name = "genre_id")
     private long genreId;
 
-    @NotBlank(message = Messages.NAME_CANNOT_BE_BLANK)
+    @NotBlank(message = TextConstants.NAME_CANNOT_BE_BLANK)
     private String name;
 
-    @NotBlank(message = Messages.DESCRIPTION_CANNOT_BE_BLANK)
+    @NotBlank(message = TextConstants.DESCRIPTION_CANNOT_BE_BLANK)
     @Column(name = "TEXT")
     private String description;
 

@@ -1,4 +1,4 @@
-package gamestore.jwt;
+package gamestore.utils.jwt;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

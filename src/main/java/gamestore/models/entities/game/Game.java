@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import gamestore.constants.*;
+import gamestore.utils.constants.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -29,17 +29,17 @@ public class Game implements Serializable {
     @Column(name = "game_id")
     private Long gameId;
 
-    @NotBlank(message = Messages.NAME_CANNOT_BE_BLANK)
+    @NotBlank(message = TextConstants.NAME_CANNOT_BE_BLANK)
     private String name;
 
     @DecimalMin(
-            value = Numbers.PRICE_MIN + "",
+            value = NumberConstants.PRICE_MIN + "",
             inclusive = false,
-            message = Messages.PRICE_CANNOT_BE_SMALLER_OR_EQUAL_TO + Numbers.PRICE_MIN
+            message = TextConstants.PRICE_CANNOT_BE_SMALLER_OR_EQUAL_TO + NumberConstants.PRICE_MIN
     )
     @DecimalMax(
-            value = Numbers.PRICE_MAX + "",
-            message = Messages.PRICE_CANNOT_BE_BIGGER_THAN + Numbers.PRICE_MAX
+            value = NumberConstants.PRICE_MAX + "",
+            message = TextConstants.PRICE_CANNOT_BE_BIGGER_THAN + NumberConstants.PRICE_MAX
     )
     private BigDecimal price;
 
@@ -51,16 +51,16 @@ public class Game implements Serializable {
     private LocalDate releaseDate;
 
     @DecimalMin(
-            value = Numbers.SIZE_MIN + "",
-            message = Messages.SIZE_CANNOT_BE_SMALLER_THAN + Numbers.SIZE_MIN
+            value = NumberConstants.SIZE_MIN + "",
+            message = TextConstants.SIZE_CANNOT_BE_SMALLER_THAN + NumberConstants.SIZE_MIN
     )
     @DecimalMax(
-            value = Numbers.SIZE_MAX + "",
-            message = Messages.SIZE_CANNOT_BE_BIGGER_THAN + Numbers.SIZE_MAX
+            value = NumberConstants.SIZE_MAX + "",
+            message = TextConstants.SIZE_CANNOT_BE_BIGGER_THAN + NumberConstants.SIZE_MAX
     )
     private BigDecimal size;
 
-    @NotBlank(message = Messages.DESCRIPTION_CANNOT_BE_BLANK)
+    @NotBlank(message = TextConstants.DESCRIPTION_CANNOT_BE_BLANK)
     @Column(columnDefinition = "TEXT")
     private String description;
 

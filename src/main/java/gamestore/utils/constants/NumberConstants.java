@@ -12,4 +12,7 @@ public class NumberConstants {
     public static final int MAX_EMAIl_USERNAME_LENGTH = 50;
     public static final int MAX_EMAIl_HOSTNAME_LENGTH = 50;
 
+    public static final int MIN_PASSWORD_LENGTH = 8;
+    public static final int MAX_PASSWORD_LENGTH = 30;
+
 }

@@ -3,11 +3,13 @@ package gamestore.utils.annotations.email;
 import gamestore.utils.annotations.AnnotationsUtil;
 import gamestore.utils.constants.NumberConstants;
 import gamestore.utils.constants.TextConstants;
+import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
+@Component
 public class EmailValidator implements
         ConstraintValidator<Email, CharSequence> {
 
@@ -31,8 +33,11 @@ public class EmailValidator implements
         if (value == null) {
             AnnotationsUtil.setErrorMessage(
                     context,
-                    TextConstants.EMAIL_CANNOT_BE_NULL
-            );
+                    String.format(
+                            TextConstants.DATA_CANNOT_BE_NULL,
+                            "Email"
+                    ));
+
             return false;
         }
 
@@ -45,7 +50,7 @@ public class EmailValidator implements
                     context,
                     String.format(
                             TextConstants.EMAIL_USERNAME_TOO_SHORT,
-                            NumberConstants.MIN_EMAIl_USERNAME_LENGTH
+                            this.minUserNameLength
                     ));
 
             return false;
@@ -57,7 +62,7 @@ public class EmailValidator implements
                     String.format(
                             TextConstants.EMAIL_DETAIL_TOO_LONG,
                             "username",
-                            NumberConstants.MAX_EMAIl_USERNAME_LENGTH
+                            this.maxUserNameLength
                     ));
 
             return false;
@@ -69,7 +74,7 @@ public class EmailValidator implements
                     String.format(
                             TextConstants.EMAIL_DETAIL_TOO_LONG,
                             "hostname",
-                            NumberConstants.MAX_EMAIl_HOSTNAME_LENGTH
+                            this.maxHostNameLength
                     ));
 
             return false;

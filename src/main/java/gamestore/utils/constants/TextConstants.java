@@ -21,9 +21,17 @@ public class TextConstants {
     public static final String PRICE_CANNOT_BE_SMALLER_OR_EQUAL_TO = "price cannot be smaller or equal to ";
     public static final String PRICE_CANNOT_BE_BIGGER_THAN = "price cannot be bigger than ";
 
+    public static final String DATA_CANNOT_BE_NULL = "%s cannot be null";
+
     public static final String INVALID_EMAIL_FORMAT = "Email is invalid.";
-    public static final String EMAIL_CANNOT_BE_NULL = "Email cannot be null";
     public static final String EMAIL_USERNAME_TOO_SHORT = "Email username cannot be shorter than %d";
     public static final String EMAIL_DETAIL_TOO_LONG = "Email %s cannot be longer than %d";
+
+    public static final String INVALID_PASSWORD_FORMAT = "Password is invalid";
+    public static final String PASSWORD_TOO_SHORT = "Password cannot be shorter than %d";
+    public static final String PASSWORD_TOO_LONG = "Password cannot be longer than %d";
+    public static final String PASSWORD_SHOULD_CONTAIN_LOWERCASE_LETTER = "Password should contain lowercase letter.";
+    public static final String PASSWORD_SHOULD_CONTAIN_UPPERCASE_LETTER = "Password should contain uppercase letter.";
+    public static final String PASSWORD_SHOULD_CONTAIN_DIGIT = "Password should contain digit letter.";
 
 }

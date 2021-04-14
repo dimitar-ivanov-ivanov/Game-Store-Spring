@@ -1,5 +1,7 @@
 package gamestore.models.entities.user;
 
+import gamestore.utils.annotations.email.Email;
+import gamestore.utils.annotations.password.Password;
 import gamestore.utils.constants.TextConstants;
 import gamestore.models.entities.security.Authority;
 import gamestore.models.entities.security.Role;
@@ -68,10 +70,10 @@ public class User implements UserDetails, Serializable {
     //make special annotation for validation
     private String username;
 
-    //make special annotation for validation
+    @Email
     private String email;
 
-    //make special annotation for validation
+    @Password
     private String password;
 
     @Column(

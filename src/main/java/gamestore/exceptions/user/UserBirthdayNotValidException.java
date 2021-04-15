@@ -1,4 +1,4 @@
-package gamestore.exceptions;
+package gamestore.exceptions.user;
 
 
 import org.springframework.http.HttpStatus;

@@ -1,12 +1,11 @@
 package gamestore.services;
 
 import gamestore.utils.constants.TextConstants;
-import gamestore.exceptions.UserNotFoundException;
+import gamestore.exceptions.user.UserNotFoundException;
 import gamestore.models.entities.security.Role;
 import gamestore.models.entities.user.User;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.repositories.UserRepository;
-import gamestore.utils.validators.DateValidator;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +28,8 @@ public class UserService implements UserDetailsService {
     private final ModelMapper mapper;
 
     public User getById(Long id) {
-        return userRepository.findById(id)
+        return userRepository
+                .findById(id)
                 .orElseThrow(() -> new UserNotFoundException(TextConstants.USER_NOT_FOUND));
     }
 
@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void registerUser(UserRegisterBindingModel register) {
+    public User registerUser(UserRegisterBindingModel register) {
         boolean userExists = userRepository
                 .findByUsername(register.getUsername())
                 .isPresent();
@@ -48,13 +48,7 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(TextConstants.USERNAME_ALREADY_TAKEN);
         }
 
-        DateValidator.validateSeparateDate(
-                register.getBirthYear(),
-                register.getBirthMonth(),
-                register.getBirthDay()
-        );
-
-        //validate password then encode
+        //passwordValidator.isPasswordValid(register.getPassword());
 
         String encodedPassword = passwordEncoder.encode(register.getPassword());
         register.setPassword(encodedPassword);
@@ -65,6 +59,8 @@ public class UserService implements UserDetailsService {
         Role role = roleService.getRole("USER");
         user.getRoles().add(role);
         userRepository.save(user);
+
+        return user;
     }
 
 

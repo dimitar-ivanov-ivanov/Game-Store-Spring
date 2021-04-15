@@ -1,10 +1,15 @@
 package gamestore;
 
+import gamestore.utils.formatters.LocalDateFormatter;
 import gamestore.utils.mapper.ModelMapperConfig;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.format.Formatter;
+
+import java.time.LocalDate;
 
 @SpringBootApplication
 public class GamestoreApplication {
@@ -18,5 +23,11 @@ public class GamestoreApplication {
         ModelMapper modelMapper = new ModelMapper();
         ModelMapperConfig config = new ModelMapperConfig(modelMapper);
         return modelMapper;
+    }
+
+    @Bean
+    @Primary
+    public Formatter<LocalDate> localDateFormatter() {
+        return new LocalDateFormatter();
     }
 }

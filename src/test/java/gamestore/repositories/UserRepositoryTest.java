@@ -47,4 +47,20 @@ class UserRepositoryTest {
         assertThat(exists)
                 .isTrue();
     }
+
+    @Test
+    void userShouldNotExistsByUsername() {
+        //given
+        String username = "Dimitar";
+
+        //when
+        boolean exists = underTest
+                .findByUsername(username)
+                .isPresent();
+
+        //then
+        assertThat(exists)
+                .isFalse();
+    }
+
 }

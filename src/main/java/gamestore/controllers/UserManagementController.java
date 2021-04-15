@@ -24,7 +24,7 @@ public class UserManagementController {
 
     @DeleteMapping(path = "/delete/{userId}")
     @PreAuthorize("hasAuthority('user:delete')")
-    public void deleteStudent(@PathVariable Long userId) {
+    public void deleteUser(@PathVariable Long userId) {
         throw new NotYetImplementedException();
     }
 

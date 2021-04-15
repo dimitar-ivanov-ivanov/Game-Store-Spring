@@ -33,7 +33,8 @@ public class ModelMapperConfig {
                         mapper.map(UserRegisterBindingModel::getPassword, User::setPassword);
                         mapper.map(UserRegisterBindingModel::getFirstName, User::setFirstName);
                         mapper.map(UserRegisterBindingModel::getLastName, User::setLastName);
-                        mapper.map(UserRegisterBindingModel::getDate, User::setBirthDate);
+                        mapper.map(UserRegisterBindingModel::getBirthDate, User::setBirthDate);
+                        mapper.map(UserRegisterBindingModel::getGender, User::setGender);
                     });
         }
     }

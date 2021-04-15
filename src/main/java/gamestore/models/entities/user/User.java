@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -25,7 +26,6 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @EqualsAndHashCode
 @Entity(name = "user")
 @Table(
@@ -62,6 +62,7 @@ public class User implements UserDetails, Serializable {
             name = "birth_date",
             nullable = false
     )
+    @Past
     private LocalDate birthDate;
 
     @Transient
@@ -73,7 +74,12 @@ public class User implements UserDetails, Serializable {
     @Email
     private String email;
 
+    //Password Annotation here is not used because when we pass the password
+    //to the user it is already encoded
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(
             name = "is_expired"
@@ -138,8 +144,14 @@ public class User implements UserDetails, Serializable {
     )
     private Set<Role> roles;
 
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    public User() {
+        this.friends = new HashSet<>();
+        this.boughtGames = new HashSet<>();
+        this.wishlistGames = new HashSet<>();
+        this.roles = new HashSet<>();
+        this.gameBadges = new HashSet<>();
+        this.achievements = new HashSet<>();
+    }
 
     public User(String firstName,
                 String lastName,

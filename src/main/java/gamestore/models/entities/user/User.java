@@ -1,5 +1,6 @@
 package gamestore.models.entities.user;
 
+import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.utils.annotations.email.Email;
 import gamestore.utils.annotations.name.UserName;
 import gamestore.utils.annotations.password.Password;
@@ -26,7 +27,6 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @Entity(name = "user")
 @Table(
         name = "users",
@@ -249,6 +249,11 @@ public class User implements UserDetails, Serializable {
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    public boolean equalsBindingModel(UserRegisterBindingModel model) {
+        return this.username.equals(model.getUsername()) &&
+                this.email.equals(model.getEmail());
     }
 
     @Override

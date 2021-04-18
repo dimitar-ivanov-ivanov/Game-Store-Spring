@@ -1,5 +1,6 @@
 package gamestore.services;
 
+import com.google.common.base.Optional;
 import gamestore.exceptions.user.UserNotFoundException;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.models.entities.user.User;
@@ -10,18 +11,26 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 class UserServiceTest {
 
     @Mock
@@ -30,10 +39,14 @@ class UserServiceTest {
     private UserRepository userRepository;
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
-    @Mock
-    private ModelMapper mapper;
+
+    private ModelMapper mapper = new ModelMapper();
 
     private UserService underTest;
+
+    private UserRegisterBindingModel newUser;
+
+    private final String NEW_USER_ROLE = "USER";
 
     @BeforeEach
     void setUp() {
@@ -42,6 +55,16 @@ class UserServiceTest {
                 userRepository,
                 passwordEncoder,
                 mapper
+        );
+
+        newUser = new UserRegisterBindingModel(
+                "niKolaaa",
+                "nikola@abv.bg",
+                "A5a381bcacA",
+                "nikola",
+                "siderov",
+                LocalDate.of(1999, 2, 3),
+                Gender.MALE
         );
     }
 
@@ -69,6 +92,9 @@ class UserServiceTest {
         verify(userRepository)
                 .findById(id);
 
+        //TODO: finish after testing register user
+
+
     }
 
     @Test
@@ -81,10 +107,12 @@ class UserServiceTest {
         assertThatThrownBy(() -> underTest.getById(id))
                 .isInstanceOf(UserNotFoundException.class)
                 .hasMessageContaining(TextConstants.USER_NOT_FOUND);
+
+        verify(userRepository).findById(id);
     }
 
     @Test
-    void canGetAllUsers() {
+    void shouldGetAllUsers() {
         //when
         underTest.getAllUsers();
 
@@ -93,17 +121,33 @@ class UserServiceTest {
     }
 
     @Test
-    void registerUser() {
-        UserRegisterBindingModel model = new UserRegisterBindingModel(
-                "Dimitar",
-                "dimitar.i.ivanov@yahooc.com",
-                "A_35aa51A",
-                "Dimitar",
-                "Ivanov",
-                LocalDate.of(1999, 2, 3),
-                Gender.MALE
-        );
+    void shouldRegisterUser() {
+        //given
+        //when
+        underTest.registerUser(newUser);
+
+        //then
+        verify(passwordEncoder).encode(newUser.getPassword());
+
+        verify(roleService).getRole(NEW_USER_ROLE);
+
+        ArgumentCaptor<User> userArgumentCaptor =
+                ArgumentCaptor.forClass(User.class);
+
+        verify(userRepository)
+                .save(userArgumentCaptor.capture());
+
+        User captureUser = userArgumentCaptor.getValue();
+
+        assertThat(captureUser.equalsBindingModel(newUser))
+                .isTrue();
     }
+
+    @Test
+    void shouldThrowExceptionWhenRegisteringExistingUser() {
+
+    }
+
 
     @Test
     void loadUserByUsername() {

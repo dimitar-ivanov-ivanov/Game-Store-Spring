@@ -1,5 +1,6 @@
 package gamestore.services;
 
+import gamestore.exceptions.user.UsernameNotFoundException;
 import gamestore.utils.constants.TextConstants;
 import gamestore.exceptions.user.UserNotFoundException;
 import gamestore.models.entities.security.Role;
@@ -10,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,18 +43,15 @@ public class UserService implements UserDetailsService {
                 .isPresent();
 
         if (userExists) {
-            // TODO check of attributes are the same and
             // TODO if email not confirmed send confirmation email.
             throw new UsernameNotFoundException(TextConstants.USERNAME_ALREADY_TAKEN);
         }
 
-        //passwordValidator.isPasswordValid(register.getPassword());
-
-        String encodedPassword = passwordEncoder.encode(register.getPassword());
-        register.setPassword(encodedPassword);
-
         //add email verification
         User user = mapper.map(register, User.class);
+
+        String encodedPassword = passwordEncoder.encode(register.getPassword());
+        user.setPassword(encodedPassword);
 
         Role role = roleService.getRole("USER");
         user.getRoles().add(role);

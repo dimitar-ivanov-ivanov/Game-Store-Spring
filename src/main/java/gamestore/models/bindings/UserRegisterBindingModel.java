@@ -37,5 +37,4 @@ public class UserRegisterBindingModel {
     private LocalDate birthDate;
 
     private Gender gender;
-
 }

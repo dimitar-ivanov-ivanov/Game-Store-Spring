@@ -13,8 +13,6 @@ public class SimpleCacheCustomizer implements
 
     @Override
     public void customize(ConcurrentMapCacheManager cacheManager) {
-        cacheManager.setCacheNames(
-                List.of("users-bought-games", "games")
-        );
+
     }
 }

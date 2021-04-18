@@ -1,6 +1,5 @@
 package gamestore.models.bindings;
 
-import gamestore.exceptions.user.UserNotFoundException;
 import gamestore.models.entities.user.User;
 import gamestore.models.enums.Gender;
 import gamestore.utils.annotations.email.Email;
@@ -38,6 +37,21 @@ class UserRegisterBindingModelTest {
     private final String EMAIL_USERNAME_TOO_LONG =
             "a".repeat(NumberConstants.MAX_EMAIl_USERNAME_LENGTH + 1) + "@abv.bg";
 
+    private final String EMAIL_HOSTNAME_TOO_LONG =
+            "dimitar" + "@abv.bg".repeat(NumberConstants.MAX_EMAIl_HOSTNAME_LENGTH);
+
+    private final String EMAIL_HOSTNAME_TOO_SHORT = "dimitar";
+
+    private final String[] BAD_EMAILS = {
+            "9apesho@gmail.com",
+            "a$sassho@aa.com",
+            "aa--@gmail.com",
+            "dimitar@ abv.bg",
+            "dimitar@-abv.bg",
+            "dimitar@a$bv.bg",
+            "dimitar@abv.bg."
+    };
+
     @BeforeEach
     void setUp() {
 
@@ -56,7 +70,7 @@ class UserRegisterBindingModelTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenEmailIsNull() {
+    void shouldThrowViolationWhenEmailIsNull() {
         model.setEmail(null);
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
@@ -72,7 +86,7 @@ class UserRegisterBindingModelTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenEmailUsernameIsTooShort() {
+    void shouldThrowViolationWhenEmailUsernameIsTooShort() {
         model.setEmail(EMAIL_USERNAME_TOO_SHORT);
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
@@ -88,7 +102,7 @@ class UserRegisterBindingModelTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenEmailUsernameIsTooLong() {
+    void shouldThrowViolationWhenEmailUsernameIsTooLong() {
         model.setEmail(EMAIL_USERNAME_TOO_LONG);
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
@@ -105,32 +119,81 @@ class UserRegisterBindingModelTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenPasswordIsInvalid() {
+    void shouldThrowViolationWhenEmailHostNameIsTooShort() {
+        model.setEmail(EMAIL_HOSTNAME_TOO_SHORT);
+        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
+                validator.validate(model);
+
+        assertThat(violations.size())
+                .isEqualTo(1);
+
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo(String.format(
+                        TextConstants.EMAIL_USERNAME_TOO_SHORT,
+                        NumberConstants.MIN_EMAIl_HOSTNAME_LENGTH
+                ));
+    }
+
+    @Test
+    void shouldThrowViolationWhenEmailHostNameIsTooLong() {
+        model.setEmail(EMAIL_HOSTNAME_TOO_LONG);
+        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
+                validator.validate(model);
+
+        assertThat(violations.size())
+                .isEqualTo(1);
+
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo(String.format(
+                        TextConstants.DATA_TOO_LONG,
+                        "hostname",
+                        NumberConstants.MAX_EMAIl_HOSTNAME_LENGTH
+                ));
+    }
+
+    @Test
+    void showThrowViolationForEveryBadEmail() {
+        for (String badEmail : BAD_EMAILS) {
+            model.setEmail(badEmail);
+
+            Set<ConstraintViolation<UserRegisterBindingModel>> violations =
+                    validator.validate(model);
+
+            assertThat(violations.size())
+                    .isEqualTo(1);
+
+            assertThat(violations.iterator().next().getMessage())
+                    .isEqualTo(TextConstants.INVALID_EMAIL_FORMAT);
+        }
+    }
+
+    @Test
+    void shouldThrowViolationWhenPasswordIsInvalid() {
         //for every one we have multiple cases
     }
 
     @Test
-    void shouldThrowExceptionWhenUsernameIsInvalid() {
+    void shouldThrowViolationWhenUsernameIsInvalid() {
 
     }
 
     @Test
-    void shouldThrowExceptionWhenFirstNameIsBlank() {
+    void shouldThrowViolationWhenFirstNameIsBlank() {
 
     }
 
     @Test
-    void shouldThrowExceptionWhenLastNameIsBlank() {
+    void shouldThrowViolationWhenLastNameIsBlank() {
 
     }
 
     @Test
-    void shouldThrowExceptionWhenBirthdateIsInThePast() {
+    void shouldThrowViolationWhenBirthdateIsInThePast() {
 
     }
 
     @Test
-    void shouldThrowExceptionWhenBirthdateIsNull() {
+    void shouldThrowViolationWhenBirthdateIsNull() {
 
     }
 

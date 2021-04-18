@@ -30,6 +30,9 @@ public @interface Email {
     int maxHostNameLength()
             default NumberConstants.MAX_EMAIl_HOSTNAME_LENGTH;
 
+    int minHostNameLength()
+            default NumberConstants.MIN_EMAIl_HOSTNAME_LENGTH;
+
     String regex()
             default RegexConstants.EMAIl_REGEX;
 

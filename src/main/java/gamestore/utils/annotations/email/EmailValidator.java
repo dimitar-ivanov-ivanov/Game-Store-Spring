@@ -16,6 +16,7 @@ public class EmailValidator implements
     private int minUserNameLength;
     private int maxUserNameLength;
     private int maxHostNameLength;
+    private int minHostNameLength;
     private Pattern pattern;
 
     @Override
@@ -23,6 +24,7 @@ public class EmailValidator implements
         this.minUserNameLength = email.minUserNameLength();
         this.maxUserNameLength = email.maxUserNameLength();
         this.maxHostNameLength = email.maxHostNameLength();
+        this.minHostNameLength = email.minHostNameLength();
         this.pattern = Pattern.compile(email.regex());
     }
 
@@ -79,6 +81,19 @@ public class EmailValidator implements
 
             return false;
         }
+
+        if (hostNameLength < this.minHostNameLength) {
+            AnnotationsUtil.setErrorMessage(
+                    context,
+                    String.format(
+                            TextConstants.DATA_TOO_SHORT,
+                            "hostname",
+                            this.minHostNameLength
+                    ));
+
+            return false;
+        }
+
 
         return this.pattern.matcher(email)
                 .matches();

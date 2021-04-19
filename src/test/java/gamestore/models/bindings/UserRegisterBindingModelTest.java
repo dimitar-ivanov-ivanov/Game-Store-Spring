@@ -5,6 +5,7 @@ import gamestore.models.enums.Gender;
 import gamestore.utils.annotations.email.Email;
 import gamestore.utils.constants.NumberConstants;
 import gamestore.utils.constants.TextConstants;
+import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,38 +34,6 @@ class UserRegisterBindingModelTest {
     private final String LAST_NAME_VALID = "siderov";
     private final LocalDate BIRTH_DATE_VALID = LocalDate.of(1980, 5, 3);
 
-    private final String EMAIL_USERNAME_TOO_SHORT = "@abv.bg";
-    private final String EMAIL_USERNAME_TOO_LONG =
-            "a".repeat(NumberConstants.MAX_EMAIl_USERNAME_LENGTH + 1) + "@abv.bg";
-
-    private final String EMAIL_HOSTNAME_TOO_LONG =
-            "dimitar" + "@abv.bg".repeat(NumberConstants.MAX_EMAIl_HOSTNAME_LENGTH);
-
-    private final String EMAIL_HOSTNAME_TOO_SHORT = "dimitar";
-
-    private final String[] BAD_EMAILS = {
-            "9apesho@gmail.com",
-            "a$sassho@aa.com",
-            "aa--@gmail.com",
-            "dimitar@ abv.bg",
-            "dimitar@-abv.bg",
-            "dimitar@a$bv.bg",
-            "dimitar@abv.bg."
-    };
-
-    private final String PASSWORD_TOO_SHORT = "1234";
-    private final String PASSWORD_TOO_LONG =
-            "1234".repeat(NumberConstants.MAX_PASSWORD_LENGTH);
-
-    private final String PASSWORD_NO_LOWER_LETTER =
-            "AAA2134AA";
-
-    private final String PASSWORD_NO_UPPER_LETTER =
-            "AAA2134AA".toLowerCase();
-
-    private final String PASSWORD_NO_DIGIT =
-            "aaaaAAAdddDD";
-
     @BeforeEach
     void setUp() {
 
@@ -83,23 +52,105 @@ class UserRegisterBindingModelTest {
     }
 
     @Test
-    void shouldThrowViolationWhenFirstNameIsBlank() {
+    void shouldThrowViolationWhenFirstNameIsEmpty() {
+        //given
+        model.setFirstName("");
 
+        //when
+        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
+                validator.validate(model);
+
+        //then
+        assertThat(violations.size())
+                .isEqualTo(1);
+
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("first " + TextConstants.NAME_CANNOT_BE_BLANK);
     }
 
     @Test
-    void shouldThrowViolationWhenLastNameIsBlank() {
+    void shouldThrowViolationWhenFirstNameIsNull() {
+        //given
+        model.setFirstName(null);
 
+        //when
+        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
+                validator.validate(model);
+
+        //then
+        assertThat(violations.size())
+                .isEqualTo(1);
+
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("first " + TextConstants.NAME_CANNOT_BE_BLANK);
+    }
+
+    @Test
+    void shouldThrowViolationWhenLastNameIsEmpty() {
+        //given
+        model.setLastName("");
+
+        //when
+        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
+                validator.validate(model);
+
+        //then
+        assertThat(violations.size())
+                .isEqualTo(1);
+
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("last " + TextConstants.NAME_CANNOT_BE_BLANK);
+    }
+
+    @Test
+    void shouldThrowViolationWhenLastNameIsNull() {
+        //given
+        model.setLastName(null);
+
+        //when
+        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
+                validator.validate(model);
+
+        //then
+        assertThat(violations.size())
+                .isEqualTo(1);
+
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("last " + TextConstants.NAME_CANNOT_BE_BLANK);
     }
 
     @Test
     void shouldThrowViolationWhenBirthdateIsInTheFuture() {
+        model.setBirthDate(
+                LocalDate.of(2040, 3, 2)
+        );
 
+        //when
+        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
+                validator.validate(model);
+
+        //then
+        assertThat(violations.size())
+                .isEqualTo(1);
+
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("must be a past date");
     }
 
     @Test
     void shouldThrowViolationWhenBirthdateIsNull() {
+        model.setBirthDate(null);
 
+        //when
+        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
+                validator.validate(model);
+
+        //then
+        assertThat(violations.size())
+                .isEqualTo(1);
+
+        assertThat(violations.iterator().next().getMessage())
+                .isEqualTo("must not be null");
     }
 
 

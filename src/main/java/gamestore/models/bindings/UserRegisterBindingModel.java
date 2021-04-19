@@ -33,7 +33,7 @@ public class UserRegisterBindingModel {
     private String lastName;
 
     @NotNull
-    @Past //check if the user was born in the past
+    @Past
     private LocalDate birthDate;
 
     private Gender gender;

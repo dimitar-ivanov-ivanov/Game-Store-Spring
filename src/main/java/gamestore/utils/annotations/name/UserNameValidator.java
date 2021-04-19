@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
@@ -18,8 +17,6 @@ public class UserNameValidator implements
     private int maxLength;
     private Pattern lowerLetterPattern;
     private Pattern upperLetterPattern;
-    //private Pattern digitPattern;
-    //private Pattern specialSymbolPattern;
     private Pattern namePattern;
 
     @Override
@@ -28,9 +25,7 @@ public class UserNameValidator implements
         this.maxLength = name.maxLength();
         this.lowerLetterPattern = Pattern.compile(name.lowerLetterRegex());
         this.upperLetterPattern = Pattern.compile(name.upperLetterRegex());
-        //this.digitPattern = Pattern.compile(name.digitRegex());
         this.namePattern = Pattern.compile(name.regex());
-        //this.specialSymbolPattern = Pattern.compile(name.specialSymbolRegex());
     }
 
     @Override
@@ -95,29 +90,6 @@ public class UserNameValidator implements
 
             return false;
         }
-
-        /*
-        if (!digitPattern.matcher(name).find()) {
-            AnnotationsUtil.setErrorMessage(
-                    context,
-                    String.format(
-                            TextConstants.DATA_SHOULD_CONTAIN_DIGIT,
-                            keyWord
-                    ));
-
-            return false;
-        }
-         */
-
-        /*
-        if (!specialSymbolPattern.matcher(name).find()) {
-            AnnotationsUtil.setErrorMessage(
-                    context,
-                    TextConstants.NAME_SHOULD_SPECIAL_SYMBOL
-            );
-
-            return false;
-        }*/
 
         return this.namePattern.matcher(name)
                 .matches();

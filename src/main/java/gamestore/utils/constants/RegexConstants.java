@@ -14,12 +14,6 @@ public class RegexConstants {
     public static final String DIGIT_REGEX =
             "[0-9]";
 
-    /*
-    public static final String SPECIAL_SYMBOL_REGEX =
-            "[*!#$]";
-
-     */
-
     public static final String USERNAME_REGEX =
             "^[a-zA-Z]+[\\w*!#$]+[a-zA-Z]+$";
 

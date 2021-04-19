@@ -33,18 +33,6 @@ public @interface UserName {
     String upperLetterRegex()
             default RegexConstants.UPPER_LETTER_REGEX;
 
-    /*
-    String digitRegex()
-            default RegexConstants.DIGIT_REGEX;
-
-     */
-
-            /*
-    String specialSymbolRegex()
-            default RegexConstants.SPECIAL_SYMBOL_REGEX;
-
-             */
-
     String regex()
             default RegexConstants.USERNAME_REGEX;
 

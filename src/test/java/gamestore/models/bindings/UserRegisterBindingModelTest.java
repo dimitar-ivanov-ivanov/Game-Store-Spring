@@ -52,6 +52,19 @@ class UserRegisterBindingModelTest {
             "dimitar@abv.bg."
     };
 
+    private final String PASSWORD_TOO_SHORT = "1234";
+    private final String PASSWORD_TOO_LONG =
+            "1234".repeat(NumberConstants.MAX_PASSWORD_LENGTH);
+
+    private final String PASSWORD_NO_LOWER_LETTER =
+            "AAA2134AA";
+
+    private final String PASSWORD_NO_UPPER_LETTER =
+            "AAA2134AA".toLowerCase();
+
+    private final String PASSWORD_NO_DIGIT =
+            "aaaaAAAdddDD";
+
     @BeforeEach
     void setUp() {
 
@@ -70,114 +83,6 @@ class UserRegisterBindingModelTest {
     }
 
     @Test
-    void shouldThrowViolationWhenEmailIsNull() {
-        model.setEmail(null);
-        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
-
-        assertThat(violations.size())
-                .isEqualTo(1);
-
-        assertThat(violations.iterator().next().getMessage())
-                .isEqualTo(String.format(
-                        TextConstants.DATA_CANNOT_BE_NULL,
-                        "Email"
-                ));
-    }
-
-    @Test
-    void shouldThrowViolationWhenEmailUsernameIsTooShort() {
-        model.setEmail(EMAIL_USERNAME_TOO_SHORT);
-        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
-
-        assertThat(violations.size())
-                .isEqualTo(1);
-
-        assertThat(violations.iterator().next().getMessage())
-                .isEqualTo(String.format(
-                        TextConstants.EMAIL_USERNAME_TOO_SHORT,
-                        NumberConstants.MIN_EMAIl_USERNAME_LENGTH
-                ));
-    }
-
-    @Test
-    void shouldThrowViolationWhenEmailUsernameIsTooLong() {
-        model.setEmail(EMAIL_USERNAME_TOO_LONG);
-        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
-
-        assertThat(violations.size())
-                .isEqualTo(1);
-
-        assertThat(violations.iterator().next().getMessage())
-                .isEqualTo(String.format(
-                        TextConstants.EMAIL_DETAIL_TOO_LONG,
-                        "username",
-                        NumberConstants.MAX_EMAIl_USERNAME_LENGTH
-                ));
-    }
-
-    @Test
-    void shouldThrowViolationWhenEmailHostNameIsTooShort() {
-        model.setEmail(EMAIL_HOSTNAME_TOO_SHORT);
-        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
-
-        assertThat(violations.size())
-                .isEqualTo(1);
-
-        assertThat(violations.iterator().next().getMessage())
-                .isEqualTo(String.format(
-                        TextConstants.EMAIL_USERNAME_TOO_SHORT,
-                        NumberConstants.MIN_EMAIl_HOSTNAME_LENGTH
-                ));
-    }
-
-    @Test
-    void shouldThrowViolationWhenEmailHostNameIsTooLong() {
-        model.setEmail(EMAIL_HOSTNAME_TOO_LONG);
-        Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
-
-        assertThat(violations.size())
-                .isEqualTo(1);
-
-        assertThat(violations.iterator().next().getMessage())
-                .isEqualTo(String.format(
-                        TextConstants.DATA_TOO_LONG,
-                        "hostname",
-                        NumberConstants.MAX_EMAIl_HOSTNAME_LENGTH
-                ));
-    }
-
-    @Test
-    void showThrowViolationForEveryBadEmail() {
-        for (String badEmail : BAD_EMAILS) {
-            model.setEmail(badEmail);
-
-            Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                    validator.validate(model);
-
-            assertThat(violations.size())
-                    .isEqualTo(1);
-
-            assertThat(violations.iterator().next().getMessage())
-                    .isEqualTo(TextConstants.INVALID_EMAIL_FORMAT);
-        }
-    }
-
-    @Test
-    void shouldThrowViolationWhenPasswordIsInvalid() {
-        //for every one we have multiple cases
-    }
-
-    @Test
-    void shouldThrowViolationWhenUsernameIsInvalid() {
-
-    }
-
-    @Test
     void shouldThrowViolationWhenFirstNameIsBlank() {
 
     }
@@ -188,7 +93,7 @@ class UserRegisterBindingModelTest {
     }
 
     @Test
-    void shouldThrowViolationWhenBirthdateIsInThePast() {
+    void shouldThrowViolationWhenBirthdateIsInTheFuture() {
 
     }
 

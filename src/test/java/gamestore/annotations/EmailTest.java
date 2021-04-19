@@ -68,10 +68,14 @@ public class EmailTest {
 
     @Test
     void shouldThrowViolationWhenEmailIsNull() {
+        //given
         model.setEmail(null);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 
@@ -84,10 +88,14 @@ public class EmailTest {
 
     @Test
     void shouldThrowViolationWhenEmailUsernameIsTooShort() {
+        //given
         model.setEmail(EMAIL_USERNAME_TOO_SHORT);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 
@@ -100,10 +108,14 @@ public class EmailTest {
 
     @Test
     void shouldThrowViolationWhenEmailUsernameIsTooLong() {
+        //given
         model.setEmail(EMAIL_USERNAME_TOO_LONG);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 
@@ -117,10 +129,14 @@ public class EmailTest {
 
     @Test
     void shouldThrowViolationWhenEmailHostNameIsTooShort() {
+        //given
         model.setEmail(EMAIL_HOSTNAME_TOO_SHORT);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 
@@ -133,10 +149,14 @@ public class EmailTest {
 
     @Test
     void shouldThrowViolationWhenEmailHostNameIsTooLong() {
+        //given
         model.setEmail(EMAIL_HOSTNAME_TOO_LONG);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 
@@ -151,11 +171,14 @@ public class EmailTest {
     @Test
     void showThrowViolationForEveryBadEmail() {
         for (String badEmail : BAD_EMAILS) {
+            //given
             model.setEmail(badEmail);
 
+            //when
             Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                     validator.validate(model);
 
+            //then
             assertThat(violations.size())
                     .isEqualTo(1);
 

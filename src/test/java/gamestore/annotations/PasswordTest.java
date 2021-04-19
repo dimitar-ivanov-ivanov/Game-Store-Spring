@@ -62,10 +62,14 @@ public class PasswordTest {
 
     @Test
     void shouldThrowViolationWhenPasswordIsNull() {
+        //given
         model.setPassword(null);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 
@@ -80,10 +84,14 @@ public class PasswordTest {
 
     @Test
     void shouldThrowViolationWhenPasswordIsTooLong() {
+        //given
         model.setPassword(PASSWORD_TOO_LONG);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 
@@ -99,10 +107,14 @@ public class PasswordTest {
 
     @Test
     void shouldThrowViolationWhenPasswordIsTooShort() {
+        //given
         model.setPassword(PASSWORD_TOO_SHORT);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 
@@ -118,10 +130,14 @@ public class PasswordTest {
 
     @Test
     void shouldThrowViolationWhenPasswordDoesNotContainLowerLetter() {
+        //given
         model.setPassword(PASSWORD_NO_LOWER_LETTER);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 
@@ -136,10 +152,14 @@ public class PasswordTest {
 
     @Test
     void shouldThrowViolationWhenPasswordDoesNotContainUpperLetter() {
+        //given
         model.setPassword(PASSWORD_NO_UPPER_LETTER);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 
@@ -154,10 +174,14 @@ public class PasswordTest {
 
     @Test
     void shouldThrowViolationWhenPasswordDoesNotContainDigit() {
+        //given
         model.setPassword(PASSWORD_NO_DIGIT);
+
+        //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
                 validator.validate(model);
 
+        //then
         assertThat(violations.size())
                 .isEqualTo(1);
 

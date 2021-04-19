@@ -1,5 +1,6 @@
 package gamestore.utils.mapper;
 
+import gamestore.models.dtos.UserGetDto;
 import gamestore.models.entities.user.User;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,18 @@ public class ModelMapperConfig {
 
     private void initialize() {
         registerRequestToUserMapping();
+        userToUserGetDto();
+    }
+
+    private void userToUserGetDto() {
+
+        TypeMap<User, UserGetDto> typeMap =
+                this.mapper.getTypeMap(User.class, UserGetDto.class);
+
+
+        if (typeMap != null) {
+
+        }
     }
 
     private void registerRequestToUserMapping() {

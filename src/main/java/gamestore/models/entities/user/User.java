@@ -65,9 +65,6 @@ public class User implements UserDetails, Serializable {
     @Past
     private LocalDate birthDate;
 
-    @Transient
-    private Integer age;
-
     @UserName
     private String username;
 
@@ -167,7 +164,6 @@ public class User implements UserDetails, Serializable {
         this.email = email;
         this.password = password;
         this.gender = gender;
-        this.age = Period.between(birthDate, LocalDate.now()).getYears();
         this.friends = new HashSet<>();
         this.boughtGames = new HashSet<>();
         this.wishlistGames = new HashSet<>();
@@ -192,7 +188,6 @@ public class User implements UserDetails, Serializable {
         this.email = email;
         this.password = password;
         this.gender = gender;
-        this.age = Period.between(birthDate, LocalDate.now()).getYears();
         this.friends = new HashSet<>();
         this.boughtGames = new HashSet<>();
         this.wishlistGames = new HashSet<>();

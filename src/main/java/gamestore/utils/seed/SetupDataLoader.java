@@ -23,6 +23,11 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+/**
+ * The Setup data loader used for seeding roles,authorities and three users.
+ *
+ * @author Dimitar Ivanov
+ */
 @Component
 public class SetupDataLoader implements
         ApplicationListener<ContextRefreshedEvent> {
@@ -54,6 +59,14 @@ public class SetupDataLoader implements
     private AuthorityRepository authorityRepository;
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Instantiates a new Setup data loader.
+     *
+     * @param userRepository      the user repository
+     * @param roleRepository      the role repository
+     * @param authorityRepository the authority repository
+     * @param passwordEncoder     the password encoder
+     */
     @Autowired
     public SetupDataLoader(UserRepository userRepository,
                            RoleRepository roleRepository,
@@ -65,6 +78,11 @@ public class SetupDataLoader implements
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Seed roles, add to them authorities and then add users.
+     *
+     * @param contextRefreshedEvent
+     */
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -119,6 +137,12 @@ public class SetupDataLoader implements
         alreadySetup = true;
     }
 
+    /**
+     * Create role if not found.
+     *
+     * @param name        the name
+     * @param authorities the authorities
+     */
     @Transactional
     void createRoleIfNotFound(String name,
                               Set<Authority> authorities) {
@@ -132,6 +156,11 @@ public class SetupDataLoader implements
         }
     }
 
+    /**
+     * Create authority if not found.
+     *
+     * @param name the name
+     */
     @Transactional
     void createAuthorityIfNotFound(String name) {
         boolean authorityExists = authorityRepository.getByName(name).isPresent();

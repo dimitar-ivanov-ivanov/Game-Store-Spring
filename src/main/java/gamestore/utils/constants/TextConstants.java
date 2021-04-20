@@ -2,6 +2,8 @@ package gamestore.utils.constants;
 
 /**
  * The Text constants used for exception messages.
+ *
+ * @author Dimitar Ivanov
  */
 public class TextConstants {
 

@@ -9,6 +9,8 @@ import java.util.Locale;
 
 /**
  * The Local date formatter used for formatting a LocalDate from json to an object.
+ *
+ * @author Dimitar Ivanov
  */
 public class LocalDateFormatter implements
         Formatter<LocalDate> {

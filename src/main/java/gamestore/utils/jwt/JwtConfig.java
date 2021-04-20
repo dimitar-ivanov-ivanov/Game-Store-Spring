@@ -8,6 +8,12 @@ import org.springframework.context.annotation.Configuration;
 
 import com.google.common.net.HttpHeaders;
 
+/**
+ * The Jwt config.
+ * Main properties are taken from application properties file
+ *
+ * @author Dimitar Ivanov
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,6 +25,11 @@ public class JwtConfig {
     private String tokenPrefix;
     private Integer tokenExpirationAfterDays;
 
+    /**
+     * Gets authorization header.
+     *
+     * @return the authorization header
+     */
     public String getAuthorizationHeader() {
         return HttpHeaders.AUTHORIZATION;
     }

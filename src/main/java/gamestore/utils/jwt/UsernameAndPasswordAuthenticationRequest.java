@@ -4,6 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The Username and password authentication request.
+ *
+ * @author Dimitar Ivanov
+ */
 @Getter
 @Setter
 @NoArgsConstructor

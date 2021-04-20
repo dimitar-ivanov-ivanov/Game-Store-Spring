@@ -3,6 +3,7 @@ package gamestore.utils.constants;
 /**
  * The Number constants used for validating data in annotations and models.
  *
+ * @author Dimitar Ivanov
  * @see gamestore.utils.annotations.password.Password
  * @see gamestore.utils.annotations.name.UserName
  * @see gamestore.utils.annotations.email.Email

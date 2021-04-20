@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * The Model mapper config used for explicitly creating mapping between models.
+ *
+ * @author Dimitar Ivanov
  */
 @Component
 public class ModelMapperConfig {

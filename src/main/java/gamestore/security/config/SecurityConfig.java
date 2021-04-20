@@ -52,6 +52,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private final UserService userService;
 
+    /**
+     * Set csrf disabled for now until we have a running website
+     * Creation policy should be stateless because we want the requests to be independant
+     * Add the two jwt filters
+     * Permit everyone to be able to access the index page of the site
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

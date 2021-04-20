@@ -24,19 +24,37 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * The type Jwt token verifier.
+ *
+ * @author Dimitar Ivanov
+ */
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
     private final JwtConfig jwtConfig;
 
+    /**
+     * Instantiates a new Jwt token verifier.
+     *
+     * @param jwtConfig the jwt config
+     */
     @Autowired
     public JwtTokenVerifier(JwtConfig jwtConfig) {
         this.jwtConfig = jwtConfig;
     }
 
-    /*
-       This filter is invoker once per request from the client.
-       Get token from the header
-    */
+    /**
+     * This filter is invoked once per request from the client.
+     * Get token from the header
+     *
+     * @param request     incoming request send from the client
+     * @param response    the response we will be sending the client
+     * @param filterChain the chain which contains requests/responses
+     * @throws ServletException
+     * @throws IOException
+     * @throws InvalidOrExpiredJwtTokenException Thrown when invalid or expired token
+     * @see UsernamePasswordAuthenticationToken
+     */
     @Override
     protected void doFilterInternal
     (HttpServletRequest request,
@@ -87,9 +105,6 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
             SecurityContextHolder.getContext()
                     .setAuthentication(authentication);
         } catch (JwtException e) {
-            /*
-              Thrown when invalid or expired token
-             */
             throw new InvalidOrExpiredJwtTokenException(
                     String.format(TextConstants.TOKEN_CANNOT_BE_TRUSTED, token)
             );

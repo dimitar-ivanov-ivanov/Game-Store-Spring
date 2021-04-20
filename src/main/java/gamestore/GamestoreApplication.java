@@ -11,13 +11,29 @@ import org.springframework.format.Formatter;
 
 import java.time.LocalDate;
 
+/**
+ * The Gamestore application.
+ *
+ * @author Dimitar Ivanov
+ */
 @SpringBootApplication
 public class GamestoreApplication {
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         SpringApplication.run(GamestoreApplication.class, args);
     }
 
+    /**
+     * Setup model mapper config
+     *
+     * @return the model mapper
+     * @see ModelMapperConfig
+     */
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
@@ -25,6 +41,12 @@ public class GamestoreApplication {
         return modelMapper;
     }
 
+    /**
+     * Local date formatter setup.
+     *
+     * @return the formatter for LocalDate
+     * @see LocalDateFormatter
+     */
     @Bean
     @Primary
     public Formatter<LocalDate> localDateFormatter() {

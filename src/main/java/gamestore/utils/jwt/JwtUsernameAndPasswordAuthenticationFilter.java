@@ -18,12 +18,23 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * The type Jwt username and password authentication filter.
+ *
+ * @author Dimitar Ivanov
+ */
 public class JwtUsernameAndPasswordAuthenticationFilter extends
         UsernamePasswordAuthenticationFilter {
 
     private final JwtConfig jwtConfig;
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * Instantiates a new Jwt username and password authentication filter.
+     *
+     * @param jwtConfig             the jwt config
+     * @param authenticationManager the authentication manager
+     */
     @Autowired
     public JwtUsernameAndPasswordAuthenticationFilter(JwtConfig jwtConfig,
                                                       AuthenticationManager authenticationManager) {
@@ -31,15 +42,21 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * Client sends credentials to server
+     * The server authenticates the credentials
+     *
+     * @param request
+     * @param response
+     * @return Authentication
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication attemptAuthentication
-            (HttpServletRequest request,
-             HttpServletResponse response)
+    (HttpServletRequest request,
+     HttpServletResponse response)
             throws AuthenticationException {
-         /*
-         client sends credential to server
-         server authenticates credentials
-         */
+
         try {
             UsernameAndPasswordAuthenticationRequest authenticationRequest =
                     new ObjectMapper()

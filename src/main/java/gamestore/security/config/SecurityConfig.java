@@ -1,5 +1,6 @@
 package gamestore.security.config;
 
+import gamestore.security.PasswordEncoder;
 import gamestore.utils.jwt.JwtConfig;
 import gamestore.utils.jwt.JwtTokenVerifier;
 import gamestore.utils.jwt.JwtUsernameAndPasswordAuthenticationFilter;
@@ -14,8 +15,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * The web Security config.
+ *
+ * @author Dimitar Ivanov
+ */
 @AllArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -26,8 +31,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * The config containing data for jwt validation
+     *
+     * @see JwtConfig
+     */
     private final JwtConfig jwtConfig;
+
+    /**
+     * The password encoder
+     *
+     * @see gamestore.security.PasswordEncoder
+     */
     private final PasswordEncoder passwordEncoder;
+
+    /**
+     * The user detail's service
+     *
+     * @see UserService
+     */
     private final UserService userService;
 
     @Override
@@ -48,10 +70,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated();
     }
 
+    /**
+     * Dao authentication provider
+     *
+     * @return the dao authentication provider
+     */
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder);
+        provider.setPasswordEncoder(passwordEncoder.bCryptPasswordEncoder());
         provider.setUserDetailsService(userService);
 
         return provider;
@@ -61,6 +88,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
-
-
 }

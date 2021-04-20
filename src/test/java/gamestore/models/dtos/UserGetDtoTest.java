@@ -1,5 +1,7 @@
 package gamestore.models.dtos;
 
+import gamestore.models.entities.user.UserBoughtGame;
+import gamestore.models.entities.user.UserGameId;
 import gamestore.models.enums.Gender;
 import gamestore.utils.formatters.LocalDateFormatter;
 import org.assertj.core.util.Sets;
@@ -110,6 +112,21 @@ public class UserGetDtoTest {
         assertThatJson(json.write(userGetDto).getJson())
                 .node("boughtGames")
                 .isEqualTo(EMPTY_ARRAY);
+    }
+
+    public void filedBoughtGamesSerialize() throws IOException {
+
+        /*
+        userGetDto.getBoughtGames().add(new UserBoughtGame(
+                new UserGameId(),
+
+                ));
+
+        assertThatJson(json.write(userGetDto).getJson())
+                .node("boughtGames")
+                .isEqualTo("");
+
+         */
     }
 
     @Test

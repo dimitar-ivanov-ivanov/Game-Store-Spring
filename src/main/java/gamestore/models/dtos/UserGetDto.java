@@ -1,20 +1,11 @@
 package gamestore.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import gamestore.models.entities.user.*;
 import gamestore.models.enums.Gender;
-import gamestore.utils.annotations.email.Email;
-import gamestore.utils.annotations.name.UserName;
-import gamestore.utils.constants.TextConstants;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,13 +39,13 @@ public class UserGetDto {
     private Set<User> friends;
     */
 
-    private Set<UserBoughtGame> boughtGames;
+    private Set<UserBoughtGameDto> boughtGames;
 
-    private Set<UserWishlistGame> wishlistGames;
+    private Set<UserWishlistGameDto> wishlistGames;
 
-    private Set<UserGameBadge> gameBadges;
+    private Set<UserGameBadgeDto> gameBadges;
 
-    private Set<UserAchievement> achievements;
+    private Set<UserAchievementDto> achievements;
 
     public UserGetDto(String firstName,
                       String lastName,

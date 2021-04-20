@@ -2,26 +2,24 @@ package gamestore.models.dtos;
 
 import gamestore.models.enums.Gender;
 import gamestore.utils.formatters.LocalDateFormatter;
+import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
-import org.springframework.boot.test.json.JsonContent;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Locale;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
-@JsonTest // disables auto-configuration and apply configuration only relevent to json test
+@JsonTest // disables auto-configuration and apply configuration only relevant to json test
 public class UserGetDtoTest {
 
     @Autowired
@@ -135,5 +133,63 @@ public class UserGetDtoTest {
                 .isEqualTo(EMPTY_ARRAY);
     }
 
+    @Test
+    public void firstNameDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getFirstName())
+                .isEqualTo(FIRST_NAME);
+    }
 
+    @Test
+    public void lastNameDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getLastName())
+                .isEqualTo(LAST_NAME);
+    }
+
+    @Test
+    public void birthDateDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getBirthDate())
+                .isEqualTo(BIRTHDATE);
+    }
+
+    @Test
+    public void emailDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getEmail())
+                .isEqualTo(EMAIL);
+    }
+
+    @Test
+    public void usernameDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getUsername())
+                .isEqualTo(USERNAME);
+    }
+
+    @Test
+    public void genderDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getGender())
+                .isEqualTo(Gender.valueOf(GENDER));
+    }
+
+    @Test
+    public void emptyBoughGamesDeserialize() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getBoughtGames())
+                .isEqualTo(Sets.newHashSet());
+    }
+
+    @Test
+    public void emptyWishlistGamesDeserialize() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getWishlistGames())
+                .isEqualTo(Sets.newHashSet());
+    }
+
+    @Test
+    public void emptyGameBadgesDeserialize() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getGameBadges())
+                .isEqualTo(Sets.newHashSet());
+    }
+
+    @Test
+    public void emptyAchievementsDeserialize() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getAchievements())
+                .isEqualTo(Sets.newHashSet());
+    }
 }

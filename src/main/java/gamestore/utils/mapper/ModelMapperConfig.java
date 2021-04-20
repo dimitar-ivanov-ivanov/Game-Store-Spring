@@ -19,18 +19,6 @@ public class ModelMapperConfig {
 
     private void initialize() {
         registerRequestToUserMapping();
-        userToUserGetDto();
-    }
-
-    private void userToUserGetDto() {
-
-        TypeMap<User, UserGetDto> typeMap =
-                this.mapper.getTypeMap(User.class, UserGetDto.class);
-
-
-        if (typeMap != null) {
-
-        }
     }
 
     private void registerRequestToUserMapping() {

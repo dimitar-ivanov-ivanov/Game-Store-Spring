@@ -9,29 +9,29 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+/**
+ * The User management controller.
+ * Only for actions affecting all users
+ */
 @AllArgsConstructor
 @RestController
-@RequestMapping("management/users")
+@RequestMapping("/users")
 public class UserManagementController {
 
     private final UserService userService;
 
+    /**
+     * Gets all users.
+     *
+     * @return the all users
+     */
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','ADMIN_TRAINEE')")
     public Collection<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @DeleteMapping(path = "/delete/{userId}")
-    @PreAuthorize("hasAuthority('user:delete')")
-    public void deleteUser(@PathVariable Long userId) {
-        throw new NotYetImplementedException();
-    }
+    // TODO: 4/9/2021 Find all users by email,name,find their roles,their games
 
-    @PutMapping(path = "/update/{userId}")
-    @PreAuthorize("hasAuthority('user:update')")
-    public void updateUser(@PathVariable Long userId,
-                           @RequestBody User updatedUser) {
-        throw new NotYetImplementedException();
-    }
+
 }

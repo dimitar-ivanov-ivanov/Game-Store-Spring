@@ -9,6 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+/**
+ * The type User game badge id.
+ *
+ * @author Dimitar Ivanov
+ */
 @Getter
 @Embeddable
 @NoArgsConstructor

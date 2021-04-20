@@ -8,6 +8,11 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+/**
+ * The type User game id.
+ *
+ * @author Dimitar Ivanov
+ */
 @Getter
 @Embeddable
 @NoArgsConstructor
@@ -20,6 +25,12 @@ public class UserGameId implements Serializable {
     @Column(name = "game_id")
     private Long gameId;
 
+    /**
+     * Instantiates a new User game id.
+     *
+     * @param userId the user id
+     * @param gameId the game id
+     */
     public UserGameId(Long userId, Long gameId) {
         this.userId = userId;
         this.gameId = gameId;

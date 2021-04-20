@@ -6,6 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+/**
+ * The type User achievement id.
+ *
+ * @author Dimitar Ivanov
+ */
 @Embeddable
 @Getter
 @NoArgsConstructor

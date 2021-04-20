@@ -2,6 +2,8 @@ package gamestore.models.enums;
 
 /**
  * The enum Badge level.
+ *
+ * @author Dimitar Ivanov
  */
 public enum BadgeLevel {
     /**

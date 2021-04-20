@@ -6,6 +6,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
+
+/**
+ * The type Badge.
+ *
+ * @author Dimitar Ivanov
+ */
 @Getter
 @Setter
 @ToString
@@ -20,9 +26,19 @@ public class Badge {
     @Column(name = "badge_id")
     private Long badgeId;
 
+    /**
+     * The level of the badge depends ot the hrs played.
+     *
+     * @see BadgeLevel
+     */
     @Enumerated(EnumType.STRING)
     private BadgeLevel level;
 
+    /**
+     * Instantiates a new Badge.
+     *
+     * @param level the level
+     */
     public Badge(BadgeLevel level) {
         this.level = level;
     }

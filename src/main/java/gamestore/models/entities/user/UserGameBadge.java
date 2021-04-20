@@ -16,6 +16,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * The type User game badge.
+ *
+ * @author Dimitar Ivanov
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,21 +32,45 @@ public class UserGameBadge implements Serializable {
     @EmbeddedId
     private UserGameBadgeId id;
 
+    /**
+     * The badge that was earned.
+     *
+     * @see Badge
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("badgeId")
     @JoinColumn(name = "badge_id")
     private Badge badge;
 
+    /**
+     * The game for which a badge was earned.
+     *
+     * @see Game
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("gameId")
     @JoinColumn(name = "game_id")
     private Game game;
 
+    /**
+     * The user that earned the badge.
+     *
+     * @see User
+     */
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
+    /**
+     * The price of the badge.
+     * Must be in range of PRICE_MIN TO PRICE_MAX
+     *
+     * @see NumberConstants#PRICE_MIN
+     * @see NumberConstants#PRICE_MAX
+     * @see TextConstants#PRICE_CANNOT_BE_SMALLER_OR_EQUAL_TO
+     * @see TextConstants#PRICE_CANNOT_BE_BIGGER_THAN
+     */
     @DecimalMin(
             value = NumberConstants.PRICE_MIN + "",
             inclusive = false,
@@ -53,6 +82,9 @@ public class UserGameBadge implements Serializable {
     )
     private BigDecimal price;
 
+    /**
+     * When the badge was earned.
+     */
     @Column(name = "earned_on")
     private LocalDate earnedOn;
 }

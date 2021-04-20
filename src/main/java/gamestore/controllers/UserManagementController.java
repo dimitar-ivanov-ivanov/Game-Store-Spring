@@ -39,7 +39,7 @@ public class UserManagementController {
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','ADMIN_TRAINEE')")
     @ResponseBody
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Collection<User> getAllUsers() {
         //return dtos
         return userService.getAllUsers();

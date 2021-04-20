@@ -67,6 +67,13 @@ public class Genre {
 
     /**
      * Instantiates a new Genre.
+     */
+    public Genre(){
+        this.games = new HashSet<>();
+    }
+
+    /**
+     * Instantiates a new Genre.
      *
      * @param name the name
      */

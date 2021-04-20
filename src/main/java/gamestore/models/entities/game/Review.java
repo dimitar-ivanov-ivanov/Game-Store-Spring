@@ -2,6 +2,8 @@ package gamestore.models.entities.game;
 
 import gamestore.models.entities.user.User;
 import gamestore.utils.constants.TextConstants;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +14,8 @@ import java.io.Serializable;
  *
  * @author Dimitar Ivanov
  */
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "reviews")
 public class Review implements Serializable {

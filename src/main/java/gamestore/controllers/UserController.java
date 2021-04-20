@@ -51,7 +51,7 @@ public class UserController {
      */
     @GetMapping(path = "{userId}")
     @PreAuthorize("hasAuthority('user:read')")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public UserGetDto getUser(@PathVariable("userId") Long userId) {
         User user = userService.getById(userId);

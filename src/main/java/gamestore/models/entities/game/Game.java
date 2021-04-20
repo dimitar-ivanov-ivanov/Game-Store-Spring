@@ -21,7 +21,6 @@ import java.util.Set;
  * @author Dimitar Ivanov
  */
 @Getter
-@NoArgsConstructor
 @EqualsAndHashCode
 @Entity(name = "Game")
 @Table(name = "games")
@@ -145,6 +144,17 @@ public class Game implements Serializable {
      */
     @ManyToMany(mappedBy = "games")
     private Set<Genre> genres;
+
+    /**
+     * Instantiates a new Game.
+     */
+    public Game() {
+        this.achievements = new HashSet<>();
+        this.reviews = new HashSet<>();
+        this.tags = new HashSet<>();
+        this.publishers = new HashSet<>();
+        this.genres = new HashSet<>();
+    }
 
     /**
      * Instantiates a new Game.

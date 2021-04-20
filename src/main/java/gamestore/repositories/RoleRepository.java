@@ -6,9 +6,20 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * The interface Role repository.
+ *
+ * @author Dimitar Ivanov
+ */
 @Repository
 public interface RoleRepository extends
         JpaRepository<Role, Long> {
 
+    /**
+     * Gets role by name.
+     *
+     * @param name the role name
+     * @return the role by name
+     */
     Optional<Role> getByName(String name);
 }

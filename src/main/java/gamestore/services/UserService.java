@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
 
     public User registerUser(UserRegisterBindingModel register) {
         boolean userExists = userRepository
-                .findByUsername(register.getUsername())
+                .getByUsername(register.getUsername())
                 .isPresent();
 
         if (userExists) {
@@ -65,7 +65,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
         return userRepository
-                .findByUsername(username)
+                .getByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
                         String.format(TextConstants.USERNAME_NOT_FOUND, username)
                 ));

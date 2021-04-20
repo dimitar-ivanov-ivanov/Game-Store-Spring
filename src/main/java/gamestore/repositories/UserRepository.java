@@ -6,11 +6,22 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * The interface User repository.
+ *
+ * @author Dimitar Ivanov
+ */
 @Repository
 public interface UserRepository extends
         JpaRepository<User, Long> {
 
-    Optional<User> findByUsername(String username);
+    /**
+     * Gets user by username.
+     *
+     * @param username the user's username
+     * @return the user by username
+     */
+    Optional<User> getByUsername(String username);
 
 
 }

@@ -40,7 +40,7 @@ class UserRepositoryTest {
 
         //when
         boolean exists = underTest
-                .findByUsername(username)
+                .getByUsername(username)
                 .isPresent();
 
         //then
@@ -55,7 +55,7 @@ class UserRepositoryTest {
 
         //when
         boolean exists = underTest
-                .findByUsername(username)
+                .getByUsername(username)
                 .isPresent();
 
         //then

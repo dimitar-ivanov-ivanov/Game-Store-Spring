@@ -7,11 +7,19 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
+/**
+ * The Model mapper config used for explicitly creating mapping between models.
+ */
 @Component
 public class ModelMapperConfig {
 
     private final ModelMapper mapper;
 
+    /**
+     * Instantiates a new Model mapper config.
+     *
+     * @param mapper the mapper
+     */
     public ModelMapperConfig(ModelMapper mapper) {
         this.mapper = mapper;
         this.initialize();
@@ -21,6 +29,9 @@ public class ModelMapperConfig {
         registerRequestToUserMapping();
     }
 
+    /**
+     * Create typeMap for parsing a register binding model to User
+     */
     private void registerRequestToUserMapping() {
 
         TypeMap<UserRegisterBindingModel, User> typeMap = this.mapper.getTypeMap(UserRegisterBindingModel.class, User.class);

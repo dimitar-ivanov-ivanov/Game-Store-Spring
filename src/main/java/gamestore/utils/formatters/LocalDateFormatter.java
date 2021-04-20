@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+/**
+ * The Local date formatter used for formatting a LocalDate from json to an object.
+ */
 public class LocalDateFormatter implements
         Formatter<LocalDate> {
     @Override

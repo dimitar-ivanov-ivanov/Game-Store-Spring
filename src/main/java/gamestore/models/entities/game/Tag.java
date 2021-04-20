@@ -13,6 +13,8 @@ import java.util.Set;
 
 /**
  * The type Tag.
+ *
+ * @author Dimitar Ivanov
  */
 @Getter
 @EqualsAndHashCode
@@ -26,13 +28,30 @@ public class Tag implements Serializable {
     @Column(name = "tag_id")
     private long tagId;
 
+    /**
+     * The name of the tag.
+     * Must not be empty or null.
+     *
+     * @see TextConstants#NAME_CANNOT_BE_BLANK
+     */
     @NotBlank(message = TextConstants.NAME_CANNOT_BE_BLANK)
     private String name;
 
+    /**
+     * The description of the tag.
+     * Must not be empty or null.
+     *
+     * @see TextConstants#DESCRIPTION_CANNOT_BE_BLANK
+     */
     @NotBlank(message = TextConstants.DESCRIPTION_CANNOT_BE_BLANK)
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    /**
+     * All games that have this tag
+     *
+     * @see Game
+     */
     @ManyToMany
     @JoinTable(
             name = "tags_games",

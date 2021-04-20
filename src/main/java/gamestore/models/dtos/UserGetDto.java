@@ -16,6 +16,9 @@ import java.util.Set;
 
 /**
  * The User get dto.
+ * Intended to be passed to the client
+ *
+ * @author Dimitar Ivanov
  */
 @Data
 @EqualsAndHashCode

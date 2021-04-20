@@ -12,6 +12,8 @@ import java.util.Set;
 
 /**
  * The type Genre.
+ *
+ * @author Dimitar Ivanov
  */
 @Getter
 @EqualsAndHashCode
@@ -25,13 +27,30 @@ public class Genre {
     @Column(name = "genre_id")
     private long genreId;
 
+    /**
+     * The name of the genre.
+     * Must not be empty or null.
+     *
+     * @see TextConstants#NAME_CANNOT_BE_BLANK
+     */
     @NotBlank(message = TextConstants.NAME_CANNOT_BE_BLANK)
     private String name;
 
+    /**
+     * The description of the genre.
+     * Must not be empty or null.
+     *
+     * @see TextConstants#DESCRIPTION_CANNOT_BE_BLANK
+     */
     @NotBlank(message = TextConstants.DESCRIPTION_CANNOT_BE_BLANK)
     @Column(name = "TEXT")
     private String description;
 
+    /**
+     * The games that are in this genre
+     *
+     * @see Game
+     */
     @ManyToMany
     @JoinTable(
             name = "genres_games",

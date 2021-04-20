@@ -17,6 +17,8 @@ import java.util.Set;
 
 /**
  * The type Game.
+ *
+ * @author Dimitar Ivanov
  */
 @Getter
 @NoArgsConstructor
@@ -32,9 +34,24 @@ public class Game implements Serializable {
     @Column(name = "game_id")
     private Long gameId;
 
+    /**
+     * The name of the game.
+     * Must not be empty or null.
+     *
+     * @see TextConstants#NAME_CANNOT_BE_BLANK
+     */
     @NotBlank(message = TextConstants.NAME_CANNOT_BE_BLANK)
     private String name;
 
+    /**
+     * The price of the game.
+     * Must be in range of PRICE_MIN TO PRICE_MAX
+     *
+     * @see NumberConstants#PRICE_MIN
+     * @see NumberConstants#PRICE_MAX
+     * @see TextConstants#PRICE_CANNOT_BE_SMALLER_OR_EQUAL_TO
+     * @see TextConstants#PRICE_CANNOT_BE_BIGGER_THAN
+     */
     @DecimalMin(
             value = NumberConstants.PRICE_MIN + "",
             inclusive = false,
@@ -48,11 +65,21 @@ public class Game implements Serializable {
 
     @Column(name = "trailer_url")
     private String trailerUrl;
+
     private String thumbnail;
 
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
+    /**
+     * The size of the game.
+     * Must be in range of SIZE_MIN TO SIZE_MAX
+     *
+     * @see NumberConstants#SIZE_MIN
+     * @see NumberConstants#SIZE_MAX
+     * @see TextConstants#SIZE_CANNOT_BE_SMALLER_THAN
+     * @see TextConstants#SIZE_CANNOT_BE_BIGGER_THAN
+     */
     @DecimalMin(
             value = NumberConstants.SIZE_MIN + "",
             message = TextConstants.SIZE_CANNOT_BE_SMALLER_THAN + NumberConstants.SIZE_MIN
@@ -63,28 +90,59 @@ public class Game implements Serializable {
     )
     private BigDecimal size;
 
+    /**
+     * The description of the game.
+     * Must not be empty or null.
+     *
+     * @see TextConstants#DESCRIPTION_CANNOT_BE_BLANK
+     */
     @NotBlank(message = TextConstants.DESCRIPTION_CANNOT_BE_BLANK)
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    /**
+     * Achievements of the game.
+     *
+     * @see Achievement
+     */
     @OneToMany(
             mappedBy = "game",
             orphanRemoval = true
     )
     private Set<Achievement> achievements;
 
+    /**
+     * Reviews written about the game
+     *
+     * @see Review
+     */
     @OneToMany(
             mappedBy = "game",
             orphanRemoval = true
     )
     private Set<Review> reviews;
 
+    /**
+     * Tags that help categorize the game
+     *
+     * @see Tag
+     */
     @ManyToMany(mappedBy = "games")
     private Set<Tag> tags;
 
+    /**
+     * The company/ies who published the game
+     *
+     * @see Publisher
+     */
     @ManyToMany(mappedBy = "games")
     private Set<Publisher> publishers;
 
+    /**
+     * The genre/s of the game
+     *
+     * @see Genre
+     */
     @ManyToMany(mappedBy = "games")
     private Set<Genre> genres;
 

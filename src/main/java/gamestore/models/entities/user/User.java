@@ -1,6 +1,7 @@
 package gamestore.models.entities.user;
 
 import gamestore.models.bindings.UserRegisterBindingModel;
+import gamestore.models.entities.game.Review;
 import gamestore.utils.annotations.email.Email;
 import gamestore.utils.annotations.name.UserName;
 import gamestore.utils.annotations.password.Password;
@@ -21,7 +22,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -127,6 +127,13 @@ public class User implements UserDetails, Serializable {
     )
     private Set<UserAchievement> achievements;
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.MERGE,
+            orphanRemoval = true
+    )
+    private Set<Review> reviews;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -148,6 +155,7 @@ public class User implements UserDetails, Serializable {
         this.roles = new HashSet<>();
         this.gameBadges = new HashSet<>();
         this.achievements = new HashSet<>();
+        this.reviews = new HashSet<>();
     }
 
     public User(String firstName,
@@ -170,6 +178,7 @@ public class User implements UserDetails, Serializable {
         this.roles = new HashSet<>();
         this.gameBadges = new HashSet<>();
         this.achievements = new HashSet<>();
+        this.reviews = new HashSet<>();
     }
 
     public User(Long id,
@@ -194,6 +203,7 @@ public class User implements UserDetails, Serializable {
         this.roles = new HashSet<>();
         this.gameBadges = new HashSet<>();
         this.achievements = new HashSet<>();
+        this.reviews = new HashSet<>();
     }
 
     @Override

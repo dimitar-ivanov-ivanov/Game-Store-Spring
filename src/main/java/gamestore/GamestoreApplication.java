@@ -8,12 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.format.Formatter;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.time.LocalDate;
 
 @SpringBootApplication
-@EnableSwagger2
 public class GamestoreApplication {
 
     public static void main(String[] args) {

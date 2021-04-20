@@ -20,6 +20,7 @@ public interface AuthorityRepository extends
      *
      * @param name the authority name
      * @return the authority by name
+     * @see Authority
      */
     Optional<Authority> getByName(String name);
 }

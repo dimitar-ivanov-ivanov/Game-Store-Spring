@@ -20,6 +20,7 @@ public interface RoleRepository extends
      *
      * @param name the role name
      * @return the role by name
+     * @see Role
      */
     Optional<Role> getByName(String name);
 }

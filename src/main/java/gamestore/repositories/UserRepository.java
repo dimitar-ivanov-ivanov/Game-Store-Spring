@@ -20,6 +20,7 @@ public interface UserRepository extends
      *
      * @param username the user's username
      * @return the user by username
+     * @see User
      */
     Optional<User> getByUsername(String username);
 

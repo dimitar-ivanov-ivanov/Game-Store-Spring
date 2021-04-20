@@ -17,7 +17,6 @@ import java.util.Set;
  */
 @Getter
 @EqualsAndHashCode
-@NoArgsConstructor
 @Entity
 @Table(name = "genres")
 public class Genre {

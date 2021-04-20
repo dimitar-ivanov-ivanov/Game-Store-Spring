@@ -17,26 +17,78 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * The type User service.
+ *
+ * @author Dimitar Ivanov
+ */
 @AllArgsConstructor
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
 
+    /**
+     * The role service includes logic for roles.
+     *
+     * @see RoleService
+     */
     private final RoleService roleService;
+
+    /**
+     * User repository for connecting with the db.
+     *
+     * @see UserRepository
+     */
     private final UserRepository userRepository;
+
+    /**
+     * The password encoder.
+     *
+     * @see BCryptPasswordEncoder
+     */
     private final BCryptPasswordEncoder passwordEncoder;
+
+    /**
+     * The model mapper
+     *
+     * @see gamestore.utils.mapper.ModelMapperConfig
+     */
     private final ModelMapper mapper;
 
+    /**
+     * Gets user by id.
+     *
+     * @param id the id
+     * @return the by id
+     * @throws UserNotFoundException
+     * @see TextConstants#USER_NOT_FOUND
+     */
     public User getById(Long id) {
         return userRepository
                 .findById(id)
                 .orElseThrow(() -> new UserNotFoundException(TextConstants.USER_NOT_FOUND));
     }
 
+    /**
+     * Gets all users.
+     *
+     * @return all users
+     */
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    /**
+     * Register user user.
+     *
+     * @param register the user details send by the client
+     * @return the user
+     * @throws UsernameNotFoundException
+     * @see UserRegisterBindingModel
+     * @see UserRepository#getByUsername(String)
+     * @see TextConstants#USERNAME_ALREADY_TAKEN
+     * @see RoleService#getRole(String)
+     */
     public User registerUser(UserRegisterBindingModel register) {
         boolean userExists = userRepository
                 .getByUsername(register.getUsername())
@@ -61,6 +113,13 @@ public class UserService implements UserDetailsService {
     }
 
 
+    /**
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     * @see TextConstants#USER_NOT_FOUND
+     * @see UserRepository#getByUsername(String) 
+     */
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * The Invalid or expired jwt token exception.
+ *
+ * @author Dimitar Ivanov
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class InvalidOrExpiredJwtTokenException

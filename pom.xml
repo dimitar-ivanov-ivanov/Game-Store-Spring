@@ -91,9 +91,10 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.github.jnasmartcardio</groupId>
-            <artifactId>jnasmartcardio</artifactId>
-            <version>0.2.7</version>
+            <groupId>net.javacrumbs.json-unit</groupId>
+            <artifactId>json-unit-fluent</artifactId>
+            <version>2.25.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

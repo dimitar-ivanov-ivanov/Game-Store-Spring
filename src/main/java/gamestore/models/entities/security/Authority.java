@@ -13,6 +13,8 @@ import java.util.Set;
 
 /**
  * The type Authority.
+ *
+ * @author Dimitar Ivanov
  */
 @Getter
 @Setter
@@ -26,9 +28,20 @@ public class Authority implements GrantedAuthority {
     @Column(name = "authority_id")
     private Long privilegeId;
 
+    /**
+     * The name of the authority.
+     * Must be not be empty or null.
+     *
+     * @see TextConstants#NAME_CANNOT_BE_BLANK
+     */
     @NotBlank(message = TextConstants.NAME_CANNOT_BE_BLANK)
     private String name;
 
+    /**
+     * The roles which include this authority.
+     *
+     * @see Role
+     */
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.EAGER)
     private Set<Role> roles;
 

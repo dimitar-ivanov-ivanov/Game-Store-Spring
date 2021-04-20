@@ -13,6 +13,8 @@ import java.util.Set;
 
 /**
  * The type Role.
+ *
+ * @author Dimitar Ivanov
  */
 @Getter
 @Setter
@@ -26,12 +28,28 @@ public class Role {
     @Column(name = "role_id")
     private Long roleId;
 
+    /**
+     * The name of the role.
+     * Must be not be empty or null.
+     *
+     * @see TextConstants#NAME_CANNOT_BE_BLANK
+     */
     @NotBlank(message = TextConstants.NAME_CANNOT_BE_BLANK)
     private String name;
 
+    /**
+     * The users who have this role
+     *
+     * @see User
+     */
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private Set<User> users;
 
+    /**
+     * The authorities who are included in this role.
+     *
+     * @see Authority
+     */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "roles_authorities",

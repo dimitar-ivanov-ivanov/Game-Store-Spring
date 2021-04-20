@@ -8,6 +8,13 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
+
+/**
+ * The type Password validator.
+ *
+ * @author Dimitar Ivanov
+ * @see Password
+ */
 @Component
 public class PasswordValidator implements
         ConstraintValidator<Password, CharSequence> {
@@ -28,6 +35,15 @@ public class PasswordValidator implements
         this.digitPattern = Pattern.compile(password.digitRegex());
     }
 
+    /**
+     * Method for validating a password
+     *
+     * @param value   the password
+     * @param context the context for validation
+     * @return whether the password is valid
+     * @see AnnotationsUtil#setErrorMessage(ConstraintValidatorContext, String)
+     * @see TextConstants
+     */
     @Override
     public boolean isValid(CharSequence value,
                            ConstraintValidatorContext context) {

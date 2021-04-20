@@ -8,6 +8,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
+/**
+ * The type User name validator.
+ *
+ * @author Dimitar Ivanov
+ * @see UserName
+ */
 @Component
 public class UserNameValidator implements
         ConstraintValidator<UserName, CharSequence> {
@@ -28,6 +34,13 @@ public class UserNameValidator implements
         this.namePattern = Pattern.compile(name.regex());
     }
 
+    /**
+     * @param value   the user name
+     * @param context the context that throws violations for bad user name
+     * @return whether the user name is valid
+     * @see AnnotationsUtil#setErrorMessage(ConstraintValidatorContext, String)
+     * @see TextConstants
+     */
     @Override
     public boolean isValid(CharSequence value,
                            ConstraintValidatorContext context) {

@@ -9,6 +9,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
+/**
+ * The type Email validator.
+ *
+ * @author Dimitar Ivanov
+ * @see Email
+ */
 @Component
 public class EmailValidator implements
         ConstraintValidator<Email, CharSequence> {
@@ -28,6 +34,15 @@ public class EmailValidator implements
         this.pattern = Pattern.compile(email.regex());
     }
 
+    /**
+     * Validate email
+     *
+     * @param value   the email
+     * @param context the context that throw violations for wrong email
+     * @return if the email is valid
+     * @see AnnotationsUtil#setErrorMessage(ConstraintValidatorContext, String)
+     * @see TextConstants
+     */
     @Override
     public boolean isValid(CharSequence value,
                            ConstraintValidatorContext context) {

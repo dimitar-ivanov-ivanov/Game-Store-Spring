@@ -11,6 +11,9 @@ import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type Authority.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,6 +32,11 @@ public class Authority implements GrantedAuthority {
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    /**
+     * Instantiates a new Authority.
+     *
+     * @param name the name of the authority
+     */
     public Authority(String name) {
         this.name = name;
         this.roles = new HashSet<>();

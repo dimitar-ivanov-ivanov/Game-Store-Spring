@@ -10,6 +10,9 @@ import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type Genre.
+ */
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -43,6 +46,11 @@ public class Genre {
     )
     private Set<Game> games;
 
+    /**
+     * Instantiates a new Genre.
+     *
+     * @param name the name
+     */
     public Genre(String name) {
         this.name = name;
         this.games = new HashSet<>();

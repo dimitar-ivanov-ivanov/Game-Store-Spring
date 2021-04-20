@@ -11,6 +11,9 @@ import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type Role.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,6 +46,11 @@ public class Role {
     )
     private Set<Authority> authorities;
 
+    /**
+     * Instantiates a new Role.
+     *
+     * @param name the name of the role
+     */
     public Role(String name) {
         this.name = name;
         this.users = new HashSet<>();

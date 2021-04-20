@@ -14,6 +14,9 @@ import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * The User get dto.
+ */
 @Data
 @EqualsAndHashCode
 public class UserGetDto {

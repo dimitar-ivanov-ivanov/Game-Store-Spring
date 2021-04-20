@@ -15,6 +15,9 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type Game.
+ */
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -76,12 +79,6 @@ public class Game implements Serializable {
     )
     private Set<Review> reviews;
 
-    @OneToMany(
-            mappedBy = "game",
-            orphanRemoval = true
-    )
-    private Set<Comment> comments;
-
     @ManyToMany(mappedBy = "games")
     private Set<Tag> tags;
 
@@ -91,6 +88,17 @@ public class Game implements Serializable {
     @ManyToMany(mappedBy = "games")
     private Set<Genre> genres;
 
+    /**
+     * Instantiates a new Game.
+     *
+     * @param name        the name
+     * @param price       the price
+     * @param trailerUrl  the trailer url
+     * @param thumbnail   the thumbnail
+     * @param releaseDate the release date
+     * @param size        the size
+     * @param description the description
+     */
     public Game(String name,
                 BigDecimal price,
                 String trailerUrl,
@@ -107,7 +115,6 @@ public class Game implements Serializable {
         this.description = description;
         this.achievements = new HashSet<>();
         this.reviews = new HashSet<>();
-        this.comments = new HashSet<>();
         this.tags = new HashSet<>();
         this.publishers = new HashSet<>();
         this.genres = new HashSet<>();

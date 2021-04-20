@@ -11,6 +11,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type Tag.
+ */
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -44,6 +47,11 @@ public class Tag implements Serializable {
     )
     private Set<Game> games;
 
+    /**
+     * Instantiates a new Tag.
+     *
+     * @param name the name of the tag
+     */
     public Tag(String name) {
         this.name = name;
         this.games = new HashSet<>();

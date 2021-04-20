@@ -10,6 +10,9 @@ import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type Publisher.
+ */
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -39,6 +42,11 @@ public class Publisher {
     )
     private Set<Game> games;
 
+    /**
+     * Instantiates a new Publisher.
+     *
+     * @param name the name of the publisher
+     */
     public Publisher(String name) {
         this.name = name;
         this.games = new HashSet<>();

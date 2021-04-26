@@ -1,6 +1,7 @@
 package gamestore.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
  *
  * @author Dimitar Ivanov
  */
+@AllArgsConstructor
 public class UserGameBadgeDto {
 
     private String userName;

@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -41,4 +42,5 @@ public class UserBoughtGameDto implements Serializable {
      */
     @Column(name = "hours_played_last_two_weeks")
     private int hoursPlayerLastTwoWeeks;
+
 }

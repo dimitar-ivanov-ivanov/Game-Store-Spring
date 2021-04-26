@@ -13,6 +13,7 @@ import java.time.LocalDate;
  * The User wishlist game dto.
  *
  * @author Dimitar Ivanov
+ * @see gamestore.models.entities.user.UserWishlistGame
  */
 @Getter
 @NoArgsConstructor

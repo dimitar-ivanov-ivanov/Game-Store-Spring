@@ -34,10 +34,7 @@ public class UserGetDto {
 
     private Gender gender;
 
-    /*
-      -> get just their name and basic details
-    private Set<User> friends;
-    */
+    private FriendDto friends;
 
     private Set<UserBoughtGameDto> boughtGames;
 
@@ -52,13 +49,15 @@ public class UserGetDto {
                       LocalDate birthDate,
                       String username,
                       String email,
-                      Gender gender) {
+                      Gender gender,
+                      FriendDto friendDto) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.username = username;
         this.email = email;
         this.gender = gender;
+        this.friends = friendDto;
         this.boughtGames = new HashSet<>();
         this.wishlistGames = new HashSet<>();
         this.gameBadges = new HashSet<>();

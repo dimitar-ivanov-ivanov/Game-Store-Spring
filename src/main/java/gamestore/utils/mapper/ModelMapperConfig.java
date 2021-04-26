@@ -1,15 +1,9 @@
 package gamestore.utils.mapper;
 
-import gamestore.models.dtos.UserAchievementDto;
-import gamestore.models.dtos.UserBoughtGameDto;
-import gamestore.models.dtos.UserGameBadgeDto;
-import gamestore.models.dtos.UserWishlistGameDto;
+import gamestore.models.dtos.*;
 import gamestore.models.entities.user.*;
 import gamestore.models.bindings.UserRegisterBindingModel;
-import gamestore.utils.mapper.converters.UserAchievementConverter;
-import gamestore.utils.mapper.converters.UserBoughtGameConverter;
-import gamestore.utils.mapper.converters.UserGameBadgeConverter;
-import gamestore.utils.mapper.converters.UserWishlistGameConverter;
+import gamestore.utils.mapper.converters.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
@@ -40,6 +34,19 @@ public class ModelMapperConfig {
         userBoughtGamesToDto();
         userWishlistGamesToDto();
         userGameBadgesToDto();
+        userFriendsToDto();
+    }
+
+    /**
+     * Create type map for parsing the user's friends
+     */
+    private void userFriendsToDto() {
+        TypeMap<User, FriendDto> map =
+                this.mapper.getTypeMap(User.class, FriendDto.class);
+        if (map == null) {
+            this.mapper.createTypeMap(User.class, FriendDto.class)
+                    .addMappings(mapper -> mapper.using(new FriendConverter()));
+        }
     }
 
     /**

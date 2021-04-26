@@ -55,8 +55,7 @@ public class UserController {
     @ResponseBody
     public UserGetDto getUser(@PathVariable("userId") Long userId) {
         User user = userService.getById(userId);
-        //TODO: Internally parse UserBoughGame to dto and others like that
-        //UserGetDto dto = mapper.map(user, UserGetDto.class);
+        UserGetDto dto = mapper.map(user, UserGetDto.class);
         return null;
     }
 

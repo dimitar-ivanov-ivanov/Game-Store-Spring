@@ -10,6 +10,7 @@ import java.time.LocalDate;
  * The User achievement dto.
  *
  * @author Dimitar Ivanov
+ * @see gamestore.models.entities.user.UserAchievement
  */
 @Getter
 @Setter

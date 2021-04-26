@@ -11,6 +11,7 @@ import java.time.LocalDate;
  * The User game badge dto.
  *
  * @author Dimitar Ivanov
+ * @see gamestore.models.entities.user.UserGameBadge
  */
 @AllArgsConstructor
 public class UserGameBadgeDto {

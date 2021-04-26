@@ -16,6 +16,7 @@ import java.time.LocalDate;
  * The User bought game dto.
  *
  * @author Dimitar Ivanov
+ * @see gamestore.models.entities.user.UserBoughtGame
  */
 @Getter
 @NoArgsConstructor

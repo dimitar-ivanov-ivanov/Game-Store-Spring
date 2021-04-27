@@ -2,8 +2,7 @@ package gamestore.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import gamestore.models.enums.Gender;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -17,7 +16,9 @@ import java.util.Set;
  *
  * @author Dimitar Ivanov
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @EqualsAndHashCode
 public class UserGetDto implements Serializable {
 
@@ -35,7 +36,7 @@ public class UserGetDto implements Serializable {
 
     private Gender gender;
 
-    private FriendDto friends;
+    private Set<UserFriendDto> friends;
 
     private Set<UserBoughtGameDto> boughtGames;
 
@@ -50,15 +51,14 @@ public class UserGetDto implements Serializable {
                       LocalDate birthDate,
                       String username,
                       String email,
-                      Gender gender,
-                      FriendDto friendDto) {
+                      Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.username = username;
         this.email = email;
         this.gender = gender;
-        this.friends = friendDto;
+        this.friends = new HashSet<>();
         this.boughtGames = new HashSet<>();
         this.wishlistGames = new HashSet<>();
         this.gameBadges = new HashSet<>();

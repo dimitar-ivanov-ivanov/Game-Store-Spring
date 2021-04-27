@@ -1,10 +1,7 @@
 package gamestore.models.dtos;
 
-import gamestore.models.entities.user.UserBoughtGame;
-import gamestore.models.entities.user.UserGameId;
 import gamestore.models.enums.Gender;
 import gamestore.utils.formatters.LocalDateFormatter;
-import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
@@ -42,8 +38,10 @@ public class UserGetDtoTest {
 
     private static UserGetDto userGetDto;
 
-    private static final Set<String> friends = com.google.common.collect.Sets.newHashSet(
-            "Ivan", "Pesho", "Stancho"
+    private static final Set<UserFriendDto> friends = com.google.common.collect.Sets.newHashSet(
+            new UserFriendDto("Pesh"),
+            new UserFriendDto("Ivv"),
+            new UserFriendDto("vvvV")
     );
 
     private static final Set<UserBoughtGameDto> boughtGames = com.google.common.collect.Sets.newHashSet(
@@ -105,13 +103,13 @@ public class UserGetDtoTest {
                 parseDate(BIRTHDATE),
                 USERNAME,
                 EMAIL,
-                Gender.valueOf(GENDER),
-                new FriendDto(friends)
+                Gender.valueOf(GENDER)
         );
 
         userGetDto.getBoughtGames().addAll(boughtGames);
         userGetDto.getWishlistGames().addAll(wishlistGames);
         userGetDto.getAchievements().addAll(userAchievements);
+        userGetDto.getFriends().addAll(friends);
     }
 
     @Test
@@ -172,5 +170,12 @@ public class UserGetDtoTest {
         assertThatJson(json.write(userGetDto).getJson())
                 .node("achievements")
                 .isArray().ofLength(2);
+    }
+
+    @Test
+    public void filledFriendsSerialize() throws IOException {
+        assertThatJson(json.write(userGetDto).getJson())
+                .node("friends")
+                .isArray().ofLength(3);
     }
 }

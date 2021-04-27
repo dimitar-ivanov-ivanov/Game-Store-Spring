@@ -32,6 +32,7 @@ public class ModelMapperConfig {
     private void initialize() {
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         registerRequestToUserMapping();
+        userToUserGetDto();
         userAchievementToDto();
         userBoughtGamesToDto();
         userWishlistGamesToDto();
@@ -39,14 +40,31 @@ public class ModelMapperConfig {
         userFriendsToDto();
     }
 
+    private void userToUserGetDto() {
+        TypeMap<User, UserGetDto> map =
+                this.mapper.getTypeMap(User.class, UserGetDto.class);
+
+        if (map == null) {
+            this.mapper.createTypeMap(User.class, UserGetDto.class)
+                    .addMappings(mapper -> {
+                        mapper.map(User::getUsername, UserGetDto::setUsername);
+                        mapper.map(User::getEmail, UserGetDto::setEmail);
+                        mapper.map(User::getFirstName, UserGetDto::setFirstName);
+                        mapper.map(User::getLastName, UserGetDto::setLastName);
+                        mapper.map(User::getBirthDate, UserGetDto::setBirthDate);
+                        mapper.map(User::getGender, UserGetDto::setGender);
+                    });
+        }
+    }
+
     /**
      * Create type map for parsing the user's friends
      */
     private void userFriendsToDto() {
-        TypeMap<User, FriendDto> map =
-                this.mapper.getTypeMap(User.class, FriendDto.class);
+        TypeMap<User, UserFriendDto> map =
+                this.mapper.getTypeMap(User.class, UserFriendDto.class);
         if (map == null) {
-            this.mapper.createTypeMap(User.class, FriendDto.class)
+            this.mapper.createTypeMap(User.class, UserFriendDto.class)
                     .addMappings(mapper -> mapper.using(new FriendConverter()));
         }
     }
@@ -58,7 +76,7 @@ public class ModelMapperConfig {
         TypeMap<UserWishlistGame, UserWishlistGameDto> map =
                 this.mapper.getTypeMap(UserWishlistGame.class, UserWishlistGameDto.class);
         if (map == null) {
-            this.mapper.createTypeMap(UserWishlistGame.class, UserWishlistGame.class)
+            this.mapper.createTypeMap(UserWishlistGame.class, UserWishlistGameDto.class)
                     .addMappings(mapper -> mapper.using(new UserWishlistGameConverter()));
         }
     }

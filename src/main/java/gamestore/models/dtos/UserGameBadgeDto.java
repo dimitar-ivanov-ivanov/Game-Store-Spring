@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -14,7 +15,7 @@ import java.time.LocalDate;
  * @see gamestore.models.entities.user.UserGameBadge
  */
 @AllArgsConstructor
-public class UserGameBadgeDto {
+public class UserGameBadgeDto implements Serializable {
 
     private String userName;
 

@@ -2,7 +2,9 @@ package gamestore.models.dtos;
 
 import gamestore.models.entities.user.User;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +15,8 @@ import java.util.Set;
  * @see User#getFriends()
  */
 @AllArgsConstructor
-public class FriendDto {
+@Getter
+public class FriendDto implements Serializable {
 
     private Set<String> friends;
 

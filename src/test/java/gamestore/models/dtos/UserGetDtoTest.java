@@ -16,7 +16,9 @@ import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -39,7 +41,8 @@ public class UserGetDtoTest {
     private static final String EMPTY_ARRAY = "[]";
 
     private final String JSON_TO_DESERIALIZE =
-            "  {\"firstName\": \"" + FIRST_NAME + "\",\n" +
+            "  {" +
+                    "\"firstName\": \"" + FIRST_NAME + "\",\n" +
                     "    \"lastName\": \"" + LAST_NAME + "\",\n" +
                     "    \"birthDate\": \"" + BIRTHDATE + "\",\n" +
                     "    \"username\": \"" + USERNAME + "\",\n" +
@@ -48,9 +51,54 @@ public class UserGetDtoTest {
                     "    \"boughtGames\": " + EMPTY_ARRAY + ",\n" +
                     "    \"wishlistGames\": " + EMPTY_ARRAY + ",\n" +
                     "    \"gameBadges\": " + EMPTY_ARRAY + ",\n" +
-                    "    \"achievements\": " + EMPTY_ARRAY + "}";
+                    "    \"achievements\": " + EMPTY_ARRAY +
+                    "}";
 
     private static UserGetDto userGetDto;
+
+    private static final Set<String> friends = com.google.common.collect.Sets.newHashSet(
+            "Ivan", "Pesho", "Stancho"
+    );
+
+    private static final Set<UserBoughtGameDto> boughtGames = com.google.common.collect.Sets.newHashSet(
+            new UserBoughtGameDto(
+                    "d1mn",
+                    "Call of duty",
+                    LocalDate.of(2011, 2, 2),
+                    200,
+                    20
+            ),
+            new UserBoughtGameDto(
+                    "pesh0",
+                    "Call of duty 2",
+                    LocalDate.of(2015, 3, 2),
+                    10000,
+                    30
+            )/*
+            new UserBoughtGameDto(
+                    "iV40",
+                    "Call of duty 3",
+                    LocalDate.of(2017, 12, 3),
+                    50000,
+                    50
+            )*/
+    );
+
+    private final String JSON_USER_BOUGHT_GAMES =
+            "[{" +
+                    "\"userName\":\"d1mn\"," +
+                    "\"gameName\":\"Call of duty\"" +
+                    ",\"boughtOn\":\"2011-02-02\"," +
+                    "\"hoursPlayedTotal\":200," +
+                    "\"hoursPlayerLastTwoWeeks\":20" +
+                    "}," +
+                    "{" +
+                    "\"userName\":\"pesh0\"," +
+                    "\"gameName\":\"Call of duty 2\"," +
+                    "\"boughtOn\":\"2015-03-02\"," +
+                    "\"hoursPlayedTotal\":10000," +
+                    "\"hoursPlayerLastTwoWeeks\":30" +
+                    "}]";
 
     private static LocalDate parseDate(final String dateString) {
         try {
@@ -68,8 +116,11 @@ public class UserGetDtoTest {
                 parseDate(BIRTHDATE),
                 USERNAME,
                 EMAIL,
-                Gender.valueOf(GENDER)
+                Gender.valueOf(GENDER),
+                new FriendDto(friends)
         );
+
+        userGetDto.getBoughtGames().addAll(boughtGames);
     }
 
     @Test
@@ -114,19 +165,45 @@ public class UserGetDtoTest {
                 .isEqualTo(EMPTY_ARRAY);
     }
 
-    public void filedBoughtGamesSerialize() throws IOException {
-
-        /*
-        userGetDto.getBoughtGames().add(new UserBoughtGame(
-                new UserGameId(),
-
-                ));
+    @Test
+    public void filledBoughtGamesSerialize() throws IOException {
+        assertThatJson(json.write(userGetDto).getJson())
+                .node("boughtGames")
+                .isEqualTo(JSON_USER_BOUGHT_GAMES);
 
         assertThatJson(json.write(userGetDto).getJson())
                 .node("boughtGames")
-                .isEqualTo("");
+                .isArray().ofLength(2);
+    }
 
-         */
+    @Test
+    public void addNewUserBoughGameAndSerialize() throws IOException {
+        userGetDto.getBoughtGames()
+                .add(new UserBoughtGameDto(
+                        "iV40",
+                        "Call of duty 3",
+                        LocalDate.of(2017, 12, 3),
+                        50000,
+                        50
+                ));
+
+        String jsonGame = "{" +
+                "\"userName\":\"iV40\"," +
+                "\"gameName\":\"Call of duty 3\"" +
+                ",\"boughtOn\":\"2017-12-03\"," +
+                "\"hoursPlayedTotal\":50000," +
+                "\"hoursPlayerLastTwoWeeks\":50" +
+                "}";
+
+        String dtoJson = json.write(userGetDto).getJson();
+
+        assertThatJson(dtoJson)
+                .node("boughtGames[2]")
+                .isEqualTo(jsonGame);
+
+        assertThatJson(dtoJson)
+                .node("boughtGames")
+                .isArray().ofLength(3);
     }
 
     @Test

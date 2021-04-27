@@ -159,13 +159,6 @@ public class UserGetDtoTest {
     }
 
     @Test
-    public void emptyBoughtGamesSerialize() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
-                .node("boughtGames")
-                .isEqualTo(EMPTY_ARRAY);
-    }
-
-    @Test
     public void filledBoughtGamesSerialize() throws IOException {
         assertThatJson(json.write(userGetDto).getJson())
                 .node("boughtGames")
@@ -206,84 +199,5 @@ public class UserGetDtoTest {
                 .isArray().ofLength(3);
     }
 
-    @Test
-    public void emptyWishlistGamesSerialize() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
-                .node("wishlistGames")
-                .isEqualTo(EMPTY_ARRAY);
-    }
 
-    @Test
-    public void emptyGameBadgesSerialize() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
-                .node("gameBadges")
-                .isEqualTo(EMPTY_ARRAY);
-    }
-
-    @Test
-    public void emptyAchievementsSerialize() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
-                .node("achievements")
-                .isEqualTo(EMPTY_ARRAY);
-    }
-
-    @Test
-    public void firstNameDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getFirstName())
-                .isEqualTo(FIRST_NAME);
-    }
-
-    @Test
-    public void lastNameDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getLastName())
-                .isEqualTo(LAST_NAME);
-    }
-
-    @Test
-    public void birthDateDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getBirthDate())
-                .isEqualTo(BIRTHDATE);
-    }
-
-    @Test
-    public void emailDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getEmail())
-                .isEqualTo(EMAIL);
-    }
-
-    @Test
-    public void usernameDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getUsername())
-                .isEqualTo(USERNAME);
-    }
-
-    @Test
-    public void genderDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getGender())
-                .isEqualTo(Gender.valueOf(GENDER));
-    }
-
-    @Test
-    public void emptyBoughGamesDeserialize() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getBoughtGames())
-                .isEqualTo(Sets.newHashSet());
-    }
-
-    @Test
-    public void emptyWishlistGamesDeserialize() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getWishlistGames())
-                .isEqualTo(Sets.newHashSet());
-    }
-
-    @Test
-    public void emptyGameBadgesDeserialize() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getGameBadges())
-                .isEqualTo(Sets.newHashSet());
-    }
-
-    @Test
-    public void emptyAchievementsDeserialize() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getAchievements())
-                .isEqualTo(Sets.newHashSet());
-    }
 }

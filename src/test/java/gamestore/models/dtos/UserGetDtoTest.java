@@ -192,5 +192,41 @@ public class UserGetDtoTest {
                 .isArray().ofLength(3);
     }
 
+    @Test
+    public void firstNameDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getFirstName())
+                .isEqualTo(FIRST_NAME);
+    }
+
+    @Test
+    public void lastNameDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getLastName())
+                .isEqualTo(LAST_NAME);
+    }
+
+    @Test
+    public void birthDateDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getBirthDate())
+                .isEqualTo(BIRTHDATE);
+    }
+
+    @Test
+    public void emailDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getEmail())
+                .isEqualTo(EMAIL);
+    }
+
+    @Test
+    public void usernameDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getUsername())
+                .isEqualTo(USERNAME);
+    }
+
+    @Test
+    public void genderDeserializes() throws IOException {
+        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getGender())
+                .isEqualTo(Gender.valueOf(GENDER));
+    }
+
 
 }

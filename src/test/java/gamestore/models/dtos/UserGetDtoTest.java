@@ -180,19 +180,12 @@ public class UserGetDtoTest {
                         50
                 ));
 
-        String jsonGame = "{" +
-                "\"userName\":\"iV40\"," +
-                "\"gameName\":\"Call of duty 3\"" +
-                ",\"boughtOn\":\"2017-12-03\"," +
-                "\"hoursPlayedTotal\":50000," +
-                "\"hoursPlayerLastTwoWeeks\":50" +
-                "}";
-
         String dtoJson = json.write(userGetDto).getJson();
-
-        assertThatJson(dtoJson)
-                .node("boughtGames[2]")
-                .isEqualTo(jsonGame);
+        assertThatJson(dtoJson).node("boughtGames[2].userName").isEqualTo("iV40");
+        assertThatJson(dtoJson).node("boughtGames[2].gameName").isEqualTo("Call of duty 3");
+        assertThatJson(dtoJson).node("boughtGames[2].boughtOn").isEqualTo("2017-12-03");
+        assertThatJson(dtoJson).node("boughtGames[2].hoursPlayedTotal").isEqualTo("50000");
+        assertThatJson(dtoJson).node("boughtGames[2].hoursPlayerLastTwoWeeks").isEqualTo("50");
 
         assertThatJson(dtoJson)
                 .node("boughtGames")

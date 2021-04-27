@@ -23,10 +23,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@JsonDeserialize(builder = UserBoughtGameDto.class)
 public class UserBoughtGameDto implements Serializable {
 
-    private String userName;
+    private String username;
 
     private String gameName;
 

@@ -36,23 +36,9 @@ public class UserGetDtoTest {
     private static final String LAST_NAME = "Ivanov";
     private static final String BIRTHDATE = "1999-02-20";
     private static final String USERNAME = "stQn";
-    private static final String EMAIL = "stoqn-ivanov@abv.bg";
+    private static final String EMAIL = "stoq-ivanov@abv.bg";
     private static final String GENDER = "MALE";
     private static final String EMPTY_ARRAY = "[]";
-
-    private final String JSON_TO_DESERIALIZE =
-            "  {" +
-                    "\"firstName\": \"" + FIRST_NAME + "\",\n" +
-                    "    \"lastName\": \"" + LAST_NAME + "\",\n" +
-                    "    \"birthDate\": \"" + BIRTHDATE + "\",\n" +
-                    "    \"username\": \"" + USERNAME + "\",\n" +
-                    "    \"email\": \"" + EMAIL + "\",\n" +
-                    "    \"gender\": \"" + GENDER + "\",\n" +
-                    "    \"boughtGames\": " + EMPTY_ARRAY + ",\n" +
-                    "    \"wishlistGames\": " + EMPTY_ARRAY + ",\n" +
-                    "    \"gameBadges\": " + EMPTY_ARRAY + ",\n" +
-                    "    \"achievements\": " + EMPTY_ARRAY +
-                    "}";
 
     private static UserGetDto userGetDto;
 
@@ -74,31 +60,34 @@ public class UserGetDtoTest {
                     LocalDate.of(2015, 3, 2),
                     10000,
                     30
-            )/*
-            new UserBoughtGameDto(
-                    "iV40",
-                    "Call of duty 3",
-                    LocalDate.of(2017, 12, 3),
-                    50000,
-                    50
-            )*/
+            )
     );
 
-    private final String JSON_USER_BOUGHT_GAMES =
-            "[{" +
-                    "\"userName\":\"d1mn\"," +
-                    "\"gameName\":\"Call of duty\"" +
-                    ",\"boughtOn\":\"2011-02-02\"," +
-                    "\"hoursPlayedTotal\":200," +
-                    "\"hoursPlayerLastTwoWeeks\":20" +
-                    "}," +
-                    "{" +
-                    "\"userName\":\"pesh0\"," +
-                    "\"gameName\":\"Call of duty 2\"," +
-                    "\"boughtOn\":\"2015-03-02\"," +
-                    "\"hoursPlayedTotal\":10000," +
-                    "\"hoursPlayerLastTwoWeeks\":30" +
-                    "}]";
+    private static final Set<UserWishlistGameDto> wishlistGames = com.google.common.collect.Sets.newHashSet(
+            new UserWishlistGameDto(
+                    "pesh0",
+                    "Call of duty 3",
+                    LocalDate.of(2015, 3, 2)
+            ),
+            new UserWishlistGameDto(
+                    "d1mn",
+                    "Call of duty 2",
+                    LocalDate.of(2011, 2, 2)
+            )
+    );
+
+    private static final Set<UserAchievementDto> userAchievements = com.google.common.collect.Sets.newHashSet(
+            new UserAchievementDto(
+                    "pesh0",
+                    "Call of duty 3",
+                    LocalDate.of(2015, 3, 2)
+            ),
+            new UserAchievementDto(
+                    "d1mn",
+                    "Call of duty 2",
+                    LocalDate.of(2011, 2, 2)
+            )
+    );
 
     private static LocalDate parseDate(final String dateString) {
         try {
@@ -121,6 +110,8 @@ public class UserGetDtoTest {
         );
 
         userGetDto.getBoughtGames().addAll(boughtGames);
+        userGetDto.getWishlistGames().addAll(wishlistGames);
+        userGetDto.getAchievements().addAll(userAchievements);
     }
 
     @Test
@@ -160,9 +151,9 @@ public class UserGetDtoTest {
 
     @Test
     public void filledBoughtGamesSerialize() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
-                .node("boughtGames")
-                .isEqualTo(JSON_USER_BOUGHT_GAMES);
+
+        //the order of which games are shown is not the same in which they are added
+        //so it is harder to test the whole json
 
         assertThatJson(json.write(userGetDto).getJson())
                 .node("boughtGames")
@@ -170,63 +161,16 @@ public class UserGetDtoTest {
     }
 
     @Test
-    public void addNewUserBoughGameAndSerialize() throws IOException {
-        userGetDto.getBoughtGames()
-                .add(new UserBoughtGameDto(
-                        "iV40",
-                        "Call of duty 3",
-                        LocalDate.of(2017, 12, 3),
-                        50000,
-                        50
-                ));
-
-        String dtoJson = json.write(userGetDto).getJson();
-        assertThatJson(dtoJson).node("boughtGames[2].userName").isEqualTo("iV40");
-        assertThatJson(dtoJson).node("boughtGames[2].gameName").isEqualTo("Call of duty 3");
-        assertThatJson(dtoJson).node("boughtGames[2].boughtOn").isEqualTo("2017-12-03");
-        assertThatJson(dtoJson).node("boughtGames[2].hoursPlayedTotal").isEqualTo("50000");
-        assertThatJson(dtoJson).node("boughtGames[2].hoursPlayerLastTwoWeeks").isEqualTo("50");
-
-        assertThatJson(dtoJson)
-                .node("boughtGames")
-                .isArray().ofLength(3);
+    public void filledWishlistGamesSerialize() throws IOException {
+        assertThatJson(json.write(userGetDto).getJson())
+                .node("wishlistGames")
+                .isArray().ofLength(2);
     }
 
     @Test
-    public void firstNameDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getFirstName())
-                .isEqualTo(FIRST_NAME);
+    public void filledAchievementsSerialize() throws IOException {
+        assertThatJson(json.write(userGetDto).getJson())
+                .node("achievements")
+                .isArray().ofLength(2);
     }
-
-    @Test
-    public void lastNameDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getLastName())
-                .isEqualTo(LAST_NAME);
-    }
-
-    @Test
-    public void birthDateDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getBirthDate())
-                .isEqualTo(BIRTHDATE);
-    }
-
-    @Test
-    public void emailDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getEmail())
-                .isEqualTo(EMAIL);
-    }
-
-    @Test
-    public void usernameDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getUsername())
-                .isEqualTo(USERNAME);
-    }
-
-    @Test
-    public void genderDeserializes() throws IOException {
-        assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getGender())
-                .isEqualTo(Gender.valueOf(GENDER));
-    }
-
-
 }

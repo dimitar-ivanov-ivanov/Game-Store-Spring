@@ -154,19 +154,5 @@ class UserRegisterBindingModelTest {
     }
 
 
-    @Test
-    void testEquals() {
-        UserRegisterBindingModel secondModel = new UserRegisterBindingModel(
-                USERNAME_VALID,
-                EMAIL_VALID,
-                PASSWORD_VALID,
-                FIRST_NAME_VALID,
-                LAST_NAME_VALID,
-                BIRTH_DATE_VALID,
-                Gender.MALE
-        );
-
-        assertThat(model)
-                .isEqualTo(secondModel);
-    }
+    //test deserialization
 }

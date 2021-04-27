@@ -1,6 +1,7 @@
 package gamestore.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,6 +23,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@JsonDeserialize(builder = UserBoughtGameDto.class)
 public class UserBoughtGameDto implements Serializable {
 
     private String userName;

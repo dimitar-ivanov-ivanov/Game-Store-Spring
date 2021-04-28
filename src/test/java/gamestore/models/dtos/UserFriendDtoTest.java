@@ -9,7 +9,6 @@ import org.springframework.boot.test.json.JacksonTester;
 import java.io.IOException;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JsonTest
 class UserFriendDtoTest {
@@ -19,16 +18,16 @@ class UserFriendDtoTest {
 
     private static final String USERNAME = "stQn";
 
-    private static UserFriendDto userFriendDto;
+    private static UserFriendDto underTest;
 
     @BeforeAll
-    public static void setUp() {
-        userFriendDto = new UserFriendDto(USERNAME);
+    static void setUp() {
+        underTest = new UserFriendDto(USERNAME);
     }
 
     @Test
-    public void usernameSerializes() throws IOException {
-        assertThatJson(this.json.write(userFriendDto).getJson())
+    void usernameSerializes() throws IOException {
+        assertThatJson(this.json.write(underTest).getJson())
                 .node("username")
                 .isEqualTo(USERNAME);
     }

@@ -20,7 +20,7 @@ public class EmailTest {
     ValidatorFactory factory;
     Validator validator;
 
-    private UserRegisterBindingModel model;
+    private UserRegisterBindingModel underTest;
 
     private final String USERNAME_VALID = "niKolaaa";
     private final String EMAIL_VALID = "nikola@abv.bg";
@@ -48,14 +48,13 @@ public class EmailTest {
             "dimitar@abv.bg."
     };
 
-
     @BeforeEach
     void setUp() {
 
         factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
 
-        model = new UserRegisterBindingModel(
+        underTest = new UserRegisterBindingModel(
                 USERNAME_VALID,
                 EMAIL_VALID,
                 PASSWORD_VALID,
@@ -69,11 +68,11 @@ public class EmailTest {
     @Test
     void shouldThrowViolationWhenEmailIsNull() {
         //given
-        model.setEmail(null);
+        underTest.setEmail(null);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -89,11 +88,11 @@ public class EmailTest {
     @Test
     void shouldThrowViolationWhenEmailUsernameIsTooShort() {
         //given
-        model.setEmail(EMAIL_USERNAME_TOO_SHORT);
+        underTest.setEmail(EMAIL_USERNAME_TOO_SHORT);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -109,11 +108,11 @@ public class EmailTest {
     @Test
     void shouldThrowViolationWhenEmailUsernameIsTooLong() {
         //given
-        model.setEmail(EMAIL_USERNAME_TOO_LONG);
+        underTest.setEmail(EMAIL_USERNAME_TOO_LONG);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -130,11 +129,11 @@ public class EmailTest {
     @Test
     void shouldThrowViolationWhenEmailHostNameIsTooShort() {
         //given
-        model.setEmail(EMAIL_HOSTNAME_TOO_SHORT);
+        underTest.setEmail(EMAIL_HOSTNAME_TOO_SHORT);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -150,11 +149,11 @@ public class EmailTest {
     @Test
     void shouldThrowViolationWhenEmailHostNameIsTooLong() {
         //given
-        model.setEmail(EMAIL_HOSTNAME_TOO_LONG);
+        underTest.setEmail(EMAIL_HOSTNAME_TOO_LONG);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -172,11 +171,11 @@ public class EmailTest {
     void showThrowViolationForEveryBadEmail() {
         for (String badEmail : BAD_EMAILS) {
             //given
-            model.setEmail(badEmail);
+            underTest.setEmail(badEmail);
 
             //when
             Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                    validator.validate(model);
+                    validator.validate(underTest);
 
             //then
             assertThat(violations.size())

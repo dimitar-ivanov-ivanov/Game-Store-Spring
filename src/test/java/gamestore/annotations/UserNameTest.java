@@ -21,7 +21,7 @@ public class UserNameTest {
     ValidatorFactory factory;
     Validator validator;
 
-    private UserRegisterBindingModel model;
+    private UserRegisterBindingModel underTest;
 
     private final String USERNAME_VALID = "niKolaaa";
     private final String EMAIL_VALID = "nikola@abv.bg";
@@ -51,7 +51,7 @@ public class UserNameTest {
         factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
 
-        model = new UserRegisterBindingModel(
+        underTest = new UserRegisterBindingModel(
                 USERNAME_VALID,
                 EMAIL_VALID,
                 PASSWORD_VALID,
@@ -65,11 +65,11 @@ public class UserNameTest {
     @Test
     void shouldThrowViolationWhenUsernameIsNull() {
         //given
-        model.setUsername(null);
+        underTest.setUsername(null);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -87,11 +87,11 @@ public class UserNameTest {
     @Test
     void shouldThrowViolationWhenUsernameIsTooShort() {
         //given
-        model.setUsername(USERNAME_TOO_SHORT);
+        underTest.setUsername(USERNAME_TOO_SHORT);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -110,11 +110,11 @@ public class UserNameTest {
     @Test
     void shouldThrowViolationWhenUsernameIsTooLong() {
         //given
-        model.setUsername(USERNAME_TOO_LONG);
+        underTest.setUsername(USERNAME_TOO_LONG);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -133,11 +133,11 @@ public class UserNameTest {
     @Test
     void shouldThrowViolationWhenUsernameDoesNotContainLowerLetter() {
         //given
-        model.setUsername(USERNAME_NO_LOWER_LETTER);
+        underTest.setUsername(USERNAME_NO_LOWER_LETTER);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -155,11 +155,11 @@ public class UserNameTest {
     @Test
     void shouldThrowViolationWhenUsernameDoesNotContainUpperLetter() {
         //given
-        model.setUsername(USERNAME_NO_UPPER_LETTER);
+        underTest.setUsername(USERNAME_NO_UPPER_LETTER);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -178,11 +178,11 @@ public class UserNameTest {
     void shouldThrowViolationForEveryBadUsername() {
         for (String badUsername : BAD_USERNAMES) {
             //given
-            model.setUsername(badUsername);
+            underTest.setUsername(badUsername);
 
             //when
             Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                    validator.validate(model);
+                    validator.validate(underTest);
 
             //then
             assertThat(violations.size())

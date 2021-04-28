@@ -1,21 +1,17 @@
 package gamestore.repositories;
 
-import gamestore.models.entities.user.User;
-import gamestore.models.enums.Gender;
+import gamestore.models.entities.security.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import java.time.LocalDate;
-
 @DataJpaTest
-class UserRepositoryTest {
+class RoleRepositoryTest {
 
     @Autowired
-    private UserRepository underTest;
+    private RoleRepository underTest;
 
     @AfterEach
     void tearDown() {
@@ -23,24 +19,16 @@ class UserRepositoryTest {
     }
 
     @Test
-    void userShouldExistByUsername() {
+    void roleShouldExistByName() {
         //given
-        String username = "Dimitar";
-        User user = new User(
-                "dimitar",
-                "ivanov",
-                LocalDate.of(1999, 12, 5),
-                username,
-                "dimitar.i.ivanov@abv.bg",
-                "A_35aa51A",
-                Gender.MALE
-        );
+        String name = "ADMIN";
+        Role role = new Role(name);
 
-        underTest.save(user);
+        underTest.save(role);
 
         //when
         boolean exists = underTest
-                .getByUsername(username)
+                .getByName(name)
                 .isPresent();
 
         //then
@@ -49,18 +37,17 @@ class UserRepositoryTest {
     }
 
     @Test
-    void userShouldNotExistsByUsername() {
+    void roleShouldNotExistByName() {
         //given
-        String username = "Dimitar";
+        String name = "ADMIN_NEW";
 
         //when
         boolean exists = underTest
-                .getByUsername(username)
+                .getByName(name)
                 .isPresent();
 
         //then
         assertThat(exists)
                 .isFalse();
     }
-
 }

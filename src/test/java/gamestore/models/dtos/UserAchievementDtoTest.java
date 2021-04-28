@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.util.Locale;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JsonTest
 class UserAchievementDtoTest {
@@ -25,7 +24,7 @@ class UserAchievementDtoTest {
     private static final String ACHIEVEMENT_NAME = "Kill 100 enemies.";
     private static final String EARNED_ON = "2021-03-25";
 
-    private static UserAchievementDto userAchievementDto;
+    private static UserAchievementDto underTest;
 
     private static final LocalDateFormatter localDateFormatter =
             new LocalDateFormatter();
@@ -40,8 +39,8 @@ class UserAchievementDtoTest {
     }
 
     @BeforeAll
-    public static void setUp() {
-        userAchievementDto = new UserAchievementDto(
+    static void setUp() {
+        underTest = new UserAchievementDto(
                 USERNAME,
                 ACHIEVEMENT_NAME,
                 parseDate(EARNED_ON)
@@ -49,22 +48,22 @@ class UserAchievementDtoTest {
     }
 
     @Test
-    public void dateSerializes() throws IOException {
-        assertThatJson(this.json.write(userAchievementDto).getJson())
+    void dateSerializes() throws IOException {
+        assertThatJson(this.json.write(underTest).getJson())
                 .node("earnedOn")
                 .isEqualTo(EARNED_ON);
     }
 
     @Test
-    public void userNameSerializes() throws IOException {
-        assertThatJson(json.write(userAchievementDto).getJson())
+    void userNameSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("username")
                 .isEqualTo(USERNAME);
     }
 
     @Test
-    public void gameNameSerializes() throws IOException {
-        assertThatJson(json.write(userAchievementDto).getJson())
+    void gameNameSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("achievementName")
                 .isEqualTo(ACHIEVEMENT_NAME);
     }

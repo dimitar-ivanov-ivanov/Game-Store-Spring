@@ -20,7 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
 @JsonTest // disables auto-configuration and apply configuration only relevant to json test
-public class UserGetDtoTest {
+class UserGetDtoTest {
 
     @Autowired
     private JacksonTester<UserGetDto> json;
@@ -36,7 +36,7 @@ public class UserGetDtoTest {
     private static final String GENDER = "MALE";
     private static final String EMPTY_ARRAY = "[]";
 
-    private static UserGetDto userGetDto;
+    private static UserGetDto underTest;
 
     private static final Set<UserFriendDto> friends = com.google.common.collect.Sets.newHashSet(
             new UserFriendDto("Pesh"),
@@ -96,8 +96,8 @@ public class UserGetDtoTest {
     }
 
     @BeforeAll
-    public static void setUp() {
-        userGetDto = new UserGetDto(
+    static void setUp() {
+        underTest = new UserGetDto(
                 FIRST_NAME,
                 LAST_NAME,
                 parseDate(BIRTHDATE),
@@ -106,75 +106,75 @@ public class UserGetDtoTest {
                 Gender.valueOf(GENDER)
         );
 
-        userGetDto.getBoughtGames().addAll(boughtGames);
-        userGetDto.getWishlistGames().addAll(wishlistGames);
-        userGetDto.getAchievements().addAll(userAchievements);
-        userGetDto.getFriends().addAll(friends);
+        underTest.getBoughtGames().addAll(boughtGames);
+        underTest.getWishlistGames().addAll(wishlistGames);
+        underTest.getAchievements().addAll(userAchievements);
+        underTest.getFriends().addAll(friends);
     }
 
     @Test
-    public void firstNameSerializes() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
+    void firstNameSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("firstName")
                 .isEqualTo(FIRST_NAME);
     }
 
     @Test
-    public void secondNameSerializes() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
+    void secondNameSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("lastName")
                 .isEqualTo(LAST_NAME);
     }
 
     @Test
-    public void birthDateSerializes() throws IOException {
-        assertThatJson(this.json.write(userGetDto).getJson())
+    void birthDateSerializes() throws IOException {
+        assertThatJson(this.json.write(underTest).getJson())
                 .node("birthDate")
                 .isEqualTo(BIRTHDATE);
     }
 
     @Test
-    public void userNameSerializes() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
+    void userNameSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("username")
                 .isEqualTo(USERNAME);
     }
 
     @Test
-    public void emailSerializes() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
+    void emailSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("email")
                 .isEqualTo(EMAIL);
     }
 
     @Test
-    public void filledBoughtGamesSerialize() throws IOException {
+    void filledBoughtGamesSerialize() throws IOException {
 
         //the order of which games are shown is not the same in which they are added
         //so it is harder to test the whole json
 
-        assertThatJson(json.write(userGetDto).getJson())
+        assertThatJson(json.write(underTest).getJson())
                 .node("boughtGames")
                 .isArray().ofLength(2);
     }
 
     @Test
-    public void filledWishlistGamesSerialize() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
+    void filledWishlistGamesSerialize() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("wishlistGames")
                 .isArray().ofLength(2);
     }
 
     @Test
-    public void filledAchievementsSerialize() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
+    void filledAchievementsSerialize() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("achievements")
                 .isArray().ofLength(2);
     }
 
     @Test
-    public void filledFriendsSerialize() throws IOException {
-        assertThatJson(json.write(userGetDto).getJson())
+    void filledFriendsSerialize() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("friends")
                 .isArray().ofLength(3);
     }

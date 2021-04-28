@@ -1,12 +1,7 @@
 package gamestore.models.bindings;
 
-import gamestore.models.dtos.UserBoughtGameDto;
-import gamestore.models.entities.user.User;
 import gamestore.models.enums.Gender;
-import gamestore.utils.annotations.email.Email;
-import gamestore.utils.constants.NumberConstants;
 import gamestore.utils.constants.TextConstants;
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +16,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Set;
 
-import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JsonTest
 class UserRegisterBindingModelTest {
@@ -35,7 +28,7 @@ class UserRegisterBindingModelTest {
     ValidatorFactory factory;
     Validator validator;
 
-    private UserRegisterBindingModel model;
+    private UserRegisterBindingModel underTest;
 
     private final String USERNAME_VALID = "niKolaaa";
     private final String EMAIL_VALID = "nikola@abv.bg";
@@ -63,7 +56,7 @@ class UserRegisterBindingModelTest {
         factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
 
-        model = new UserRegisterBindingModel(
+        underTest = new UserRegisterBindingModel(
                 USERNAME_VALID,
                 EMAIL_VALID,
                 PASSWORD_VALID,
@@ -77,11 +70,11 @@ class UserRegisterBindingModelTest {
     @Test
     void shouldThrowViolationWhenFirstNameIsEmpty() {
         //given
-        model.setFirstName("");
+        underTest.setFirstName("");
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -94,11 +87,11 @@ class UserRegisterBindingModelTest {
     @Test
     void shouldThrowViolationWhenFirstNameIsNull() {
         //given
-        model.setFirstName(null);
+        underTest.setFirstName(null);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -111,11 +104,11 @@ class UserRegisterBindingModelTest {
     @Test
     void shouldThrowViolationWhenLastNameIsEmpty() {
         //given
-        model.setLastName("");
+        underTest.setLastName("");
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -128,11 +121,11 @@ class UserRegisterBindingModelTest {
     @Test
     void shouldThrowViolationWhenLastNameIsNull() {
         //given
-        model.setLastName(null);
+        underTest.setLastName(null);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -144,13 +137,13 @@ class UserRegisterBindingModelTest {
 
     @Test
     void shouldThrowViolationWhenBirthdateIsInTheFuture() {
-        model.setBirthDate(
+        underTest.setBirthDate(
                 LocalDate.of(2040, 3, 2)
         );
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -162,11 +155,11 @@ class UserRegisterBindingModelTest {
 
     @Test
     void shouldThrowViolationWhenBirthdateIsNull() {
-        model.setBirthDate(null);
+        underTest.setBirthDate(null);
 
         //when
         Set<ConstraintViolation<UserRegisterBindingModel>> violations =
-                validator.validate(model);
+                validator.validate(underTest);
 
         //then
         assertThat(violations.size())
@@ -177,43 +170,43 @@ class UserRegisterBindingModelTest {
     }
 
     @Test
-    public void userNameDeserializes() throws IOException {
+    void userNameDeserializes() throws IOException {
         assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getUsername())
                 .isEqualTo(USERNAME_VALID);
     }
 
     @Test
-    public void emailDeserializes() throws IOException {
+    void emailDeserializes() throws IOException {
         assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getEmail())
                 .isEqualTo(EMAIL_VALID);
     }
 
     @Test
-    public void passwordDeserializes() throws IOException {
+    void passwordDeserializes() throws IOException {
         assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getPassword())
                 .isEqualTo(PASSWORD_VALID);
     }
 
     @Test
-    public void firstNameDeserializes() throws IOException {
+    void firstNameDeserializes() throws IOException {
         assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getFirstName())
                 .isEqualTo(FIRST_NAME_VALID);
     }
 
     @Test
-    public void lastNameDeserializes() throws IOException {
+    void lastNameDeserializes() throws IOException {
         assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getLastName())
                 .isEqualTo(LAST_NAME_VALID);
     }
 
     @Test
-    public void birthDateDeserializes() throws IOException {
+    void birthDateDeserializes() throws IOException {
         assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getBirthDate())
                 .isEqualTo(BIRTH_DATE_VALID);
     }
 
     @Test
-    public void genderDeserializes() throws IOException {
+    void genderDeserializes() throws IOException {
         assertThat(this.json.parseObject(JSON_TO_DESERIALIZE).getGender())
                 .isEqualTo(Gender.valueOf(GENDER_VALID));
     }

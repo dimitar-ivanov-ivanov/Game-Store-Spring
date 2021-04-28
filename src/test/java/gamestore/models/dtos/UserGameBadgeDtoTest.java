@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.util.Locale;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JsonTest
 class UserGameBadgeDtoTest {
@@ -23,12 +22,12 @@ class UserGameBadgeDtoTest {
     private JacksonTester<UserGameBadgeDto> json;
 
     private static final String USERNAME = "stQn";
-    private static final String GAME_NAME = "Call of duty.";
+    private static final String GAME_NAME = "Call of duty";
     private static final String BADGE_NAME = "Noob";
     private static final String EARNED_ON = "2021-03-25";
     private static final BigDecimal price = BigDecimal.valueOf(15);
 
-    private static UserGameBadgeDto userGameBadgeDto;
+    private static UserGameBadgeDto underTest;
 
     private static final LocalDateFormatter localDateFormatter =
             new LocalDateFormatter();
@@ -43,8 +42,8 @@ class UserGameBadgeDtoTest {
     }
 
     @BeforeAll
-    public static void setUp() {
-        userGameBadgeDto = new UserGameBadgeDto(
+    static void setUp() {
+        underTest = new UserGameBadgeDto(
                 USERNAME,
                 GAME_NAME,
                 BADGE_NAME,
@@ -54,36 +53,36 @@ class UserGameBadgeDtoTest {
     }
 
     @Test
-    public void dateSerializes() throws IOException {
-        assertThatJson(this.json.write(userGameBadgeDto).getJson())
+    void dateSerializes() throws IOException {
+        assertThatJson(this.json.write(underTest).getJson())
                 .node("earnedOn")
                 .isEqualTo(EARNED_ON);
     }
 
     @Test
-    public void userNameSerializes() throws IOException {
-        assertThatJson(json.write(userGameBadgeDto).getJson())
+    void userNameSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("username")
                 .isEqualTo(USERNAME);
     }
 
     @Test
-    public void gameNameSerializes() throws IOException {
-        assertThatJson(json.write(userGameBadgeDto).getJson())
+    void gameNameSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("gameName")
                 .isEqualTo(GAME_NAME);
     }
 
     @Test
-    public void badgeNameSerializes() throws IOException {
-        assertThatJson(json.write(userGameBadgeDto).getJson())
+    void badgeNameSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("badgeName")
                 .isEqualTo(BADGE_NAME);
     }
 
     @Test
-    public void priceSerializes() throws IOException {
-        assertThatJson(json.write(userGameBadgeDto).getJson())
+    void priceSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("price")
                 .isEqualTo(price);
     }

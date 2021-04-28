@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.util.Locale;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
-import static org.junit.jupiter.api.Assertions.*;
 
 @JsonTest
 class UserWishlistGameDtoTest {
@@ -22,10 +21,10 @@ class UserWishlistGameDtoTest {
     private JacksonTester<UserWishlistGameDto> json;
 
     private static final String USERNAME = "stQn";
-    private static final String GAME_NAME = "Call of duty.";
+    private static final String GAME_NAME = "Call of duty";
     private static final String ADDED_ON = "2021-03-25";
 
-    private static UserWishlistGameDto userWishlistGameDto;
+    private static UserWishlistGameDto underTest;
 
     private static final LocalDateFormatter localDateFormatter =
             new LocalDateFormatter();
@@ -40,8 +39,8 @@ class UserWishlistGameDtoTest {
     }
 
     @BeforeAll
-    public static void setUp() {
-        userWishlistGameDto = new UserWishlistGameDto(
+    static void setUp() {
+        underTest = new UserWishlistGameDto(
                 USERNAME,
                 GAME_NAME,
                 parseDate(ADDED_ON)
@@ -49,22 +48,22 @@ class UserWishlistGameDtoTest {
     }
 
     @Test
-    public void dateSerializes() throws IOException {
-        assertThatJson(this.json.write(userWishlistGameDto).getJson())
+    void dateSerializes() throws IOException {
+        assertThatJson(this.json.write(underTest).getJson())
                 .node("addedOn")
                 .isEqualTo(ADDED_ON);
     }
 
     @Test
-    public void userNameSerializes() throws IOException {
-        assertThatJson(json.write(userWishlistGameDto).getJson())
+    void userNameSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("username")
                 .isEqualTo(USERNAME);
     }
 
     @Test
-    public void gameNameSerializes() throws IOException {
-        assertThatJson(json.write(userWishlistGameDto).getJson())
+    void gameNameSerializes() throws IOException {
+        assertThatJson(json.write(underTest).getJson())
                 .node("gameName")
                 .isEqualTo(GAME_NAME);
     }

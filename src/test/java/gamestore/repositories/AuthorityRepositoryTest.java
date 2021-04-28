@@ -1,21 +1,19 @@
 package gamestore.repositories;
 
-import gamestore.models.entities.user.User;
-import gamestore.models.enums.Gender;
+import gamestore.models.entities.security.Authority;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-import java.time.LocalDate;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-class UserRepositoryTest {
+class AuthorityRepositoryTest {
 
     @Autowired
-    private UserRepository underTest;
+    private AuthorityRepository underTest;
 
     @AfterEach
     void tearDown() {
@@ -23,24 +21,16 @@ class UserRepositoryTest {
     }
 
     @Test
-    void userShouldExistByUsername() {
+    void authorityShouldExistByName() {
         //given
-        String username = "Dimitar";
-        User user = new User(
-                "dimitar",
-                "ivanov",
-                LocalDate.of(1999, 12, 5),
-                username,
-                "dimitar.i.ivanov@abv.bg",
-                "A_35aa51A",
-                Gender.MALE
-        );
+        String name = "user:read";
+        Authority auth = new Authority(name);
 
-        underTest.save(user);
+        underTest.save(auth);
 
         //when
         boolean exists = underTest
-                .getByUsername(username)
+                .getByName(name)
                 .isPresent();
 
         //then
@@ -49,18 +39,17 @@ class UserRepositoryTest {
     }
 
     @Test
-    void userShouldNotExistsByUsername() {
+    void authorityShouldNotByName() {
         //given
-        String username = "Dimitar";
+        String name = "user:read";
 
         //when
         boolean exists = underTest
-                .getByUsername(username)
+                .getByName(name)
                 .isPresent();
 
         //then
         assertThat(exists)
                 .isFalse();
     }
-
 }

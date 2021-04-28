@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 public class UserAchievementDto implements Serializable {
 
-    private String userName;
+    private String username;
 
     private String achievementName;
 

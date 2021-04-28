@@ -22,7 +22,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 public class UserWishlistGameDto implements Serializable {
 
-    private String userName;
+    private String username;
 
     private String gameName;
 

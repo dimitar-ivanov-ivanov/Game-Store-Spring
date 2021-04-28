@@ -1,7 +1,7 @@
 package gamestore.services;
 
-import com.google.common.base.Optional;
 import gamestore.exceptions.user.UserNotFoundException;
+import gamestore.exceptions.user.UsernameNotFoundException;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.models.entities.user.User;
 import gamestore.models.enums.Gender;
@@ -17,17 +17,20 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
@@ -39,6 +42,7 @@ class UserServiceTest {
     private UserRepository userRepository;
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
+
 
     private ModelMapper mapper = new ModelMapper();
 
@@ -91,10 +95,6 @@ class UserServiceTest {
         //then
         verify(userRepository)
                 .findById(id);
-
-        //TODO: finish after testing register user
-
-
     }
 
     @Test
@@ -145,11 +145,64 @@ class UserServiceTest {
 
     @Test
     void shouldThrowExceptionWhenRegisteringExistingUser() {
+        //always returns that the user exists
+        //find out how Optional<User> will always return true
+        User user = new User(
+                "dimitar",
+                "ivanov",
+                LocalDate.of(1999, 12, 5),
+                "Dimitar",
+                "dimitar.i.ivanov@abv.bg",
+                "A_35aa51A",
+                Gender.MALE
+        );
 
+        Optional<User> opt = Optional.of(user);
+
+        when(userRepository.getByUsername(anyString()))
+                .thenReturn(opt);
+
+        //when
+        //then
+        assertThatThrownBy(() ->
+                underTest.registerUser(newUser))
+                .isInstanceOf(UsernameNotFoundException.class)
+                .hasMessageContaining(
+                        TextConstants.USERNAME_ALREADY_TAKEN
+                );
+
+
+        verify(passwordEncoder, never())
+                .encode(any());
+
+        verify(roleService, never())
+                .getRole(any());
+
+        verify(userRepository, never())
+                .save(any());
     }
 
-
     @Test
-    void loadUserByUsername() {
+    void shouldLoadUserByUsername() {
+        User user = new User(
+                "dimitar",
+                "ivanov",
+                LocalDate.of(1999, 12, 5),
+                "Dimitar",
+                "dimitar.i.ivanov@abv.bg",
+                "A_35aa51A",
+                Gender.MALE
+        );
+
+        Optional<User> opt = Optional.of(user);
+
+        when(userRepository.getByUsername(anyString())).thenReturn(opt);
+        UserDetails userDetails = underTest.loadUserByUsername(anyString());
+
+        assertThat("Dimitar")
+                .isEqualTo(userDetails.getUsername());
+
+        verify(userRepository)
+                .getByUsername(anyString());
     }
 }

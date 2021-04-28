@@ -3,6 +3,7 @@ package gamestore.models.dtos;
 import gamestore.models.entities.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,10 +13,11 @@ import java.io.Serializable;
  * @author Dimitar Ivanov
  * @see User#getFriends()
  */
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class UserFriendDto implements Serializable {
 
-    private String userName;
+    private String username;
 
 }

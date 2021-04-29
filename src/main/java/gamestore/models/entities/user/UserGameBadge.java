@@ -87,4 +87,13 @@ public class UserGameBadge implements Serializable {
      */
     @Column(name = "earned_on")
     private LocalDate earnedOn;
+
+    public UserGameBadge(Badge badge, Game game, User user, BigDecimal price, LocalDate earnedOn) {
+        this.id = new UserGameBadgeId(badge.getBadgeId(), game.getGameId(), user.getUserId());
+        this.badge = badge;
+        this.game = game;
+        this.user = user;
+        this.price = price;
+        this.earnedOn = earnedOn;
+    }
 }

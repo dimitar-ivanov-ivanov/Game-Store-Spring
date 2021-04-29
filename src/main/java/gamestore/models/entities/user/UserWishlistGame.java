@@ -17,7 +17,6 @@ import java.time.LocalDate;
  */
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode
 @Entity
 @Table(name = "users_wishlist_games")
@@ -51,4 +50,11 @@ public class UserWishlistGame implements Serializable {
      */
     @Column(name = "added_on")
     private LocalDate addedOn;
+
+    public UserWishlistGame(User user, Game game, LocalDate addedOn) {
+        id = new UserGameId(user.getUserId(), game.getGameId());
+        this.user = user;
+        this.game = game;
+        this.addedOn = addedOn;
+    }
 }

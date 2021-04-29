@@ -50,4 +50,11 @@ public class UserAchievement {
      */
     @Column(name = "earned_on")
     private LocalDate earnedOn;
+
+    public UserAchievement(User user, Achievement achievement, LocalDate earnedOn) {
+        this.id = new UserAchievementId(user.getUserId(), achievement.getAchievementId());
+        this.user = user;
+        this.achievement = achievement;
+        this.earnedOn = earnedOn;
+    }
 }

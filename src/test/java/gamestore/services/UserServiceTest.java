@@ -43,7 +43,6 @@ class UserServiceTest {
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
 
-
     private ModelMapper mapper = new ModelMapper();
 
     private UserService underTest;

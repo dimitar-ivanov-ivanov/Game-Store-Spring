@@ -53,6 +53,11 @@ public class ModelMapperConfig {
                         mapper.map(User::getLastName, UserGetDto::setLastName);
                         mapper.map(User::getBirthDate, UserGetDto::setBirthDate);
                         mapper.map(User::getGender, UserGetDto::setGender);
+                        mapper.map(User::getWishlistGames, UserGetDto::setWishlistGames);
+                        mapper.map(User::getBoughtGames, UserGetDto::setBoughtGames);
+                        mapper.map(User::getAchievements, UserGetDto::setAchievements);
+                        mapper.map(User::getGameBadges, UserGetDto::setGameBadges);
+                        mapper.map(User::getFriends, UserGetDto::setFriends);
                     });
         }
     }
@@ -64,8 +69,7 @@ public class ModelMapperConfig {
         TypeMap<User, UserFriendDto> map =
                 this.mapper.getTypeMap(User.class, UserFriendDto.class);
         if (map == null) {
-            this.mapper.createTypeMap(User.class, UserFriendDto.class)
-                    .addMappings(mapper -> mapper.using(new FriendConverter()));
+            this.mapper.addConverter(new FriendConverter());
         }
     }
 
@@ -76,8 +80,7 @@ public class ModelMapperConfig {
         TypeMap<UserWishlistGame, UserWishlistGameDto> map =
                 this.mapper.getTypeMap(UserWishlistGame.class, UserWishlistGameDto.class);
         if (map == null) {
-            this.mapper.createTypeMap(UserWishlistGame.class, UserWishlistGameDto.class)
-                    .addMappings(mapper -> mapper.using(new UserWishlistGameConverter()));
+            this.mapper.addConverter(new UserWishlistGameConverter());
         }
     }
 
@@ -88,8 +91,7 @@ public class ModelMapperConfig {
         TypeMap<UserBoughtGame, UserBoughtGameDto> map =
                 this.mapper.getTypeMap(UserBoughtGame.class, UserBoughtGameDto.class);
         if (map == null) {
-            this.mapper.createTypeMap(UserBoughtGame.class, UserBoughtGameDto.class)
-                    .addMappings(mapper -> mapper.using(new UserBoughtGameConverter()));
+            this.mapper.addConverter(new UserBoughtGameConverter());
         }
     }
 
@@ -100,8 +102,7 @@ public class ModelMapperConfig {
         TypeMap<UserGameBadge, UserGameBadgeDto> map =
                 this.mapper.getTypeMap(UserGameBadge.class, UserGameBadgeDto.class);
         if (map == null) {
-            this.mapper.createTypeMap(UserGameBadge.class, UserGameBadgeDto.class)
-                    .addMappings(mapper -> mapper.using(new UserGameBadgeConverter()));
+            this.mapper.addConverter(new UserGameBadgeConverter());
         }
     }
 
@@ -112,8 +113,7 @@ public class ModelMapperConfig {
         TypeMap<UserAchievement, UserAchievementDto> map =
                 this.mapper.getTypeMap(UserAchievement.class, UserAchievementDto.class);
         if (map == null) {
-            this.mapper.createTypeMap(UserAchievement.class, UserAchievementDto.class)
-                    .addMappings(mapper -> mapper.using(new UserAchievementConverter()));
+            this.mapper.addConverter(new UserAchievementConverter());
         }
     }
 

@@ -1,7 +1,6 @@
 package gamestore.utils.annotations.email;
 
 import gamestore.utils.annotations.AnnotationsUtil;
-import gamestore.utils.constants.NumberConstants;
 import gamestore.utils.constants.TextConstants;
 import org.springframework.stereotype.Component;
 

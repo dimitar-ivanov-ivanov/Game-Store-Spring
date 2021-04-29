@@ -1,13 +1,17 @@
 package gamestore.utils.constants;
 
 
+import gamestore.utils.annotations.email.Email;
+import gamestore.utils.annotations.name.UserName;
+import gamestore.utils.annotations.password.Password;
+
 /**
  * The Regex patterns used for validation in annotations.
  *
  * @author Dimitar Ivanov
- * @see gamestore.utils.annotations.password.Password
- * @see gamestore.utils.annotations.name.UserName
- * @see gamestore.utils.annotations.email.Email
+ * @see Password
+ * @see UserName
+ * @see Email
  */
 public class RegexConstants {
 

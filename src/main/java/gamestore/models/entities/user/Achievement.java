@@ -50,7 +50,8 @@ public class Achievement {
      *
      * @param name the name
      */
-    public Achievement(String name) {
+    public Achievement(String name, Game game) {
         this.name = name;
+        this.game = game;
     }
 }

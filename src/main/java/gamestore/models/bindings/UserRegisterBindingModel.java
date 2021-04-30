@@ -4,6 +4,7 @@ import gamestore.models.enums.Gender;
 import gamestore.utils.annotations.email.Email;
 import gamestore.utils.annotations.name.UserName;
 import gamestore.utils.annotations.password.Password;
+import gamestore.utils.annotations.passwordMatcher.PasswordMatches;
 import gamestore.utils.constants.TextConstants;
 import lombok.*;
 
@@ -49,6 +50,15 @@ public class UserRegisterBindingModel {
     private String password;
 
     /**
+     * The matching password passed by the client. Must be same as password
+     *
+     * @see Password
+     */
+    @Password
+    @PasswordMatches
+    private String matchingPassword;
+
+    /**
      * The first name passed by the client.
      * Must not be empty or null
      */
@@ -74,4 +84,9 @@ public class UserRegisterBindingModel {
      * The gender passed by the client.
      */
     private Gender gender;
+
+    @PasswordMatches
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
 }

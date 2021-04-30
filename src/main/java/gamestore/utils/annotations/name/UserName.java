@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The interface User name.
+ * The annotation User name.
  *
  * @author Dimitar Ivanov
  * @see UserNameValidator

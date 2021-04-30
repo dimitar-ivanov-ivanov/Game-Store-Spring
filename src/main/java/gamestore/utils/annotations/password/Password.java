@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The interface Password.
+ * The annotation Password.
  *
  * @author Dimitar Ivanov
  * @see PasswordValidator

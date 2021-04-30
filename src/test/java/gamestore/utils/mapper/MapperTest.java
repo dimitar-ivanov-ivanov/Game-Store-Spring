@@ -52,6 +52,7 @@ public class MapperTest {
                 "dI1mn",
                 "dimitar.i.ivanov@abv.b",
                 "ab_cdA56",
+                "ab_cdA56",
                 "Dimitar",
                 "Ivanov",
                 LocalDate.of(1999, 1, 2),

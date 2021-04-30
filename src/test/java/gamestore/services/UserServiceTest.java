@@ -64,6 +64,7 @@ class UserServiceTest {
                 "niKolaaa",
                 "nikola@abv.bg",
                 "A5a381bcacA",
+                "A5a381bcacA",
                 "nikola",
                 "siderov",
                 LocalDate.of(1999, 2, 3),
@@ -180,6 +181,7 @@ class UserServiceTest {
         verify(userRepository, never())
                 .save(any());
     }
+
 
     @Test
     void shouldLoadUserByUsername() {

@@ -1,7 +1,10 @@
 package gamestore.utils.annotations.passwordMatcher;
 
+import gamestore.utils.annotations.password.PasswordValidator;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,10 +15,10 @@ import java.lang.annotation.Target;
  * The annotation Password matches.
  *
  * @author Dimitar Ivanov
- * @see
  */
 @Component
-@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
+@Constraint(validatedBy = PasswordMatcherValidator.class)
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PasswordMatches {
 

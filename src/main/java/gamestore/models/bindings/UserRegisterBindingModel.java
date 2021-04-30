@@ -17,12 +17,15 @@ import java.time.LocalDate;
  * The User register binding model.
  *
  * @author Dimitar Ivanov
+ * @see PasswordMatches
  */
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@PasswordMatches
 public class UserRegisterBindingModel {
 
     /**
@@ -55,7 +58,6 @@ public class UserRegisterBindingModel {
      * @see Password
      */
     @Password
-    @PasswordMatches
     private String matchingPassword;
 
     /**
@@ -84,9 +86,4 @@ public class UserRegisterBindingModel {
      * The gender passed by the client.
      */
     private Gender gender;
-
-    @PasswordMatches
-    public void setMatchingPassword(String matchingPassword) {
-        this.matchingPassword = matchingPassword;
-    }
 }

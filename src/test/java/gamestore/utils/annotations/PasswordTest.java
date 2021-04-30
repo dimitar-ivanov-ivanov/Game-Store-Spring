@@ -26,7 +26,6 @@ public class PasswordTest {
     private final String USERNAME_VALID = "niKolaaa";
     private final String EMAIL_VALID = "nikola@abv.bg";
     private final String PASSWORD_VALID = "A5a381bcacA";
-    private final String MATCHING_PASSWORD_VALID = "A5a381bcacA";
     private final String FIRST_NAME_VALID = "nikola";
     private final String LAST_NAME_VALID = "siderov";
     private final LocalDate BIRTH_DATE_VALID = LocalDate.of(1980, 5, 3);
@@ -54,7 +53,7 @@ public class PasswordTest {
                 USERNAME_VALID,
                 EMAIL_VALID,
                 PASSWORD_VALID,
-                MATCHING_PASSWORD_VALID,
+                PASSWORD_VALID,
                 FIRST_NAME_VALID,
                 LAST_NAME_VALID,
                 BIRTH_DATE_VALID,

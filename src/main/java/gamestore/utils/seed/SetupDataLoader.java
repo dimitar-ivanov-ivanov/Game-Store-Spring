@@ -132,9 +132,22 @@ public class SetupDataLoader implements
         user.getRoles().add(adminRole);
         user2.getRoles().add(userRole);
         user3.getRoles().add(adminTraineeRole);
-        userRepository.saveAll(Arrays.asList(user, user2, user3));
+        createUsersIfNotFound(Arrays.asList(user, user2, user3));
 
         alreadySetup = true;
+    }
+
+    /**
+     * Create users if not found
+     *
+     * @param users of users
+     */
+    void createUsersIfNotFound(List<User> users) {
+        for (User user : users) {
+            if (userRepository.getByUsername(user.getUsername()).isEmpty()) {
+                userRepository.save(user);
+            }
+        }
     }
 
     /**

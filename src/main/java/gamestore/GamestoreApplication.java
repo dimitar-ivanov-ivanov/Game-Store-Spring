@@ -1,5 +1,6 @@
 package gamestore;
 
+import gamestore.security.PasswordEncoder;
 import gamestore.utils.formatters.LocalDateFormatter;
 import gamestore.utils.mapper.ModelMapperConfig;
 import org.modelmapper.ModelMapper;
@@ -8,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.format.Formatter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 

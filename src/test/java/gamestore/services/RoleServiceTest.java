@@ -43,7 +43,8 @@ class RoleServiceTest {
         Role role = new Role(name);
         Optional<Role> opt = Optional.of(role);
 
-        when(roleRepository.getByName(anyString())).thenReturn(opt);
+        when(roleRepository.getByName(anyString()))
+                .thenReturn(opt);
         Role res = underTest.getRole(anyString());
 
         assertThat(name)

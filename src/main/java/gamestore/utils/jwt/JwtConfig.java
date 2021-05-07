@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import com.google.common.net.HttpHeaders;
+import org.springframework.stereotype.Component;
 
 /**
  * The Jwt config.
@@ -18,6 +19,7 @@ import com.google.common.net.HttpHeaders;
 @Setter
 @NoArgsConstructor
 @Configuration
+@Component
 @ConfigurationProperties(prefix = "application.jwt")
 public class JwtConfig {
 

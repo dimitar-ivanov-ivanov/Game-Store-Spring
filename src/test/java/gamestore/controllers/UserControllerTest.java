@@ -3,12 +3,27 @@ package gamestore.controllers;
 import gamestore.models.dtos.UserGetDto;
 import gamestore.models.entities.user.User;
 import gamestore.models.enums.Gender;
+import gamestore.security.CustomAuthenticator;
+import gamestore.security.PasswordEncoder;
 import gamestore.services.UserService;
+import gamestore.utils.jwt.JwtConfig;
+import gamestore.utils.jwt.JwtTokenVerifier;
+import gamestore.utils.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.junit.jupiter.api.Test;
@@ -24,6 +39,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
 
@@ -32,7 +50,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@WebAppConfiguration
 class UserControllerTest {
 
     private final String USERNAME_VALID = "niKolaaa";
@@ -42,14 +60,29 @@ class UserControllerTest {
     private final String LAST_NAME_VALID = "siderov";
     private final LocalDate BIRTH_DATE_VALID = LocalDate.of(1980, 5, 3);
 
-    @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mvc;
 
-    @Mock
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @MockBean
     private UserService userService;
 
-    @Mock
-    private ModelMapper mapper;
+    private ModelMapper mapper = new ModelMapper();
+
+    @BeforeEach
+    void setUp() {
+        JwtConfig jwtConfig = new JwtConfig();
+
+        mvc = MockMvcBuilders
+                .webAppContextSetup(webApplicationContext)
+                .addFilters(new JwtUsernameAndPasswordAuthenticationFilter(
+                                jwtConfig, new CustomAuthenticator()
+                        ),
+                        new JwtTokenVerifier(jwtConfig)
+                )
+                .build();
+    }
 
     @Test
     void getUser() throws Exception {
@@ -63,22 +96,32 @@ class UserControllerTest {
                 Gender.MALE
         );
 
+        //given
         UserGetDto dto = new UserGetDto();
+
+        //when
         when(userService.getById(any()))
                 .thenReturn(user);
 
-        when(mapper.map(user, UserGetDto.class))
-                .thenReturn(dto);
-
-        MvcResult result = mockMvc.perform(get("/user/")
-                .param("userId", "1")
-                .header("Authorization",
-                        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMW1OIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6ImdhbWU6ZGVsZXRlIn0seyJhdXRob3JpdHkiOiJ1c2VyOmRlbGV0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjpyZWFkIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0seyJhdXRob3JpdHkiOiJnYW1lOnVwZGF0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjp1cGRhdGUifSx7ImF1dGhvcml0eSI6ImdhbWU6cmVhZCJ9LHsiYXV0aG9yaXR5IjoiZ2FtZTp3cml0ZSJ9XSwiaWF0IjoxNjIwMzg3MDk5LCJleHAiOjE2MjE1NDQ0MDB9.9Pr29BQoikuGJ2BcmEabWs5t0ASqDHlXCmqW3sDQQ7A"))
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get("/user")
+                        .param("userId", "1")
+                        .header("Authorization",
+                                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMW1OIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6ImdhbWU6ZGVsZXRlIn0seyJhdXRob3JpdHkiOiJ1c2VyOmRlbGV0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjpyZWFkIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0seyJhdXRob3JpdHkiOiJnYW1lOnVwZGF0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjp1cGRhdGUifSx7ImF1dGhvcml0eSI6ImdhbWU6cmVhZCJ9LHsiYXV0aG9yaXR5IjoiZ2FtZTp3cml0ZSJ9XSwiaWF0IjoxNjE5Njc2MzAzLCJleHAiOjE2MjA4NTMyMDB9.9uUHRuS8Gbo8V6HvkigddC6Q7H8hfjiwjWM6j731uNo")
+        )
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertThat(result)
-                .isEqualTo(dto);
+        //then
+        assertThat(mvcResult.getResponse())
+                .isEqualTo(HttpStatus.OK);
+
+
+        /*
+        assertThat(response.getContentAsString())
+                .isEqualTo(
+                        json
+                )*/
     }
 
     @Test

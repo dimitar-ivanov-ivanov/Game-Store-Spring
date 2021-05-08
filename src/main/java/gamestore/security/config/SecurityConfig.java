@@ -1,11 +1,14 @@
 package gamestore.security.config;
 
+import gamestore.security.CustomAuthenticationProvider;
+import gamestore.security.CustomAuthenticator;
 import gamestore.security.PasswordEncoder;
 import gamestore.utils.jwt.JwtConfig;
 import gamestore.utils.jwt.JwtTokenVerifier;
 import gamestore.utils.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import gamestore.services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -53,6 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private final UserService userService;
 
+    private final CustomAuthenticationProvider authenticationProvider;
+
     /**
      * Set csrf disabled for now until we have a running website
      * Creation policy should be stateless because we want the requests to be independant
@@ -97,6 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProvider());
+        auth.authenticationProvider(authenticationProvider);
+        //auth.authenticationProvider(daoAuthenticationProvider());
     }
 }

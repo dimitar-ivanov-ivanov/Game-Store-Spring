@@ -67,6 +67,7 @@ public class UserController {
      * @see UserService#registerUser(UserRegisterBindingModel)
      */
     @PostMapping(path = "/register")
+    @PreAuthorize("hasAuthority('user:create')")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerNewUser(@Valid @RequestBody UserRegisterBindingModel register) {
         userService.registerUser(register);

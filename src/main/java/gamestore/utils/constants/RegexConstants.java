@@ -43,7 +43,7 @@ public class RegexConstants {
      * The constant USERNAME_REGEX.
      */
     public static final String USERNAME_REGEX =
-            "^[a-zA-Z]+[\\w*!#$]+[a-zA-Z]+$";
+            "^[a-zA-Z]+[\\w*!#$]+[a-zA-Z0-9]+$";
 
 
 }

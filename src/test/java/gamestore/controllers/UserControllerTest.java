@@ -1,8 +1,10 @@
 package gamestore.controllers;
 
+import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.models.dtos.UserGetDto;
 import gamestore.models.entities.user.User;
 import gamestore.models.enums.Gender;
+import gamestore.security.CustomAuthenticationProvider;
 import gamestore.security.CustomAuthenticator;
 import gamestore.security.PasswordEncoder;
 import gamestore.services.UserService;
@@ -14,7 +16,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
@@ -51,6 +55,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @WebAppConfiguration
+@AutoConfigureJsonTesters
 class UserControllerTest {
 
     private final String USERNAME_VALID = "niKolaaa";
@@ -68,12 +73,17 @@ class UserControllerTest {
     @MockBean
     private UserService userService;
 
-    private ModelMapper mapper = new ModelMapper();
+    @Autowired
+    private ModelMapper mapper;
+
+    @Autowired
+    private JwtConfig jwtConfig;
+
+    @Autowired
+    private JacksonTester<UserGetDto> json;
 
     @BeforeEach
     void setUp() {
-        JwtConfig jwtConfig = new JwtConfig();
-
         mvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .addFilters(new JwtUsernameAndPasswordAuthenticationFilter(
@@ -85,26 +95,23 @@ class UserControllerTest {
     }
 
     @Test
-    void getUser() throws Exception {
+    void getUserShouldReturn200() throws Exception {
         User user = new User(
                 "Dimitar",
                 "Ivanov",
                 LocalDate.of(1999, 12, 12),
                 "d1Mn",
                 "dimitar.ivanov@abv.bg",
-                "A_BCD53abz",
+                "",
                 Gender.MALE
         );
-
-        //given
-        UserGetDto dto = new UserGetDto();
 
         //when
         when(userService.getById(any()))
                 .thenReturn(user);
 
         MvcResult mvcResult = mvc.perform(
-                MockMvcRequestBuilders.get("/user")
+                MockMvcRequestBuilders.get("/user/1")
                         .param("userId", "1")
                         .header("Authorization",
                                 "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMW1OIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6ImdhbWU6ZGVsZXRlIn0seyJhdXRob3JpdHkiOiJ1c2VyOmRlbGV0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjpyZWFkIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0seyJhdXRob3JpdHkiOiJnYW1lOnVwZGF0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjp1cGRhdGUifSx7ImF1dGhvcml0eSI6ImdhbWU6cmVhZCJ9LHsiYXV0aG9yaXR5IjoiZ2FtZTp3cml0ZSJ9XSwiaWF0IjoxNjE5Njc2MzAzLCJleHAiOjE2MjA4NTMyMDB9.9uUHRuS8Gbo8V6HvkigddC6Q7H8hfjiwjWM6j731uNo")
@@ -113,15 +120,8 @@ class UserControllerTest {
                 .andReturn();
 
         //then
-        assertThat(mvcResult.getResponse())
-                .isEqualTo(HttpStatus.OK);
-
-
-        /*
-        assertThat(response.getContentAsString())
-                .isEqualTo(
-                        json
-                )*/
+        assertThat(mvcResult.getResponse().getStatus())
+                .isEqualTo(200);
     }
 
     @Test

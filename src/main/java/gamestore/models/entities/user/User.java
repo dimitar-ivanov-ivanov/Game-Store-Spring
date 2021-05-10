@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
  *
  * @author Dimitar Ivanov
  */
+@Setter
 @Getter
 @Entity(name = "user")
 @Table(
@@ -354,11 +355,6 @@ public class User implements UserDetails, Serializable {
     public boolean isEnabled() {
         return isEnabled;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 
     /**
      * Equals binding model boolean.

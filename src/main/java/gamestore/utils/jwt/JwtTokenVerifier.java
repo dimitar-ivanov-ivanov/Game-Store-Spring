@@ -1,7 +1,7 @@
 package gamestore.utils.jwt;
 
 import gamestore.utils.constants.TextConstants;
-import gamestore.exceptions.InvalidOrExpiredJwtTokenException;
+import gamestore.utils.exceptions.InvalidOrExpiredJwtTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;

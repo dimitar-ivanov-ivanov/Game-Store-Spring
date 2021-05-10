@@ -1,14 +1,12 @@
 package gamestore.security.config;
 
 import gamestore.security.CustomAuthenticationProvider;
-import gamestore.security.CustomAuthenticator;
 import gamestore.security.PasswordEncoder;
 import gamestore.utils.jwt.JwtConfig;
 import gamestore.utils.jwt.JwtTokenVerifier;
 import gamestore.utils.jwt.JwtUsernameAndPasswordAuthenticationFilter;
-import gamestore.services.UserService;
+import gamestore.data.services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -18,7 +16,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * The web Security config.
@@ -80,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtTokenVerifier(jwtConfig),
                         JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*")
+                .antMatchers("/", "index", "/css/*", "/js/*", "/user/register")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

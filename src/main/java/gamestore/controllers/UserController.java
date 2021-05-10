@@ -3,7 +3,7 @@ package gamestore.controllers;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.models.dtos.UserGetDto;
 import gamestore.models.entities.user.User;
-import gamestore.services.UserService;
+import gamestore.data.services.UserService;
 import lombok.AllArgsConstructor;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.modelmapper.ModelMapper;

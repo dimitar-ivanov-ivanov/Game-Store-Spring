@@ -16,7 +16,6 @@ import java.util.Set;
  *
  * @author Dimitar Ivanov
  */
-@Getter
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity

@@ -12,7 +12,6 @@ import java.io.Serializable;
  * @author Dimitar Ivanov
  */
 @Embeddable
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode

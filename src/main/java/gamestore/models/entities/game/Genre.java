@@ -15,7 +15,6 @@ import java.util.Set;
  *
  * @author Dimitar Ivanov
  */
-@Getter
 @EqualsAndHashCode
 @Entity
 @Table(name = "genres")

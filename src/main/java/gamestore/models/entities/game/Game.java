@@ -20,7 +20,6 @@ import java.util.Set;
  *
  * @author Dimitar Ivanov
  */
-@Getter
 @EqualsAndHashCode
 @Entity(name = "Game")
 @Table(name = "games")
@@ -186,5 +185,13 @@ public class Game implements Serializable {
         this.tags = new HashSet<>();
         this.publishers = new HashSet<>();
         this.genres = new HashSet<>();
+    }
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -164,7 +164,7 @@ public class SetupDataLoader implements
 
         if (!roleExists) {
             Role role = new Role(name);
-            role.setAuthorities(authorities);
+            role.getAuthorities().addAll(authorities);
             roleRepository.save(role);
         }
     }

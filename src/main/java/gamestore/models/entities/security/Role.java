@@ -17,7 +17,6 @@ import java.util.Set;
  * @author Dimitar Ivanov
  */
 @Getter
-@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "roles")

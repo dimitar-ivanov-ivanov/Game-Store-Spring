@@ -125,6 +125,7 @@ public class ModelMapperConfig {
         TypeMap<UserRegisterBindingModel, User> typeMap = this.mapper.getTypeMap(UserRegisterBindingModel.class, User.class);
 
         if (typeMap == null) {
+            /*
             this.mapper.createTypeMap(UserRegisterBindingModel.class, User.class)
                     .addMappings(mapper -> {
                         mapper.map(UserRegisterBindingModel::getUsername, User::setUsername);
@@ -134,7 +135,7 @@ public class ModelMapperConfig {
                         mapper.map(UserRegisterBindingModel::getLastName, User::setLastName);
                         mapper.map(UserRegisterBindingModel::getBirthDate, User::setBirthDate);
                         mapper.map(UserRegisterBindingModel::getGender, User::setGender);
-                    });
+                    });*/
         }
     }
 }

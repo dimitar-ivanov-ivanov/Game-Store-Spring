@@ -13,7 +13,6 @@ import javax.persistence.*;
  * @author Dimitar Ivanov
  */
 @Getter
-@Setter
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor

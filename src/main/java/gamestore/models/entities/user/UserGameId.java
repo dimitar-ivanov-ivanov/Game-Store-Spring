@@ -13,7 +13,6 @@ import java.io.Serializable;
  *
  * @author Dimitar Ivanov
  */
-@Getter
 @Embeddable
 @NoArgsConstructor
 @EqualsAndHashCode

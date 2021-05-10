@@ -14,7 +14,6 @@ import java.time.LocalDate;
  * @see gamestore.models.entities.user.UserAchievement
  */
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode

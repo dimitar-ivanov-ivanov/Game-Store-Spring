@@ -14,7 +14,6 @@ import java.io.Serializable;
  *
  * @author Dimitar Ivanov
  */
-@Getter
 @NoArgsConstructor
 @Entity
 @Table(name = "reviews")

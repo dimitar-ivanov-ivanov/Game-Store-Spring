@@ -49,11 +49,11 @@ public class UserController {
      * @see UserService#getById(Long)
      * @see UserGetDto
      */
-    @GetMapping(path = "{userId}")
+    @GetMapping
     @PreAuthorize("hasAuthority('user:read')")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserGetDto getUser(@PathVariable("userId") Long userId) {
+    public UserGetDto getUser(@RequestParam(name = "userId") Long userId) {
         User user = userService.getById(userId);
         UserGetDto dto = mapper.map(user, UserGetDto.class);
         return dto;

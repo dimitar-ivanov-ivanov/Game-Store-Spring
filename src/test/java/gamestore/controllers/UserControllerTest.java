@@ -5,6 +5,8 @@ import gamestore.models.entities.user.User;
 import gamestore.models.enums.Gender;
 import gamestore.security.CustomAuthenticator;
 import gamestore.data.services.UserService;
+import gamestore.utils.constants.TextConstants;
+import gamestore.utils.exceptions.user.UserNotFoundException;
 import gamestore.utils.jwt.JwtConfig;
 import gamestore.utils.jwt.JwtTokenVerifier;
 import gamestore.utils.jwt.JwtUsernameAndPasswordAuthenticationFilter;
@@ -30,6 +32,7 @@ import java.time.LocalDate;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -74,7 +77,8 @@ class UserControllerTest {
     }
 
     @Test
-    void getUserShouldReturn200() throws Exception {
+    void getUserShouldReturnOkResponseWithDto() throws Exception {
+        //given
         User user = new User(
                 "Dimitar",
                 "Ivanov",
@@ -85,12 +89,14 @@ class UserControllerTest {
                 Gender.MALE
         );
 
+        UserGetDto dto = mapper.map(user, UserGetDto.class);
+
         //when
         when(userService.getById(any()))
                 .thenReturn(user);
 
         MvcResult mvcResult = mvc.perform(
-                MockMvcRequestBuilders.get("/user/1")
+                MockMvcRequestBuilders.get("/user?userId=1")
                         .param("userId", "1")
                         .header("Authorization",
                                 "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMW1OIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6ImdhbWU6ZGVsZXRlIn0seyJhdXRob3JpdHkiOiJ1c2VyOmRlbGV0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjpyZWFkIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0seyJhdXRob3JpdHkiOiJnYW1lOnVwZGF0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjp1cGRhdGUifSx7ImF1dGhvcml0eSI6ImdhbWU6cmVhZCJ9LHsiYXV0aG9yaXR5IjoiZ2FtZTp3cml0ZSJ9XSwiaWF0IjoxNjE5Njc2MzAzLCJleHAiOjE2MjA4NTMyMDB9.9uUHRuS8Gbo8V6HvkigddC6Q7H8hfjiwjWM6j731uNo")
@@ -101,6 +107,34 @@ class UserControllerTest {
         //then
         assertThat(mvcResult.getResponse().getStatus())
                 .isEqualTo(200);
+
+        assertThat(mvcResult.getResponse().getContentType())
+                .isEqualTo("application/json");
+
+        assertThat(mvcResult.getResponse().getContentAsString())
+                .isEqualTo(json.write(dto).getJson());
+    }
+
+    @Test
+    void getUserShouldReturnNotFoundResponse() throws Exception {
+
+        //given
+        //when
+        when(userService.getById(any())).
+                thenThrow(new UserNotFoundException(TextConstants.USER_NOT_FOUND));
+
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get("/user?userId=1")
+                        .param("userId", "90")
+                        .header("Authorization",
+                                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMW1OIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6ImdhbWU6ZGVsZXRlIn0seyJhdXRob3JpdHkiOiJ1c2VyOmRlbGV0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjpyZWFkIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0seyJhdXRob3JpdHkiOiJnYW1lOnVwZGF0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjp1cGRhdGUifSx7ImF1dGhvcml0eSI6ImdhbWU6cmVhZCJ9LHsiYXV0aG9yaXR5IjoiZ2FtZTp3cml0ZSJ9XSwiaWF0IjoxNjE5Njc2MzAzLCJleHAiOjE2MjA4NTMyMDB9.9uUHRuS8Gbo8V6HvkigddC6Q7H8hfjiwjWM6j731uNo")
+        )
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        //then
+        assertThat(mvcResult.getResponse().getStatus())
+                .isEqualTo(404);
     }
 
     @Test

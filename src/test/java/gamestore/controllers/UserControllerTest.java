@@ -24,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -33,6 +34,7 @@ import java.time.LocalDate;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -40,12 +42,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureJsonTesters
 class UserControllerTest {
 
-    private final String USERNAME_VALID = "niKolaaa";
-    private final String EMAIL_VALID = "nikola@abv.bg";
-    private final String PASSWORD_VALID = "A5a381bcacA";
-    private final String FIRST_NAME_VALID = "nikola";
-    private final String LAST_NAME_VALID = "siderov";
-    private final LocalDate BIRTH_DATE_VALID = LocalDate.of(1980, 5, 3);
+    private final String USERNAME = "niKolaaa";
+    private final String EMAIL = "nikola@abv.bg";
+    private final String FIRST_NAME = "nikola";
+    private final String LAST_NAME = "siderov";
+    private final LocalDate BIRTH_DATE = LocalDate.of(1980, 5, 3);
 
     private MockMvc mvc;
 
@@ -64,6 +65,16 @@ class UserControllerTest {
     @Autowired
     private JacksonTester<UserGetDto> json;
 
+    private User user = new User(
+            FIRST_NAME,
+            LAST_NAME,
+            BIRTH_DATE,
+            USERNAME,
+            EMAIL,
+            "",
+            Gender.MALE
+    );
+
     @BeforeEach
     void setUp() {
         mvc = MockMvcBuilders
@@ -79,16 +90,6 @@ class UserControllerTest {
     @Test
     void getUserShouldReturnOkResponseWithDto() throws Exception {
         //given
-        User user = new User(
-                "Dimitar",
-                "Ivanov",
-                LocalDate.of(1999, 12, 12),
-                "d1Mn",
-                "dimitar.ivanov@abv.bg",
-                "",
-                Gender.MALE
-        );
-
         UserGetDto dto = mapper.map(user, UserGetDto.class);
 
         //when
@@ -101,6 +102,7 @@ class UserControllerTest {
                         .header("Authorization",
                                 "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMW1OIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6ImdhbWU6ZGVsZXRlIn0seyJhdXRob3JpdHkiOiJ1c2VyOmRlbGV0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjpyZWFkIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0seyJhdXRob3JpdHkiOiJnYW1lOnVwZGF0ZSJ9LHsiYXV0aG9yaXR5IjoidXNlcjp1cGRhdGUifSx7ImF1dGhvcml0eSI6ImdhbWU6cmVhZCJ9LHsiYXV0aG9yaXR5IjoiZ2FtZTp3cml0ZSJ9XSwiaWF0IjoxNjE5Njc2MzAzLCJleHAiOjE2MjA4NTMyMDB9.9uUHRuS8Gbo8V6HvkigddC6Q7H8hfjiwjWM6j731uNo")
         )
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
 

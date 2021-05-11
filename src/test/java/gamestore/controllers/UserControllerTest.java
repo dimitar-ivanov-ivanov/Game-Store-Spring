@@ -1,5 +1,6 @@
 package gamestore.controllers;
 
+import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.models.dtos.UserGetDto;
 import gamestore.models.entities.user.User;
 import gamestore.models.enums.Gender;
@@ -14,6 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MvcResult;
 import org.junit.jupiter.api.Test;
@@ -29,9 +32,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -63,7 +68,10 @@ class UserControllerTest {
     private JwtConfig jwtConfig;
 
     @Autowired
-    private JacksonTester<UserGetDto> json;
+    private JacksonTester<UserGetDto> jsonUserGetDto;
+
+    @Autowired
+    private JacksonTester<UserRegisterBindingModel> jsonBindingModel;
 
     private User user = new User(
             FIRST_NAME,
@@ -114,12 +122,11 @@ class UserControllerTest {
                 .isEqualTo("application/json");
 
         assertThat(mvcResult.getResponse().getContentAsString())
-                .isEqualTo(json.write(dto).getJson());
+                .isEqualTo(jsonUserGetDto.write(dto).getJson());
     }
 
     @Test
     void getUserShouldReturnNotFoundResponse() throws Exception {
-
         //given
         //when
         when(userService.getById(any())).
@@ -140,7 +147,27 @@ class UserControllerTest {
     }
 
     @Test
-    void registerNewUser() {
+    void registerNewUser() throws Exception {
+        //given
+        UserRegisterBindingModel model = mapper.map(user, UserRegisterBindingModel.class);
+
+        //when
+        when(userService.registerUser(model))
+                .thenReturn(user);
+
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.post("/user/register")
+                        .contentType(APPLICATION_JSON)
+                        .content(jsonBindingModel.write(model).getJson())
+        )
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        MockHttpServletResponse response = mvcResult.getResponse();
+
+        assertThat(response.getStatus())
+                .isEqualTo(201);
     }
 
     @Test

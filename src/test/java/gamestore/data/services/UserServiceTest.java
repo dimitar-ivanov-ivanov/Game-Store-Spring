@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -110,7 +111,8 @@ class UserServiceTest {
     @Test
     void shouldGetAllUsers() {
         //when
-        underTest.getAllUsers();
+        CompletableFuture<List<User>> users =
+                underTest.getAllUsers();
 
         //then
         verify(userRepository).findAll();

@@ -6,11 +6,14 @@ import gamestore.data.services.UserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
@@ -51,11 +54,14 @@ public class UserManagementController {
     @PreAuthorize("hasAnyRole('ADMIN','ADMIN_TRAINEE')")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Collection<UserGetDto> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        List<UserGetDto> dtos = users
+    @Async("asyncExecutor")
+    public Collection<CompletableFuture<UserGetDto>> getAllUsers() throws ExecutionException, InterruptedException {
+        CompletableFuture<List<User>> users = userService.getAllUsers();
+        List<CompletableFuture<UserGetDto>> dtos = users
+                .get()
                 .stream()
                 .map(user -> mapper.map(user, UserGetDto.class))
+                .map(user -> CompletableFuture.completedFuture(user))
                 .collect(Collectors.toList());
 
         return dtos;

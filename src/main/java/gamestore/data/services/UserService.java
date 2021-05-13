@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +27,7 @@ import java.util.concurrent.ExecutionException;
  *
  * @author Dimitar Ivanov
  */
+@EnableAsync
 @AllArgsConstructor
 @Service
 @Transactional
@@ -79,8 +81,9 @@ public class UserService implements UserDetailsService {
      *
      * @return all users
      */
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    @Async("asyncExecutor")
+    public CompletableFuture<List<User>> getAllUsers() {
+        return CompletableFuture.completedFuture(userRepository.findAll());
     }
 
     /**

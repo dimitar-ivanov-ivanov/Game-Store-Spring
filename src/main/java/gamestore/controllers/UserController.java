@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,7 @@ import java.util.concurrent.ExecutionException;
  *
  * @author Dimitar Ivanov
  */
+@EnableAsync
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "/user")
@@ -51,7 +54,7 @@ public class UserController {
      * @see UserService#getById(Long)
      * @see UserGetDto
      */
-    @GetMapping
+    @GetMapping(produces = "application/json")
     @PreAuthorize("hasAuthority('user:read')")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -68,7 +71,10 @@ public class UserController {
      * @see UserRegisterBindingModel
      * @see UserService#registerUser(UserRegisterBindingModel)
      */
-    @PostMapping(path = "/register")
+    @PostMapping(path = "/register",
+            consumes = "application/json",
+            produces = "application/json"
+    )
     @ResponseStatus(HttpStatus.CREATED)
     public UserGetDto registerNewUser(@Valid @RequestBody UserRegisterBindingModel register) throws ExecutionException, InterruptedException {
         User user = userService.registerUser(register);
@@ -103,7 +109,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('user:update')")
     public void updateUser(@PathVariable Long userId,
                            @RequestBody User updatedUser) {
-        //change the request body to binding model -> register binding model?
+        //change the request body to binding model
         throw new NotYetImplementedException();
     }
 }

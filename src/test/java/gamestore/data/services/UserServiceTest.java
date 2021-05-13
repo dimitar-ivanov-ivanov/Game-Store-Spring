@@ -141,8 +141,7 @@ class UserServiceTest {
 
     @Test
     void shouldThrowExceptionWhenRegisteringExistingUser() {
-        //always returns that the user exists
-        //find out how Optional<User> will always return true
+        //given
         User user = new User(
                 "dimitar",
                 "ivanov",

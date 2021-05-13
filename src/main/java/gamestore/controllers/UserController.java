@@ -68,8 +68,10 @@ public class UserController {
      */
     @PostMapping(path = "/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerNewUser(@Valid @RequestBody UserRegisterBindingModel register) {
-        userService.registerUser(register);
+    public UserGetDto registerNewUser(@Valid @RequestBody UserRegisterBindingModel register) {
+        User user = userService.registerUser(register);
+        UserGetDto dto = mapper.map(user, UserGetDto.class);
+        return dto;
     }
 
     /**

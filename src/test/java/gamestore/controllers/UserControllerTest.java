@@ -151,21 +151,25 @@ class UserControllerTest {
     }
 
     @Test
-    void getUserWithNoRequestParam() throws Exception {
-        MvcResult mvcResult = mvc.perform(
+    void getUserWithNoRequestParamShouldReturnBadRequest() throws Exception {
+        //given
+        //when
+        mvc.perform(
                 MockMvcRequestBuilders.get("/user")
                         .header("Authorization", TOKEN)
         )
+                //then
                 .andExpect(status().isBadRequest())
-                .andReturn();
+                .andDo(print());
     }
 
     @Test
-    void registerNewUser() throws Exception {
+    void registerNewUserShouldReturnIsCreatedResponseWithDto() throws Exception {
         //given
         UserRegisterBindingModel model = mapper.map(user, UserRegisterBindingModel.class);
         model.setMatchingPassword(user.getPassword());
         String body = jsonBindingModel.write(model).getJson();
+        UserGetDto dto = mapper.map(user, UserGetDto.class);
 
         //when
         when(userService.registerUser(model))
@@ -178,8 +182,27 @@ class UserControllerTest {
                         .accept(APPLICATION_JSON)
         )
                 .andDo(print())
-                .andExpect(status().isCreated());
+                //then
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString())
+                        .isEqualTo(jsonUserGetDto.write(dto).getJson()));
     }
+
+    @Test
+    void registerUserWithMissingBodyShouldReturnBadRequest() throws Exception {
+        //given
+        //when
+        mvc.perform(
+                MockMvcRequestBuilders.post("/user/register")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+        )
+                .andDo(print())
+                //then
+                .andExpect(status().isBadRequest());
+    }
+
 
     @Test
     void deleteUser() {

@@ -8,6 +8,7 @@ import gamestore.models.enums.Gender;
 import gamestore.data.repositories.AuthorityRepository;
 import gamestore.data.repositories.RoleRepository;
 import gamestore.data.repositories.UserRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -83,6 +85,7 @@ public class SetupDataLoader implements
      *
      * @param contextRefreshedEvent
      */
+    @SneakyThrows
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -142,9 +145,9 @@ public class SetupDataLoader implements
      *
      * @param users of users
      */
-    void createUsersIfNotFound(List<User> users) {
+    void createUsersIfNotFound(List<User> users) throws ExecutionException, InterruptedException {
         for (User user : users) {
-            if (userRepository.getByUsername(user.getUsername()).isEmpty()) {
+            if (userRepository.getByUsername(user.getUsername()).get().isEmpty()) {
                 userRepository.save(user);
             }
         }

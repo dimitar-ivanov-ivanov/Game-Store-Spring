@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.time.LocalDate;
+import java.util.concurrent.ExecutionException;
 
 @DataJpaTest
 class UserRepositoryTest {
@@ -23,7 +24,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    void userShouldExistByUsername() {
+    void userShouldExistByUsername() throws ExecutionException, InterruptedException {
         //given
         String username = "Dimitar";
         User user = new User(
@@ -41,6 +42,7 @@ class UserRepositoryTest {
         //when
         boolean exists = underTest
                 .getByUsername(username)
+                .get()
                 .isPresent();
 
         //then
@@ -49,13 +51,14 @@ class UserRepositoryTest {
     }
 
     @Test
-    void userShouldNotExistsByUsername() {
+    void userShouldNotExistsByUsername() throws ExecutionException, InterruptedException {
         //given
         String username = "Dimitar";
 
         //when
         boolean exists = underTest
                 .getByUsername(username)
+                .get()
                 .isPresent();
 
         //then

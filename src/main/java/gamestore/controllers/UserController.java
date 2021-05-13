@@ -12,6 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * The User controller.
@@ -53,9 +55,9 @@ public class UserController {
     @PreAuthorize("hasAuthority('user:read')")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserGetDto getUser(@RequestParam(name = "userId") Long userId) {
-        User user = userService.getById(userId);
-        UserGetDto dto = mapper.map(user, UserGetDto.class);
+    public UserGetDto getUser(@RequestParam(name = "userId") Long userId) throws ExecutionException, InterruptedException {
+        CompletableFuture<User> futureUser = userService.getById(userId);
+        UserGetDto dto = mapper.map(futureUser.get(), UserGetDto.class);
         return dto;
     }
 
@@ -68,7 +70,7 @@ public class UserController {
      */
     @PostMapping(path = "/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserGetDto registerNewUser(@Valid @RequestBody UserRegisterBindingModel register) {
+    public UserGetDto registerNewUser(@Valid @RequestBody UserRegisterBindingModel register) throws ExecutionException, InterruptedException {
         User user = userService.registerUser(register);
         UserGetDto dto = mapper.map(user, UserGetDto.class);
         return dto;

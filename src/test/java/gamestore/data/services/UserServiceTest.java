@@ -21,6 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -45,6 +47,8 @@ class UserServiceTest {
 
     private UserRegisterBindingModel newUser;
 
+    private User user;
+
     private final String NEW_USER_ROLE = "USER";
 
     @BeforeEach
@@ -66,31 +70,27 @@ class UserServiceTest {
                 LocalDate.of(1999, 2, 3),
                 Gender.MALE
         );
+
+        user = mapper.map(newUser, User.class);
     }
 
     @Test
-    @Disabled
-    void shouldFindUserById() {
+    void shouldFindUserById() throws ExecutionException, InterruptedException {
         //given
         long id = 1;
-        User user = new User(
-                "dimitar",
-                "ivanov",
-                LocalDate.of(1999, 12, 5),
-                "Dimitar",
-                "dimitar.i.ivanov@abv.bg",
-                "A_35aa51A",
-                Gender.MALE
-        );
 
-        userRepository.save(user);
+        when(userRepository.findById(id))
+                .thenReturn(Optional.of(user));
 
         //when
-        underTest.getById(id);
+        CompletableFuture<User> result = underTest.getById(id);
 
         //then
         verify(userRepository)
                 .findById(id);
+
+        assertThat(result.get())
+                .isEqualTo(user);
     }
 
     @Test
@@ -117,8 +117,11 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldRegisterUser() {
+    void shouldRegisterUser() throws ExecutionException, InterruptedException {
         //given
+        when(userRepository.getByUsername(newUser.getUsername()))
+                .thenReturn(CompletableFuture.completedFuture(Optional.empty()));
+
         //when
         underTest.registerUser(newUser);
 
@@ -152,7 +155,8 @@ class UserServiceTest {
                 Gender.MALE
         );
 
-        Optional<User> opt = Optional.of(user);
+        CompletableFuture<Optional<User>> opt =
+                CompletableFuture.completedFuture(Optional.of(user));
 
         when(userRepository.getByUsername(anyString()))
                 .thenReturn(opt);
@@ -190,7 +194,8 @@ class UserServiceTest {
                 Gender.MALE
         );
 
-        Optional<User> opt = Optional.of(user);
+        CompletableFuture<Optional<User>> opt =
+                CompletableFuture.completedFuture(Optional.of(user));
 
         when(userRepository.getByUsername(anyString())).thenReturn(opt);
         UserDetails userDetails = underTest.loadUserByUsername(anyString());

@@ -30,6 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.NestedServletException;
 
 import java.time.LocalDate;
+import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -88,6 +89,8 @@ class UserControllerTest {
             Gender.MALE
     );
 
+    private CompletableFuture<User> future = CompletableFuture.completedFuture(user);
+
     @BeforeEach
     void setUp() {
         mvc = MockMvcBuilders
@@ -104,7 +107,7 @@ class UserControllerTest {
 
         //when
         when(userService.getById(any()))
-                .thenReturn(user);
+                .thenReturn(future);
 
         mvc.perform(
                 MockMvcRequestBuilders.get("/user")

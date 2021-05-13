@@ -8,7 +8,9 @@ import gamestore.models.entities.user.User;
 import gamestore.models.bindings.UserRegisterBindingModel;
 import gamestore.data.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * The type User service.
@@ -63,10 +67,11 @@ public class UserService implements UserDetailsService {
      * @throws UserNotFoundException
      * @see TextConstants#USER_NOT_FOUND
      */
-    public User getById(Long id) {
-        return userRepository
+    @Async("asyncExecutor")
+    public CompletableFuture<User> getById(Long id) {
+        return CompletableFuture.completedFuture(userRepository
                 .findById(id)
-                .orElseThrow(() -> new UserNotFoundException(TextConstants.USER_NOT_FOUND));
+                .orElseThrow(() -> new UserNotFoundException(TextConstants.USER_NOT_FOUND)));
     }
 
     /**
@@ -89,9 +94,10 @@ public class UserService implements UserDetailsService {
      * @see TextConstants#USERNAME_ALREADY_TAKEN
      * @see RoleService#getRole(String)
      */
-    public User registerUser(UserRegisterBindingModel register) {
+    public User registerUser(UserRegisterBindingModel register) throws ExecutionException, InterruptedException {
         boolean userExists = userRepository
                 .getByUsername(register.getUsername())
+                .get()
                 .isPresent();
 
         if (userExists) {
@@ -118,13 +124,15 @@ public class UserService implements UserDetailsService {
      * @return
      * @throws UsernameNotFoundException
      * @see TextConstants#USER_NOT_FOUND
-     * @see UserRepository#getByUsername(String) 
+     * @see UserRepository#getByUsername(String)
      */
+    @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
         return userRepository
                 .getByUsername(username)
+                .get()
                 .orElseThrow(() -> new UsernameNotFoundException(
                         String.format(TextConstants.USERNAME_NOT_FOUND, username)
                 ));

@@ -1,6 +1,7 @@
 package gamestore;
 
 import gamestore.security.PasswordEncoder;
+import gamestore.utils.async.AsyncConfiguration;
 import gamestore.utils.formatters.LocalDateFormatter;
 import gamestore.utils.mapper.ModelMapperConfig;
 import org.modelmapper.ModelMapper;
@@ -9,9 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.format.Formatter;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.concurrent.Executor;
 
 /**
  * The Gamestore application.
@@ -19,6 +22,7 @@ import java.time.LocalDate;
  * @author Dimitar Ivanov
  */
 @SpringBootApplication
+@EnableAsync
 public class GamestoreApplication {
 
     /**
@@ -42,6 +46,13 @@ public class GamestoreApplication {
         ModelMapperConfig config = new ModelMapperConfig(modelMapper);
         return modelMapper;
     }
+
+    @Bean
+    public Executor taskExecutor() {
+        AsyncConfiguration configuration = new AsyncConfiguration();
+        return configuration.getAsyncExecutor();
+    }
+
 
     /**
      * Local date formatter setup.

@@ -130,6 +130,7 @@ public class ModelMapperConfig {
                         mapper.map(UserRegisterBindingModel::getUsername, User::setUsername);
                         mapper.map(UserRegisterBindingModel::getEmail, User::setEmail);
                         mapper.map(UserRegisterBindingModel::getPassword, User::setPassword);
+                        mapper.map(UserRegisterBindingModel::getMatchingPassword, User::setPassword);
                         mapper.map(UserRegisterBindingModel::getFirstName, User::setFirstName);
                         mapper.map(UserRegisterBindingModel::getLastName, User::setLastName);
                         mapper.map(UserRegisterBindingModel::getBirthDate, User::setBirthDate);

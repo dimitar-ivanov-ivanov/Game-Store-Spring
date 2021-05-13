@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +37,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -44,6 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserControllerTest {
 
     private final String USERNAME = "niKolaaa";
+    private final String PASSWORD = "A_35aa51A";
     private final String EMAIL = "nikola@abv.bg";
     private final String FIRST_NAME = "nikola";
     private final String LAST_NAME = "siderov";
@@ -81,7 +84,7 @@ class UserControllerTest {
             BIRTH_DATE,
             USERNAME,
             EMAIL,
-            "",
+            PASSWORD,
             Gender.MALE
     );
 
@@ -122,15 +125,14 @@ class UserControllerTest {
     void getUserWithNoAuthorizationShouldReturnForbidden() throws Exception {
         //given
         //when
-        MvcResult mvcResult = mvc.perform(
+        mvc.perform(
                 MockMvcRequestBuilders.get("/user")
                         .param("userId", "1")
                         .contentType(APPLICATION_JSON)
         )
                 //then
                 .andExpect(status().isForbidden())
-                .andDo(print())
-                .andReturn();
+                .andDo(print());
     }
 
     @Test
@@ -140,12 +142,21 @@ class UserControllerTest {
         when(userService.getById(any())).
                 thenThrow(new UserNotFoundException(TextConstants.USER_NOT_FOUND));
 
-        MvcResult mvcResult = mvc.perform(
+        mvc.perform(
                 MockMvcRequestBuilders.get("/user")
                         .param("userId", "90")
                         .header("Authorization", TOKEN)
         )
-                .andExpect(status().isNotFound())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getUserWithNoRequestParam() throws Exception {
+        MvcResult mvcResult = mvc.perform(
+                MockMvcRequestBuilders.get("/user")
+                        .header("Authorization", TOKEN)
+        )
+                .andExpect(status().isBadRequest())
                 .andReturn();
     }
 
@@ -153,19 +164,21 @@ class UserControllerTest {
     void registerNewUser() throws Exception {
         //given
         UserRegisterBindingModel model = mapper.map(user, UserRegisterBindingModel.class);
+        model.setMatchingPassword(user.getPassword());
+        String body = jsonBindingModel.write(model).getJson();
 
         //when
         when(userService.registerUser(model))
                 .thenReturn(user);
 
-        MvcResult mvcResult = mvc.perform(
+        mvc.perform(
                 MockMvcRequestBuilders.post("/user/register")
                         .contentType(APPLICATION_JSON)
-                        .content(jsonBindingModel.write(model).getJson())
+                        .content(body)
+                        .accept(APPLICATION_JSON)
         )
                 .andDo(print())
-                .andExpect(status().isCreated())
-                .andReturn();
+                .andExpect(status().isCreated());
     }
 
     @Test

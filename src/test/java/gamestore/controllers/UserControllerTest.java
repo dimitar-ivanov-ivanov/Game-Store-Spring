@@ -203,6 +203,24 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void registerUserWithMissingColumnInBodyShouldReturnBadRequest() throws Exception {
+        //given
+        UserRegisterBindingModel model = mapper.map(user, UserRegisterBindingModel.class);
+        String body = jsonBindingModel.write(model).getJson();
+
+        //when
+        mvc.perform(
+                MockMvcRequestBuilders.post("/user/register")
+                        .contentType(APPLICATION_JSON)
+                        .content(body)
+                        .accept(APPLICATION_JSON)
+        )
+                .andDo(print())
+                //then
+                .andExpect(status().isBadRequest());
+    }
+
 
     @Test
     void deleteUser() {
